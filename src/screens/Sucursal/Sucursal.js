@@ -124,12 +124,12 @@ renderProductos = ({ item }) => (
 /* al presionar en el recipiente  */
 
 onPressRecipiente = item => {
-    //this.props.navigation.navigate('Recipe', { item });
-    alert('hola presionaste'); 
+    this.props.navigation.navigate('DetalleProducto', { producto:item });
+    //alert('hola presionaste'); 
   };
 
   banners =()=>{
-    return   <View style={styles.carouselContainer}>
+    return   (<View style={styles.carouselContainer}>
           <View style={styles.carousel}>
             <Swiper
               style={{height: width / 0.99}}
@@ -148,7 +148,7 @@ onPressRecipiente = item => {
               })}
             </Swiper>
           </View>
-        </View>;
+        </View>);
   }
 
   render() {
@@ -156,7 +156,7 @@ onPressRecipiente = item => {
     console.log(this.state.dataProductos)
     return (
       <ScrollView style={styles.container}>
-        {this.state.dataBanners != null ? this.banners : null}
+        {this.state.dataBanners ? this.banners() : null}
         <View style={styles.infoRecipeContainer}>
           <Text style={styles.infoRecipeName}>{this.state.sucursal.name}</Text>
           <View style={styles.infoContainer}>

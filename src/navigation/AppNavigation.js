@@ -26,6 +26,8 @@ export const isIPhoneX = () =>
 import Inicio from '../screens/Inicio/Inicio';
 /* vista sucursal */
 import Sucursal from '../screens/Sucursal/Sucursal';
+/* vista DetalleProducto */
+import DetalleProducto from '../screens/DetalleProducto/DetalleProducto';
 
 const TabIconInicio = (props) => (
   <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
@@ -48,6 +50,20 @@ const HomeNavigator = createStackNavigator({
   /* vista sucursal */
    'Sucursal': {
     screen: Sucursal,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+
+  /* vista sucursal */
+   'DetalleProducto': {
+    screen: DetalleProducto,
     navigationOptions: {
       headerTitleAlign: 'center',
       headerTitleStyle: {
