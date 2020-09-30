@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {View, Image, Platform, Dimensions} from 'react-native';
 
@@ -27,7 +28,7 @@ import Inicio from '../screens/Inicio/Inicio';
 import Sucursal from '../screens/Sucursal/Sucursal';
 
 const TabIconInicio = (props) => (
-  <Icon name="md-home" size={30} color={props.focused ? 'white' : 'darkgrey'} />
+  <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
 );
 
 const HomeNavigator = createStackNavigator({

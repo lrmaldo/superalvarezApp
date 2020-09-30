@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, {Component} from 'react';
 
 import {FlatList, 
@@ -66,7 +67,7 @@ export default class Inicio extends Component {
   };
 
  onPressSucursal = item => {
-    this.props.navigation.navigate('Sucursal', { item });
+    this.props.navigation.navigate('Sucursal', { sucursal:item });
   };
   /* render de sucursales */
 
@@ -77,7 +78,10 @@ export default class Inicio extends Component {
       >
       <View style={styles.categoriesItemContainer}>
       {item.url_imagen ==null ?  <Image style={styles.Photo} source={require('./../../../img/logo.jpg')} />
-      : <Image style={styles.categoriesPhoto} source={{uri: item.url_imagen}} />}
+      : <Image 
+      style={styles.categoriesPhoto}
+      key={item.id}
+      source={{uri: item.url_imagen}} />}
        
         <Text style={styles.categoriesName}>{item.name}</Text> 
         <Text style={styles.categoriesInfo}>  

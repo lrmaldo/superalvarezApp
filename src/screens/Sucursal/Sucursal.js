@@ -1,3 +1,6 @@
+/* eslint-disable no-alert */
+
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {
   FlatList,
@@ -8,17 +11,21 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  StyleSheet,
 } from 'react-native';
-import styles from './styles';
+/* import styles from './styles'; */
 
 /* carrusel */
 //swiper
 import Swiper from 'react-native-swiper';
+var {height, width} = Dimensions.get('window');
+import styles from './styles';
 
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
       headerTransparent: 'true',
+      title: null,
       /*   headerLeft: (
         <BackButton
           onPress={() => {
@@ -33,7 +40,7 @@ export default class App extends React.Component {
     super(props);
     this.page = 1;
     this.state = {
-      id_sucursal: this.navigation.props.getParam('id_sucursal'),
+      sucursal: this.props.navigation.getParam('sucursal'),
       isLoading: true,
       loading: false, // cargar lista de paginacion
       dataBanners: [],
@@ -52,25 +59,32 @@ export default class App extends React.Component {
 
   /* obtener datos de la sucursal */
   GetData = (page) => {
+    const id_sucursal = this.state.sucursal.id;
     // AsyncStorage.removeItem('cart');
     //Service to get the data from the server to render
-
-    const url = `http://test.sattlink.com//api/sucursal/${id_sucursal}?page=${page}`;
+    
+    const url = `http://test.sattlink.com/api/sucursal/${id_sucursal}?page=${page}`;
+    //const url = `http://test.sattlink.com/api/sucursal/${this.state.id_sucursal[0].id?page=${page}`;
     //const url =`http://markettux.sattlink.com/api/recursos?page=21`;
-    console.log(page);
+    console.log(url);
+    //console.log(this.state.sucursal.id);
     //console.log(this.state.dataFood)
     this.setState({loading: true});
     return fetch(url)
       .then((response) => response.json())
-      .then((responseJson) => {
-        var listData = this.state.dataSucursales;
-        var data = listData.concat(responseJson.data.productos.data);
-        var dataaux = responseJson.data.productos;
-        // console.log(listData);
+      .then((response) => {
+        console.log(response.data);
+        var listData = this.state.dataProductos;
+        var data = listData.concat(response.data.productos);
+        var dataaux = response.data.productos;
+
+        /* var listData = this.state.dataSucursales;
+        var data = listData.concat(responseJson.data.sucursales.data);
+        var dataaux = responseJson.data.sucursales; */
         this.setState({
           // isLoading: true,
-          dataCategorias: responseJson.data.categorias,
-          dataBanners: responseJson.data.banners,
+          dataCategorias: response.data.categorias,
+          dataBanners: response.data.banners,
           dataProductos: data,
           refreshing: false,
           loading: false,
@@ -78,19 +92,47 @@ export default class App extends React.Component {
         });
       })
       .catch((error) => {
-        //console.error(error);
+        console.error(error);
         this.setState({refreshing: false, loading: false});
         //Alert.alert("","Ocurrio un problema con el servidor intentalo más tarde")
       });
   };
 
-  render() {
-    return (
-      <ScrollView style={styles.container}>
-        <View style={styles.carouselContainer}>
+
+ getCategoriaTitulo(categoryId) {
+  let titulo;
+ this.state.dataCategorias.map(data => {
+    if (data.id === categoryId) {
+      titulo = data.titulo;
+    }
+  });
+  return titulo;
+}
+/* render de productos */
+
+renderProductos = ({ item }) => (
+    <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipiente(item)}>
+      <View style={styles.containerRecipiente}>
+        <Image style={styles.photo} source={{ uri: item.url_imagen }} />
+        <Text style={styles.title}>{item.titulo}</Text>
+        <Text style={styles.title}>${item.precio}</Text>
+        <Text style={styles.category}>{this.getCategoriaTitulo(item.id_categoria)}</Text>
+      </View>
+    </TouchableHighlight>
+  );
+
+/* al presionar en el recipiente  */
+
+onPressRecipiente = item => {
+    //this.props.navigation.navigate('Recipe', { item });
+    alert('hola presionaste'); 
+  };
+
+  banners =()=>{
+    return   <View style={styles.carouselContainer}>
           <View style={styles.carousel}>
             <Swiper
-              style={{height: width / 1.99}}
+              style={{height: width / 0.99}}
               key={this.state.dataBanners.length}
               showsButtons={false}
               autoplay={true}
@@ -106,9 +148,26 @@ export default class App extends React.Component {
               })}
             </Swiper>
           </View>
-        </View>
+        </View>;
+  }
+
+  render() {
+    //console.log(this.state.dataBanners[0]);
+    console.log(this.state.dataProductos)
+    return (
+      <ScrollView style={styles.container}>
+        {this.state.dataBanners != null ? this.banners : null}
         <View style={styles.infoRecipeContainer}>
-          <Text style={styles.infoRecipeName}>{item.title}</Text>
+          <Text style={styles.infoRecipeName}>{this.state.sucursal.name}</Text>
+          <View style={styles.infoContainer}>
+          <FlatList
+          numColumns={2}
+          data={this.state.dataProductos}
+          renderItem={this.renderProductos}
+          keyExtractor={(item) => `${item.id}`} 
+          />
+          
+          </View>
         </View>
       </ScrollView>
     );
