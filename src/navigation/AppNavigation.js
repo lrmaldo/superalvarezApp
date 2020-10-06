@@ -28,7 +28,11 @@ import Inicio from '../screens/Inicio/Inicio';
 import Sucursal from '../screens/Sucursal/Sucursal';
 /* vista DetalleProducto */
 import DetalleProducto from '../screens/DetalleProducto/DetalleProducto';
-
+/* vista de buscador */
+import Buscador from '../screens/buscador/buscador';
+/* vista detalle sucursal */
+import DetalleSucursal from  '../screens/DetalleSucursal/DetalleSucursal';
+ 
 const TabIconInicio = (props) => (
   <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
 );
@@ -74,6 +78,35 @@ const HomeNavigator = createStackNavigator({
       },
     },
   },
+  
+  /* vista del buscador  */
+'Buscador': {
+    screen: Buscador,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+  /* vista detalle sucursal */
+
+  'DetalleSucursal': {
+    screen: DetalleSucursal,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+
 });
 
 const BottonNavegation = createBottomTabNavigator(

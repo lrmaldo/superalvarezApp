@@ -1,10 +1,11 @@
 /* eslint-disable no-dupe-keys */
 /* eslint-disable no-unused-vars */
-import { StyleSheet, Dimensions } from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import {RecipeCard} from './../../AppStyles';
+ import Colors from './../Colors';
 
 const {width: viewportWidth} = Dimensions.get('window');
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 // orientation must fixed
 const SCREEN_WIDTH = width < height ? width : height;
 
@@ -13,11 +14,9 @@ const recipeNumColums = 2;
 const RECIPE_ITEM_HEIGHT = 150;
 const RECIPE_ITEM_MARGIN = 20;
 
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    
   },
   carouselContainer: {
     minHeight: 50,
@@ -92,14 +91,15 @@ const styles = StyleSheet.create({
   },
   infoRecipeName: {
     fontSize: 28,
-    margin: 10,
+    margin: 2,
+   
     fontWeight: 'bold',
-    color: 'black',
+    color: Colors.negro,
     textAlign: 'center',
   },
   imageBanner: {
     marginTop: 30,
-    width: '100%',
+    width: '95%',
     height: 300,
     borderRadius: 10,
 
@@ -113,18 +113,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: RECIPE_ITEM_MARGIN,
     marginTop: 20,
-    width: (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) / recipeNumColums,
+    width:
+      (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) /
+      recipeNumColums,
     height: RECIPE_ITEM_HEIGHT + 75,
     borderColor: '#cccccc',
     borderWidth: 0.5,
-    borderRadius: 15
+    borderRadius: 15,
   },
   photo: {
-    width: (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) / recipeNumColums,
+    width:
+      (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) /
+      recipeNumColums,
     height: RECIPE_ITEM_HEIGHT,
     borderRadius: 15,
     borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0
+    borderBottomRightRadius: 0,
   },
   title: {
     flex: 1,
@@ -138,10 +142,54 @@ const styles = StyleSheet.create({
   },
   category: {
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+  },
+  container1: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  /* buscador */
+
+  searchBar: {
+    backgroundColor: 'white',
+    //position: 'absolute',
+    width: '90%',
+    //bottom: 45,
+    alignSelf: 'center',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowColor: Colors.negro,
+    shadowOpacity: 0.5,
+    shadowRadius: 7,
+    borderWidth: 0.2,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    padding:10,
+    borderRadius:15,
+    paddingHorizontal:15,
+  },
+  textBuscador:{
+    fontSize:22,
+    color: Colors.negro,
+
+  },
+  iconBuscador:{
+    tintColor: Colors.blanco,
+    width:30,
+    height:30,
+    marginRight:10,
+    backgroundColor:Colors.primario,
+    borderRadius:25/2,
+    
   }
+
 });
-
-
 
 export default styles;

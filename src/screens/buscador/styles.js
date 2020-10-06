@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { StyleSheet, Dimensions } from 'react-native';
 import {RecipeCard} from './../../AppStyles';
+import Colors from'./../Colors';
 
 const {width: viewportWidth} = Dimensions.get('window');
 const { width, height } = Dimensions.get('window');
@@ -133,7 +134,15 @@ const styles = StyleSheet.create({
   category: {
     marginTop: 5,
     marginBottom: 5
+  },
+  containerCabecera:{
+    backgroundColor:Colors.primario,
+    height:200,
+    borderBottomLeftRadius:30,
+    borderBottomRightRadius:30,
+    position:'relative',
   }
+
 });
 
 

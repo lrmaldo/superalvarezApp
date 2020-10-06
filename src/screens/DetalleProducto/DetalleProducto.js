@@ -13,6 +13,7 @@ import {
   Dimensions,
   TouchableHighlight,
   StyleSheet,
+  StatusBar,
 } from 'react-native';
 /* import styles from './styles'; */
 
@@ -20,6 +21,8 @@ import {
 
 var {height, width} = Dimensions.get('window');
 import styles from './styles';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -84,23 +87,18 @@ export default class App extends React.Component {
 
   /* al presionar en el recipiente  */
 
-  onPressRecipiente = (item) => {
-   // this.props.navigation.navigate('DetalleProducto', { producto:item });
-    //alert('hola presionaste');
-  };
-
+  
   ImagenPortada = () => {
     return (
       <View style={styles.carouselContainer}>
         <View style={styles.carousel}>
           {/*   /*  style={{height: width / 0.99}} */}
-          
+
           <Image
             style={styles.imageBanner}
             resizeMode="contain"
             source={{uri: this.state.producto.url_imagen}}
           />
-         
         </View>
       </View>
     );
@@ -111,19 +109,53 @@ export default class App extends React.Component {
     /* console.log(this.state.dataProductos) */
     return (
       <ScrollView style={styles.container}>
+       {/*  <StatusBar barStyle='dark-content' translucent backgroundColor="transparent" /> */}
         {this.state.producto.url_imagen != null ? this.ImagenPortada() : null}
         <View style={styles.infoRecipeContainer}>
-          <Text style={styles.infoRecipeName}>{this.state.producto.titulo}</Text>
+          <Text style={styles.infoRecipeName}>
+            {this.state.producto.titulo}
+          </Text>
+          <Text style={styles.infoRecipe}>
+            {Format_moneda(this.state.producto.precio)}
+          </Text>
+
+          {/* boton de agregar carrito */}
+          
+            <TouchableOpacity
+               onPress={() => this.onClickAddCart("item")}
+              style={{
+                width: '80%',
+                height: 40,
+                backgroundColor: '#ffea00',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 5,
+                padding: 4,
+              }}>
+            <Text style={{fontSize: 16, color: 'black', fontWeight: 'bold'}}>
+              Agregar carrito
+            </Text>
+            <View style={{width: 12}} />
+            <Icon name="ios-add-circle" size={15} color={'black|'} />
+          </TouchableOpacity>
+        
+
           <View style={styles.infoContainer}>
-          {/*   <FlatList
-              numColumns={2}
-              data={this.state.dataProductos}
-              renderItem={this.renderProductos}
-              keyExtractor={(item) => `${item.id}`}
-            /> */}
+            <Text style={styles.infoDescriptionRecipe}>
+              {this.state.producto.descripcion}
+            </Text>
           </View>
         </View>
       </ScrollView>
     );
   }
+
+onClickAddCart =(item)=>{
+alert("agrego al carrito")
+}
+
+}
+function Format_moneda(num) {
+  return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }

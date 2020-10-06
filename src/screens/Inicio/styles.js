@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 1.0,
-    elevation: 3
+   
   },
   Photo: {
     width: 550,
@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3
     },
-    color:'white',
+    //color:'white',
     shadowRadius: 5,
     shadowOpacity: 1.0,
-    elevation: 3,
+   
     resizeMode:"contain"
     
   },
