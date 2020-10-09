@@ -164,6 +164,10 @@ export default class App extends React.Component {
   onPressSucursal = () =>{
     this.props.navigation.navigate('DetalleSucursal',{sucursal:this.state.sucursal});
   }
+  onPressCarrito = () =>{
+    this.props.navigation.navigate('Carrito',{sucursal:this.state.sucursal});
+  }
+
 
   banners = () => {
     return (
@@ -297,7 +301,8 @@ export default class App extends React.Component {
            </TouchableOpacity>
             
             <TouchableOpacity
-          style={{
+            onPress={()=>this.onPressCarrito()}
+            style={{
               borderWidth:1,
               
               borderColor:Colors.primario,

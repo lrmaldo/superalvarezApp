@@ -32,6 +32,9 @@ import DetalleProducto from '../screens/DetalleProducto/DetalleProducto';
 import Buscador from '../screens/buscador/buscador';
 /* vista detalle sucursal */
 import DetalleSucursal from  '../screens/DetalleSucursal/DetalleSucursal';
+/* vista carrito */
+import Carrito  from '../screens/Carrito/Carrito';
+
  
 const TabIconInicio = (props) => (
   <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
@@ -96,6 +99,19 @@ const HomeNavigator = createStackNavigator({
 
   'DetalleSucursal': {
     screen: DetalleSucursal,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+
+  'Carrito': {
+    screen: Carrito,
     navigationOptions: {
       headerTitleAlign: 'center',
       headerTitleStyle: {
