@@ -35,6 +35,9 @@ import styles from './styles';
 
 import Colors  from '../Colors'
 
+/* funciones de carrito */
+import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
+
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
@@ -70,6 +73,9 @@ export default class App extends React.Component {
     /* cargar datos */
     this.GetData(this.page);
   }
+
+
+ 
 
   /* obtener datos de la sucursal */
   GetData = (page) => {
@@ -146,6 +152,22 @@ export default class App extends React.Component {
         <Text style={styles.category}>
           {this.getCategoriaTitulo(item.id_categoria)}
         </Text>
+
+        <TouchableOpacity
+            onPress={() => OnClickAddCarrito(item)}
+            style={{
+              width: (width / 2) - 40,
+              backgroundColor: '#f9aa34',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: "center",
+              borderRadius: 5,
+              padding: 4
+            }}>
+            <Text style={{ fontSize: 12, color: "white", fontWeight: "bold" }}>Agregar carrito</Text>
+            <View style={{ width: 12 }} />
+            <Icon name="ios-add-circle" size={15} color={"white"} />
+          </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );

@@ -17,6 +17,7 @@ import {SearchBar} from 'react-native-elements';
 /* colores */
 import Colors from './../Colors';
 
+
 /* carga de  imagen rapido */
 
 import FastImage from 'react-native-fast-image';
@@ -27,6 +28,8 @@ import styles from './styles'; */
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
+
+
 
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
