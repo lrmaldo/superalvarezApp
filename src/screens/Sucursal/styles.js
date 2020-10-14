@@ -17,6 +17,7 @@ const RECIPE_ITEM_MARGIN = 20;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    marginTop:10,
   },
   carouselContainer: {
     minHeight: 50,
@@ -50,8 +51,8 @@ const styles = StyleSheet.create({
   },
   infoRecipeContainer: {
     flex: 1,
-    margin: 4,
-    marginTop: 10,
+    margin: 10,
+    marginTop: 15,
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
@@ -91,8 +92,8 @@ const styles = StyleSheet.create({
   },
   infoRecipeName: {
     fontSize: 28,
-    margin: 2,
-   
+    margin: 10,
+   justifyContent:'center',
     fontWeight: 'bold',
     color: Colors.negro,
     textAlign: 'center',
@@ -111,12 +112,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: RECIPE_ITEM_MARGIN,
+    marginLeft: 15,
     marginTop: 20,
     width:
       (SCREEN_WIDTH - (recipeNumColums + 1) * RECIPE_ITEM_MARGIN) /
       recipeNumColums,
-    height: RECIPE_ITEM_HEIGHT + 75,
+    height: RECIPE_ITEM_HEIGHT + 105,
     borderColor: '#cccccc',
     borderWidth: 0.5,
     borderRadius: 15,

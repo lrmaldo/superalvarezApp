@@ -17,13 +17,17 @@ import {
 } from 'react-native';
 /* import styles from './styles'; */
 
+/* Colores */
+
+import Colores from '../Colors';
+
 /* carrusel */
 
 var {height, width} = Dimensions.get('window');
 import styles from './styles';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import {OnClickCarritoItem} from '../../logica_carrito/script_carrito';
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
@@ -48,7 +52,7 @@ export default class App extends React.Component {
       ) /* obtener datos de producto */,
       isLoading: true,
       loading: false, // cargar lista de paginacion
-
+      cantidad:1,
       selectCatg: 0,
       visible: false,
       refreshing: true,
@@ -104,6 +108,36 @@ export default class App extends React.Component {
     );
   };
 
+    onChangeQual = async (i, type) => {
+    //const dataCar = this.state.cantidad
+    let cantd = this.state.cantidad
+
+    if (type) {
+      cantd = cantd + 1
+
+      this.setState({ cantidad: cantd })
+      console.log(" mas dos items");
+      //AsyncStorage.setItem('cart',JSON.stringify(dataCar));
+    }
+    else if (type == false && cantd >= 2) {
+      cantd = cantd - 1
+      //dataCar[i].quantity = cantd
+      this.setState({ cantidad: cantd })
+      console.log("dos items");
+      //AsyncStorage.setItem('cart',JSON.stringify(dataCar));
+    }
+    else if (type == false && cantd == 1) {
+      //dataCar.splice(i,1)
+      this.setState({ cantidad: 1 })
+
+
+      //console.log(dataCar);
+      //AsyncStorage.setItem('cart',JSON.stringify(dataCar));
+    }
+
+
+  }
+
   render() {
     //console.log(this.state.dataBanners[0]);
     /* console.log(this.state.dataProductos) */
@@ -120,9 +154,21 @@ export default class App extends React.Component {
           </Text>
 
           {/* boton de agregar carrito */}
-          
+           <View style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <TouchableOpacity onPress={() => this.onChangeQual(this.state.cantidad, false)}>
+                <Icon name="ios-remove-circle" size={36} style={{color:Colores.assent}} />
+              </TouchableOpacity>
+              <Text style={{ paddingHorizontal: 8, fontWeight: 'bold', fontSize: 18 }}>{this.state.cantidad}</Text>
+              <TouchableOpacity onPress={() => this.onChangeQual(this.state.cantidad, true)} >
+                <Icon name="ios-add-circle" size={35} color={Colores.assent} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
             <TouchableOpacity
-               onPress={() => this.onClickAddCart("item")}
+               onPress={() => OnClickCarritoItem(this.state.producto,this.state.cantidad)}
               style={{
                 width: '80%',
                 height: 40,
@@ -133,6 +179,7 @@ export default class App extends React.Component {
                 borderRadius: 5,
                 padding: 4,
               }}>
+
             <Text style={{fontSize: 16, color: 'black', fontWeight: 'bold'}}>
               Agregar carrito
             </Text>
@@ -149,6 +196,9 @@ export default class App extends React.Component {
         </View>
       </ScrollView>
     );
+
+
+
   }
 
 onClickAddCart =(item)=>{

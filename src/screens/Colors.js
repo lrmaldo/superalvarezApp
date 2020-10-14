@@ -4,6 +4,7 @@ const Colors = {
     assent:'#c7b800',
     negro:'#000000',
     blanco:'#FFFFFF',
+    rojo:'red',
 
 }
 

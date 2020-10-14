@@ -17,13 +17,13 @@ import {
   SafeAreaView,
 } from 'react-native';
 /* import styles from './styles'; */
-import {SearchBar} from 'react-native-elements';
+import {SearchBar, Badge} from 'react-native-elements';
 
 /* carga de  imagen rapido */
 
 import FastImage from 'react-native-fast-image';
 
-
+import AsyncStorage from '@react-native-community/async-storage';
 /* iconos */
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -33,7 +33,7 @@ import Swiper from 'react-native-swiper';
 var {height, width} = Dimensions.get('window');
 import styles from './styles';
 
-import Colors  from '../Colors'
+import Colors from '../Colors';
 
 /* funciones de carrito */
 import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
@@ -69,13 +69,11 @@ export default class App extends React.Component {
       icon: null,
       hasScrolled: false,
       dataaux: [],
+      total_carrito: 0,
     };
     /* cargar datos */
     this.GetData(this.page);
   }
-
-
- 
 
   /* obtener datos de la sucursal */
   GetData = (page) => {
@@ -86,9 +84,7 @@ export default class App extends React.Component {
     const url = `http://test.sattlink.com/api/sucursal/${id_sucursal}?page=${page}`;
     //const url = `http://test.sattlink.com/api/sucursal/${this.state.id_sucursal[0].id?page=${page}`;
     //const url =`http://markettux.sattlink.com/api/recursos?page=21`;
-    console.log(url);
-    //console.log(this.state.sucursal.id);
-    //console.log(this.state.dataFood)
+   
     this.setState({loading: true});
     return fetch(url)
       .then((response) => response.json())
@@ -154,20 +150,23 @@ export default class App extends React.Component {
         </Text>
 
         <TouchableOpacity
-            onPress={() => OnClickAddCarrito(item)}
-            style={{
-              width: (width / 2) - 40,
-              backgroundColor: '#f9aa34',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: "center",
-              borderRadius: 5,
-              padding: 4
-            }}>
-            <Text style={{ fontSize: 12, color: "white", fontWeight: "bold" }}>Agregar carrito</Text>
-            <View style={{ width: 12 }} />
-            <Icon name="ios-add-circle" size={15} color={"white"} />
-          </TouchableOpacity>
+          onPress={() => OnClickAddCarrito(item)}
+          style={{
+            width: width / 2 - 40,
+            backgroundColor: Colors.primario,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 5,
+            padding: 3,
+            margin: 5,
+          }}>
+          <Text style={{fontSize: 12, color: 'black', fontWeight: 'bold'}}>
+            Agregar carrito
+          </Text>
+          <View style={{width: 12}} />
+          <Icon name="ios-add-circle" size={15} color={'black'} />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -180,16 +179,17 @@ export default class App extends React.Component {
   };
 
   /*  al presionar el boton buscador */
-   onPressBuscador = () => {
-    this.props.navigation.navigate('Buscador', { sucursal:this.state.sucursal });
+  onPressBuscador = () => {
+    this.props.navigation.navigate('Buscador', {sucursal: this.state.sucursal});
   };
-  onPressSucursal = () =>{
-    this.props.navigation.navigate('DetalleSucursal',{sucursal:this.state.sucursal});
-  }
-  onPressCarrito = () =>{
-    this.props.navigation.navigate('Carrito',{sucursal:this.state.sucursal});
-  }
-
+  onPressSucursal = () => {
+    this.props.navigation.navigate('DetalleSucursal', {
+      sucursal: this.state.sucursal,
+    });
+  };
+  onPressCarrito = () => {
+    this.props.navigation.navigate('Carrito', {sucursal: this.state.sucursal});
+  };
 
   banners = () => {
     return (
@@ -273,10 +273,36 @@ export default class App extends React.Component {
     //this.GetData();
   }
 
-  render() {
-    //console.log(this.state.dataBanners[0]);
-    console.log(this.state.dataProductos);
+  total_items = () => {
+   return new Promise ( async (resolver, reject)=>{
+     try {
+       let total_car = await  AsyncStorage.getItem('carrito').then((datacarrito) => {
+      //console.log(JSON.parse(datacarrito));
+      if (datacarrito !== null) {
+        const cart = JSON.parse(datacarrito);
+        let cantidad_total=0;
+        cart.forEach(element => {
+          cantidad_total=cantidad_total+element.cantidad;
+        });
 
+        //console.log(cart.length)
+        this.setState({
+          total_carrito: cantidad_total,
+        });
+      } else {
+        //return 0;
+      }
+    });
+    resolver(total_car);
+     } catch (error) {
+       
+     }
+   })
+  };
+
+  render() {
+    this.total_items();
+   // console.log(this.state.total_carrito);
     if (this.state.refreshing) {
       return (
         //loading view while data is loading
@@ -297,51 +323,61 @@ export default class App extends React.Component {
             colors={['#ef4b42', '#fff001', '#0000ff']}
           />
         }>
-        {this.state.dataBanners.length == 0  ? <View style={{marginTop:35,}} /> : this.banners()}
+        {this.state.dataBanners.length == 0 ? (
+          <View style={{marginTop: 35}} />
+        ) : (
+          this.banners()
+        )}
         <SafeAreaView style={styles.infoRecipeContainer}>
+         <View style={{flexDirection:'row'}}> 
           <TouchableOpacity
             style={{
               backgroundColor: 'transparent',
               borderBottomColor: 'transparent',
               borderTopColor: 'transparent',
-              width: '100%',
+              width: '95%',
               flex: 1,
             }}
-            onPress={() => this.onPressBuscador()}
-            >
+            onPress={() => this.onPressBuscador()}>
             {this.renderBuscador()}
-         
           </TouchableOpacity>
-          <View style={{margin:10,}} />
-           <View style={{flexDirection: 'row'}}> 
+          <TouchableOpacity
+              onPress={() => this.onPressCarrito()}
+              style={{
+                borderWidth: 1,
+
+                borderColor: Colors.primario,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 50,
+                height: 50,
+                backgroundColor: Colors.primario,
+                borderRadius: 50,
+                marginLeft: 5,
+                marginRight:15,
+              }}>
+              <Icon name={'cart'} size={30} color={Colors.negro} />
+              {this.state.total_carrito > 0 ? (
+                <Badge
+                  status="success"
+                  value={this.state.total_carrito}
+                  containerStyle={{position: 'absolute', top: -4, right: -4}}
+                />
+              ) : null}
+            </TouchableOpacity>
+         </View>
+          <View style={{margin: 10}} />
+          <View style={{flexDirection: 'row'}}>
+            {/* onpress al detalle sucursal */}
+            <TouchableOpacity onPress={() => this.onPressSucursal()}>
+              <Text style={styles.infoRecipeName}>
+                {this.state.sucursal.name}
+              </Text>
+            </TouchableOpacity>
+
            
-           {/* onpress al detalle sucursal */}
-           <TouchableOpacity
-           onPress={()=>this.onPressSucursal()}
-            >
-           <Text style={styles.infoRecipeName}>{this.state.sucursal.name}</Text>
-           </TouchableOpacity>
-            
-            <TouchableOpacity
-            onPress={()=>this.onPressCarrito()}
-            style={{
-              borderWidth:1,
-              
-              borderColor:Colors.primario,
-              alignItems:'center',
-              justifyContent:'center',
-              width:50,
-              height:50,
-              backgroundColor:Colors.primario,
-              borderRadius:50,
-              marginLeft:30,
-            }}
-          >
-   <Icon name={"cart"}  size={30} color={Colors.negro} />
- </TouchableOpacity>
-           </View>
-          
-          
+          </View>
+
           <View style={styles.infoContainer}>
             <FlatList
               numColumns={2}

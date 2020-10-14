@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     
   },
   carouselContainer: {
-    minHeight: 50,
+    minHeight: 80,
   },
   carousel: {},
 
@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   imageBanner: {
-    marginTop: -30,
-    width: '95%',
-    height: 300,
+    marginTop: -40,
+    width: '94%',
+    height: 500,
     borderRadius: 10,
 
     marginLeft: 10,
