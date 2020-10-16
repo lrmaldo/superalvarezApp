@@ -53,7 +53,60 @@ const styles = StyleSheet.create({
     item_titulo:{
         fontWeight: "bold",
         fontSize: 20
+    },
+
+    /* btn_pedido */
+
+    view_btn: {
+        backgroundColor: Colors.accent,
+        width:'80%',
+        alignItems:'center',
+        padding: 10,
+        borderRadius:5,
+        margin:20,
+    },
+
+    altura:{
+        height:100
+    },
+
+    textpedido:{
+        fontSize:18,
+        fontWeight:'bold',
+        color:Colors.negro,
+        
+    },
+    vista_total:{
+        flexDirection:'row',
+        marginTop:5,
+        marginRight:20,
+        marginLeft:20,
+        alignSelf:'baseline',
+    },
+    totalText:{
+        textAlign:'right',
+        fontSize:18,
+        fontWeight:'bold',
+    },
+    subtotalText:{
+          textAlign:'left',
+        fontSize:18,
+        fontWeight:'bold',
+    },
+    btn_check:{
+    backgroundColor: Colors.assent,
+    width: '80%',
+    alignItems: 'center',
+    padding: 2,
+    borderRadius: 5,
+    marginBottom: 5
+    },
+    btn_text:{
+        fontSize: 24,
+        fontWeight: "bold",
+        color: Colors.negro
     }
+
 });
 
 export default styles;

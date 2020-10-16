@@ -5,6 +5,7 @@ const Colors = {
     negro:'#000000',
     blanco:'#FFFFFF',
     rojo:'red',
+    secundario2:'#ef4a46',
 
 }
 

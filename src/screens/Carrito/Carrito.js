@@ -12,27 +12,29 @@ import {
   StatusBar,
   Linking,
 } from 'react-native';
+import {Badge} from 'react-native-elements';
 
 import Colors from './../Colors';
 import FastImage from 'react-native-fast-image';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-
-import Icon from 'react-native-vector-icons/Ionicons';
-import Icon3 from 'react-native-vector-icons/FontAwesome5';
 /* estilos */
 import styles from './styles';
 
+/* iconos */
+import Icon from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import Icon3 from 'react-native-vector-icons/MaterialIcons';
+
+/* native base */
+import {Container, Content, Footer, FooterTab, Button} from 'native-base';
+
 /* funcion */
-import {cambio,total_items} from '../../logica_carrito/script_carrito';
-
-
+import {cambio, total_items} from '../../logica_carrito/script_carrito';
 
 const {width: viewportWidth} = Dimensions.get('window');
 const {width, height} = Dimensions.get('window');
-
-
 
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -54,121 +56,102 @@ export default class App extends React.Component {
 
     this.state = {
       carrito: [] /*  datos carrito */,
-      carritovacio:null,/* checar estado del carrito */
+      carritovacio: null /* checar estado del carrito */,
+      total_carrito: 0,/* total cantidad por precio del carrito */
+      total_items: 0,
     };
     /* cargar datos */
     /* this.GetData(); */
     this.carrito();
+    this.total();
   }
-carrito = () => {
 
-  return new Promise( async (resolve,reject)=>{
-try {
-  let items =  await AsyncStorage.getItem('carrito').then((cart) => {
-      if (cart !== null) {
-        // We have data!!
-        const carritodata = JSON.parse(cart)
-
-        //console.log(carritodata)
-
-
-        this.setState({ carrito: carritodata })
-        if (carritodata.length > 0) {
-
-
-        /*   console.log("se checho") */
-          this.setState({ carritovacio: false })
-        } else {
-          this.setState({ carritovacio: true })
-
-        }
-
-      }
-    })
-      .catch((err) => {
-        alert(err)
-      })
-
-      resolve(items)
-  
-} catch (error) {
-  
-}
-
-  })
-
-
-}
-  
-  
   /* renderizar */
 
-
-
   itemsCarrito = () => {
-    console.log(this.state.carrito);
-   var mostrar  = this.state.carrito.map((item,i) =>{
-     console.log(item.producto.url_imagen);
-       return (
-         <View
-        style={styles.item_carro}>
-        <FastImage
-          resizeMode={'contain'}
-          style={styles.imageItem}
-          resizeMode={FastImage.resizeMode.contain}
-          source={{
-            uri: item.producto.url_imagen,
-            headers: {Authorization: 'someAuthToken'},
-            priority: FastImage.priority.normal,
-          }}
-          defaultSource={{uri: item.foto_url}}
-          
-        />
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'trangraysparent',
-            padding: 10,
-            justifyContent: 'space-between',
-          }}>
-          <View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            
-            <Text style={{fontWeight: 'bold', fontSize: 20}}>{item.producto.titulo}</Text>
-            <TouchableOpacity onPress={()=>this.eliminarItem(i)} > 
-                <Icon name="trash" size={28} color={Colors.rojo} />
-              </TouchableOpacity>
+    //console.log(this.state.total_items);
+    var mostrar = this.state.carrito.map((item, i) => {
+      console.log(item.producto.url_imagen);
+      return (
+        <View style={styles.item_carro}>
+          <FastImage
+            resizeMode={'contain'}
+            style={styles.imageItem}
+            resizeMode={FastImage.resizeMode.contain}
+            source={{
+              uri: item.producto.url_imagen,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.normal,
+            }}
+            defaultSource={{uri: item.foto_url}}
+          />
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'trangraysparent',
+              padding: 10,
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={{fontWeight: 'bold', fontSize: 20}}>
+                  {item.producto.titulo}
+                </Text>
+                <TouchableOpacity onPress={() => this.eliminarItem(i)}>
+                  <Icon name="trash" size={28} color={Colors.rojo} />
+                </TouchableOpacity>
+              </View>
+
+              <Text>{item.producto.descripcion.substr(0, 80)}...</Text>
             </View>
-            
-            <Text>{item.producto.descripcion.substr(0,80)}...</Text>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                color: Colors.assent,
-                fontSize: 20,
-              }}>{Format_moneda(item.producto.precio)}</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity onPress={()=>this.cambio(i,false)}>
-                <Icon name="ios-remove-circle" size={35} color={Colors.assent} />
-              </TouchableOpacity>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text
                 style={{
-                  paddingHorizontal: 8,
                   fontWeight: 'bold',
-                  fontSize: 18,
-                }}>{item.cantidad}</Text>
-              <TouchableOpacity onPress={()=>this.cambio(i,true)}>
-                <Icon name="ios-add-circle" size={35} color={Colors.assent} />
-              </TouchableOpacity>
+                  color: Colors.assent,
+                  fontSize: 20,
+                }}>
+                {Format_moneda(item.producto.precio)}
+              </Text>
+
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity onPress={() => this.cambio(i, false)}>
+                  <Icon
+                    name="ios-remove-circle"
+                    size={35}
+                    color={Colors.assent}
+                  />
+                </TouchableOpacity>
+                <Text
+                  style={{
+                    paddingHorizontal: 3,
+                    fontWeight: 'bold',
+                    fontSize: 18,
+                  }}>
+                  {item.cantidad}
+                </Text>
+                <TouchableOpacity onPress={() => this.cambio(i, true)}>
+                  <Icon name="ios-add-circle" size={35} color={Colors.assent} />
+                </TouchableOpacity>
+              </View>
             </View>
+            <Text
+              style={{
+                color: Colors.assent,
+                fontSize: 14,
+              }}>
+              {Format_moneda(item.producto.precio)} x {item.cantidad} ={' '}
+              {Format_moneda(item.producto.precio * item.cantidad)}
+              
+            </Text>
+            
           </View>
         </View>
-      </View>
-       )
+      );
     });
-    
+
     /*  <View  style={styles.item_carro}>
             <Image resizeMode={'contain'}
                   style={styles.imagenItem}
@@ -177,85 +160,235 @@ try {
 
           </View>
  */
- return mostrar;
-   
+    return mostrar;
   };
 
-  
-
   render() {
-    console.log(this.state.carritovacio);
-    return (
-      <View style={styles.container}>
-        <View style={{height: 20}} />
-        <Text style={{fontSize: 32, fontWeight: 'bold', color: Colors.assent}}>
-          Carrito
-        </Text>
-        <View style={{height: 10}} />
+    //console.log(this.state.total_carrito);
 
-        <View style={{flex: 1}}>
-          
-          <ScrollView style={{flex: 2}}>{this.state.carritovacio == true ? <Text>Carrito Vacio</Text> : this.itemsCarrito()}</ScrollView>
+    return (
+      <Container>
+        <View style={styles.container}>
+          <View style={{height: 20}} />
+          <Text
+            style={{fontSize: 32, fontWeight: 'bold', color: Colors.assent}}>
+            Carrito
+          </Text>
+          <View style={{height: 10}} />
+
+          <View style={{flex: 1}}>
+            <ScrollView style={{flex: 2}}>
+              {this.state.carritovacio == true ? (
+                <Text>Carrito Vacio</Text>
+              ) : (
+                this.itemsCarrito()
+              )}
+            </ScrollView>
+           
+          </View>
+         {this.render_total()}
+           <TouchableOpacity style={styles.btn_check}>
+    <Text style={styles.btn_text}>
+                Terminar compra
+      </Text>
+    </TouchableOpacity>
         </View>
-      </View>
+        {this.footer()}
+      </Container>
     );
   }
 
-
   /* functions */
-cambio(i,type) {
+  /* ============================================================================ */
+  onPressSucursal = () => {
+    this.props.navigation.goBack();
+  };
+
+  render_btn_checkout = () => {
+
+    const btn_check = (
+    <TouchableOpacity style={styles.btn_check}>
+    <Text style={styles.btn_text}>
+                Terminar compra
+      </Text>
+    </TouchableOpacity>
+    );
+    return btn_check;
+  }
+
+  footer = () => {
+    const foot = (
+      <Footer>
+        <FooterTab style={{backgroundColor: Colors.primario}}>
+          <Button
+            vertical
+            onPress={() => this.onPressSucursal()}
+            style={{backgroundColor: Colors.primario}}>
+            <Icon2 name={'store'} size={25} color={Colors.negro} />
+            <Text>Sucursal</Text>
+          </Button>
+
+          <Button
+            vertical
+            active
+            style={{backgroundColor: Colors.assent}}>
+            <View style={{flexDirection: 'row'}}>
+              <Icon name={'cart'} size={30} color={Colors.negro} />
+              {/*   {this.state.total_items > 0 ? (
+                <Badge
+                  status="success"
+                  value={this.state.total_items}
+                  containerStyle={{position: 'absolute', top: -4, right: -4}}
+                />
+              ) : null} */}
+            </View>
+            <Text style={{color: Colors.negro}}>Carrito</Text>
+          </Button>
+          {/*bton de  perfil */}
+          <Button vertical onPress={() => this.onPressBuscador()}>
+            <Icon name={'ios-person'} size={30} color={Colors.negro} />
+            <Text>Perfil</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
+    );
+    /*  icon3 category */
+    return foot;
+  };
+
+  carrito = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let items = await AsyncStorage.getItem('carrito')
+          .then((cart) => {
+            if (cart !== null) {
+              // We have data!!
+              const carritodata = JSON.parse(cart);
+
+              //console.log(carritodata)
+              /* suma del total de productos en el carrito */
+            
+              let cantidad_total = 0;
+              carritodata.forEach((element) => {
+              
+
+                cantidad_total = cantidad_total + element.cantidad;
+              });
+
+              //carritodata.forEach((element) => {
+
+              //});
+
+              //console.log(cart.length)
+
+              this.setState({
+                carrito: carritodata,
+               
+                total_items: cantidad_total,
+              });
+              if (carritodata.length > 0) {
+                /*   console.log("se checho") */
+                this.setState({carritovacio: false});
+              } else {
+                this.setState({carritovacio: true});
+              }
+            }
+          })
+          .catch((err) => {
+            alert(err);
+          });
+
+        resolve(items);
+      } catch (error) {}
+    });
+  };
+
+  /* funcioon de render del total */
+
+  render_total = () => {
+    const rentotal = (
+      <View>
+      <View style={styles.vista_total}>
+      <Text style={styles.subtotalText}>Subtotal:</Text>
+      <View style={{flex:1.80}} />
+      <Text style={styles.totalText}>{Format_moneda(this.total())} </Text>
+      </View>
+ 
+
+  <View style={styles.vista_total}>
+      <Text style={styles.subtotalText}>Total del pedido:</Text>
+      <View style={{flex:1.80}} />
+      <Text style={styles.totalText}>{Format_moneda(this.total())} </Text>
+      </View>
+      </View>
+
+    );
+      
+    
+
+    return rentotal;
+  };
+
+  cambio(i, type) {
     //console.log("data" + data)
-    const dataCar =this.state.carrito;
+    const dataCar = this.state.carrito;
     let cantd = dataCar[i].cantidad;
 
     if (type) {
-      cantd = cantd + 1
-      dataCar[i].cantidad = cantd
-      this.setState({ carrito: dataCar })
-      console.log(" mas dos items");
+      cantd = cantd + 1;
+      dataCar[i].cantidad = cantd;
+      this.setState({carrito: dataCar});
+      console.log(' mas dos items');
       AsyncStorage.setItem('carrito', JSON.stringify(dataCar));
-    }
-    else if (type == false && cantd >= 2) {
-      cantd = cantd - 1
-      dataCar[i].cantidad = cantd
-     this.setState({ carrito: dataCar })
-      console.log("dos items");
+    } else if (type == false && cantd >= 2) {
+      cantd = cantd - 1;
+      dataCar[i].cantidad = cantd;
+      this.setState({carrito: dataCar});
+      console.log('dos items');
       AsyncStorage.setItem('carrito', JSON.stringify(dataCar));
-    }
-    else if (type == false && cantd == 1) {
-      dataCar.splice(i, 1)
-     this.setState({ carrito: dataCar })
-
+    } else if (type == false && cantd == 1) {
+      dataCar.splice(i, 1);
+      this.setState({carrito: dataCar});
 
       console.log(dataCar);
       AsyncStorage.setItem('carrito', JSON.stringify(dataCar));
     }
     //mostrar vista de carrito vacio
     if (dataCar.length === 0) {
-      this.setState({ carritovacio: true })
+      this.setState({carritovacio: true});
       //console.log("entro")
     }
   }
 
   /* eliminar item */
 
-  eliminarItem(i){
-    const dataCar =this.state.carrito;
-     dataCar.splice(i, 1)
-     this.setState({ carrito: dataCar })
+  eliminarItem(i) {
+    const dataCar = this.state.carrito;
+    dataCar.splice(i, 1);
+    this.setState({carrito: dataCar});
 
-
-      console.log(dataCar);
-      AsyncStorage.setItem('carrito', JSON.stringify(dataCar));
-      if (dataCar.length === 0) {
-      this.setState({ carritovacio: true })
+    console.log(dataCar);
+    AsyncStorage.setItem('carrito', JSON.stringify(dataCar));
+    if (dataCar.length === 0) {
+      this.setState({carritovacio: true});
       //console.log("entro")
     }
+  }
+/* function para sumar la cantidad con el la cantidad de todos los productos del carrito */
+  total(){
+    const dataCar = this.state.carrito;
 
+    var total_items = 0;
+
+     dataCar.forEach(element => {
+                total_items = total_items + (element.cantidad * element.producto.precio );
+        
+          });
+        
+        return parseFloat(total_items);
   }
 
 }
-
 
 function Format_moneda(num) {
   return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');

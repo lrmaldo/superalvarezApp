@@ -2,7 +2,7 @@
 import React from 'react';
 import {View, Image, Platform, Dimensions} from 'react-native';
 
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 
@@ -125,17 +125,14 @@ const HomeNavigator = createStackNavigator({
 
 });
 
-const BottonNavegation = createBottomTabNavigator(
+/* const BottonNavegation = createBottomTabNavigator(
   {
     Home: {
       screen: HomeNavigator,
       navigationOptions: {
         title: 'Inicio',
         tabBarIcon: TabIconInicio,
-        /* #ffff56 
-      #ff9958*/
-
-        // tabBarIcon: ({activeTintColor}) => <FontAwesome name="home" color={"white"}></FontAwesome>
+      
       },
     },
   },
@@ -150,9 +147,20 @@ const BottonNavegation = createBottomTabNavigator(
       },
     },
   },
-);
+); */
+const stackNavigator =  createSwitchNavigator(
+  {
+    App:HomeNavigator,
+  },
+  {
+    initialRouteName:'App'
+  }
+)
 
-export default createAppContainer(BottonNavegation);
+
+//export default createAppContainer(BottonNavegation);
+export default createAppContainer(stackNavigator);
+
 /* 
 color primario:  #ffea00
 secundario: #ffff56

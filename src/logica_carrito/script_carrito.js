@@ -163,10 +163,12 @@ export function  OnClickCarritoItem(data, cant) {
         },
        
       ],
-      { cancelable: false }
+      { cancelable: true }
     );
   
 }
+
+
 
 
 

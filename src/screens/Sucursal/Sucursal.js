@@ -17,7 +17,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 /* import styles from './styles'; */
-import {SearchBar, Badge} from 'react-native-elements';
+import {SearchBar, } from 'react-native-elements';
 
 /* carga de  imagen rapido */
 
@@ -26,6 +26,11 @@ import FastImage from 'react-native-fast-image';
 import AsyncStorage from '@react-native-community/async-storage';
 /* iconos */
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import Icon3 from 'react-native-vector-icons/MaterialIcons';
+
+/* native base */
+import {Container, Content, Footer, FooterTab, Button, Badge} from 'native-base';
 
 /* carrusel */
 //swiper
@@ -84,7 +89,7 @@ export default class App extends React.Component {
     const url = `http://test.sattlink.com/api/sucursal/${id_sucursal}?page=${page}`;
     //const url = `http://test.sattlink.com/api/sucursal/${this.state.id_sucursal[0].id?page=${page}`;
     //const url =`http://markettux.sattlink.com/api/recursos?page=21`;
-   
+
     this.setState({loading: true});
     return fetch(url)
       .then((response) => response.json())
@@ -274,35 +279,35 @@ export default class App extends React.Component {
   }
 
   total_items = () => {
-   return new Promise ( async (resolver, reject)=>{
-     try {
-       let total_car = await  AsyncStorage.getItem('carrito').then((datacarrito) => {
-      //console.log(JSON.parse(datacarrito));
-      if (datacarrito !== null) {
-        const cart = JSON.parse(datacarrito);
-        let cantidad_total=0;
-        cart.forEach(element => {
-          cantidad_total=cantidad_total+element.cantidad;
-        });
+    return new Promise(async (resolver, reject) => {
+      try {
+        let total_car = await AsyncStorage.getItem('carrito').then(
+          (datacarrito) => {
+            //console.log(JSON.parse(datacarrito));
+            if (datacarrito !== null) {
+              const cart = JSON.parse(datacarrito);
+              let cantidad_total = 0;
+              cart.forEach((element) => {
+                cantidad_total = cantidad_total + element.cantidad;
+              });
 
-        //console.log(cart.length)
-        this.setState({
-          total_carrito: cantidad_total,
-        });
-      } else {
-        //return 0;
-      }
+              //console.log(cart.length)
+              this.setState({
+                total_carrito: cantidad_total,
+              });
+            } else {
+              //return 0;
+            }
+          },
+        );
+        resolver(total_car);
+      } catch (error) {}
     });
-    resolver(total_car);
-     } catch (error) {
-       
-     }
-   })
   };
 
   render() {
     this.total_items();
-   // console.log(this.state.total_carrito);
+    // console.log(this.state.total_carrito);
     if (this.state.refreshing) {
       return (
         //loading view while data is loading
@@ -313,83 +318,96 @@ export default class App extends React.Component {
       );
     }
     return (
-      <ScrollView
-        style={styles.container}
-        refreshControl={
-          <RefreshControl
-            //refresh control used for the Pull to Refresh
-            refreshing={this.state.refreshing}
-            onRefresh={this.onRefresh.bind(this)}
-            colors={['#ef4b42', '#fff001', '#0000ff']}
-          />
-        }>
-        {this.state.dataBanners.length == 0 ? (
-          <View style={{marginTop: 35}} />
-        ) : (
-          this.banners()
-        )}
-        <SafeAreaView style={styles.infoRecipeContainer}>
-         <View style={{flexDirection:'row'}}> 
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'transparent',
-              borderBottomColor: 'transparent',
-              borderTopColor: 'transparent',
-              width: '95%',
-              flex: 1,
-            }}
-            onPress={() => this.onPressBuscador()}>
-            {this.renderBuscador()}
-          </TouchableOpacity>
-          <TouchableOpacity
-              onPress={() => this.onPressCarrito()}
-              style={{
-                borderWidth: 1,
-
-                borderColor: Colors.primario,
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 50,
-                height: 50,
-                backgroundColor: Colors.primario,
-                borderRadius: 50,
-                marginLeft: 5,
-                marginRight:15,
-              }}>
-              <Icon name={'cart'} size={30} color={Colors.negro} />
-              {this.state.total_carrito > 0 ? (
-                <Badge
-                  status="success"
-                  value={this.state.total_carrito}
-                  containerStyle={{position: 'absolute', top: -4, right: -4}}
-                />
-              ) : null}
-            </TouchableOpacity>
-         </View>
-          <View style={{margin: 10}} />
-          <View style={{flexDirection: 'row'}}>
-            {/* onpress al detalle sucursal */}
-            <TouchableOpacity onPress={() => this.onPressSucursal()}>
-              <Text style={styles.infoRecipeName}>
-                {this.state.sucursal.name}
-              </Text>
-            </TouchableOpacity>
-
-           
-          </View>
-
-          <View style={styles.infoContainer}>
-            <FlatList
-              numColumns={2}
-              data={this.state.dataProductos}
-              renderItem={this.renderProductos}
-              keyExtractor={(item) => item.id.toString()}
+      <Container>
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl
+              //refresh control used for the Pull to Refresh
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh.bind(this)}
+              colors={['#ef4b42', '#fff001', '#0000ff']}
             />
-          </View>
-        </SafeAreaView>
-      </ScrollView>
+          }>
+          {this.state.dataBanners.length == 0 ? (
+            <View style={{marginTop: 35}} />
+          ) : (
+            this.banners()
+          )}
+          <SafeAreaView style={styles.infoRecipeContainer}>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: 'transparent',
+                  borderBottomColor: 'transparent',
+                  borderTopColor: 'transparent',
+                  width: '98%',
+                  flex: 1,
+                }}
+                onPress={() => this.onPressBuscador()}>
+                {this.renderBuscador()}
+              </TouchableOpacity>
+            
+            </View>
+            <View style={{margin: 10}} />
+            <View style={{flexDirection: 'row'}}>
+              {/* onpress al detalle sucursal */}
+              <TouchableOpacity onPress={() => this.onPressSucursal()}>
+                <Text style={styles.infoRecipeName}>
+                  {this.state.sucursal.name}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.infoContainer}>
+              <FlatList
+                numColumns={2}
+                data={this.state.dataProductos}
+                renderItem={this.renderProductos}
+                keyExtractor={(item) => item.id.toString()}
+              />
+            </View>
+          </SafeAreaView>
+        </ScrollView>
+
+        {this.footer()}
+      </Container>
     );
   }
+
+  footer = () => {
+    const foot = (
+      <Footer>
+        <FooterTab style={{backgroundColor: Colors.primario}}>
+          <Button
+            vertical
+            active
+            style={{backgroundColor: Colors.assent}}>
+            <Icon2 name={'store'} size={25} color={Colors.negro} />
+            <Text>Sucursal</Text>
+          </Button>
+
+          <Button
+            vertical
+            //active
+            badge
+            style={{backgroundColor: Colors.primario}}
+            onPress={() => this.onPressCarrito()}>
+            <Badge style={{backgroundColor:Colors.secundario2}}><Text style={{color:Colors.blanco}}>{this.state.total_carrito}</Text></Badge>
+            <Icon name={'cart'} size={25} color={Colors.negro}/>
+            <Text style={{color: Colors.negro}}>Carrito</Text>
+          </Button>
+          {/*bton de  perfil */}
+          <Button vertical onPress={() => this.onPressBuscador()}>
+            <Icon name={'ios-person'} size={30} color={Colors.negro} />
+            <Text>Perfil</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
+    );
+/*  icon3 category */
+    return foot;
+  };
 }
 
 function Format_moneda(num) {
