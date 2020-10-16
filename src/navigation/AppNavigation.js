@@ -35,6 +35,11 @@ import DetalleSucursal from  '../screens/DetalleSucursal/DetalleSucursal';
 /* vista carrito */
 import Carrito  from '../screens/Carrito/Carrito';
 
+/* vista categorias */
+import Categorias from '../screens/Categorias/Categorias'
+
+import ItemCategorias from '../screens/Categorias/ItemCateogorias';
+
  
 const TabIconInicio = (props) => (
   <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
@@ -112,6 +117,30 @@ const HomeNavigator = createStackNavigator({
 
   'Carrito': {
     screen: Carrito,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+  'Categorias':{
+     screen: Categorias,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+  'ItemCategoria':{
+     screen: ItemCategorias,
     navigationOptions: {
       headerTitleAlign: 'center',
       headerTitleStyle: {

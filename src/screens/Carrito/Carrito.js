@@ -234,13 +234,7 @@ export default class App extends React.Component {
             style={{backgroundColor: Colors.assent}}>
             <View style={{flexDirection: 'row'}}>
               <Icon name={'cart'} size={30} color={Colors.negro} />
-              {/*   {this.state.total_items > 0 ? (
-                <Badge
-                  status="success"
-                  value={this.state.total_items}
-                  containerStyle={{position: 'absolute', top: -4, right: -4}}
-                />
-              ) : null} */}
+            
             </View>
             <Text style={{color: Colors.negro}}>Carrito</Text>
           </Button>

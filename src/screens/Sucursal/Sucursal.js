@@ -195,6 +195,9 @@ export default class App extends React.Component {
   onPressCarrito = () => {
     this.props.navigation.navigate('Carrito', {sucursal: this.state.sucursal});
   };
+   onPressCategorias = () => {
+    this.props.navigation.navigate('Categorias', {sucursal: this.state.sucursal, categorias: this.state.dataCategorias});
+  };
 
   banners = () => {
     return (
@@ -321,6 +324,7 @@ export default class App extends React.Component {
       <Container>
         <ScrollView
           style={styles.container}
+          contentInsetAdjustmentBehavior="automatic"
           refreshControl={
             <RefreshControl
               //refresh control used for the Pull to Refresh
@@ -397,7 +401,18 @@ export default class App extends React.Component {
             <Icon name={'cart'} size={25} color={Colors.negro}/>
             <Text style={{color: Colors.negro}}>Carrito</Text>
           </Button>
-          {/*bton de  perfil */}
+
+          {/* categorias */}
+           <Button
+            vertical
+            onPress={()=> this.onPressCategorias()}
+            >
+            <Icon3 name={'category'} size={25} color={Colors.negro} />
+            <Text>Categorias</Text>
+          </Button>
+
+
+          {/*bton de  perfil category */}
           <Button vertical onPress={() => this.onPressBuscador()}>
             <Icon name={'ios-person'} size={30} color={Colors.negro} />
             <Text>Perfil</Text>
