@@ -38,7 +38,7 @@ export default class Categorias extends Component {
 
     /* functions */
      onPressCategoria = item => {
-    this.props.navigation.navigate('ItemCategoria', { categoria:item});
+    this.props.navigation.navigate('ItemCategoria', { categoria:item,sucursal:this.state.sucursal});
   };
 /* */
 
