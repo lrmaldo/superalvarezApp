@@ -11,15 +11,26 @@ import {
   TouchableHighlight,
   StyleSheet,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 
 import FastImage from 'react-native-fast-image';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 var {height, width} = Dimensions.get('window');
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import Icon3 from 'react-native-vector-icons/MaterialIcons';
+
+/* native base */
+import {Container, Footer, FooterTab, Button, Badge} from 'native-base';
 import styles from './styles';
 import Colors from './../Colors';
+/* funciones de carrito */
+import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
+
 export default class ItemCateogorias extends Component {
   static navigationOptions = ({navigation}) => {
     return {
@@ -38,6 +49,7 @@ export default class ItemCateogorias extends Component {
       loading:true,
       refreshing: true,
       dataaux: [],
+      total_carrito:0,
     };
   this.GetData(this.page);
   }
@@ -83,43 +95,52 @@ export default class ItemCateogorias extends Component {
   };
 /* function de categoria */
 
-getCategoria =(categoryId) => {
-    let dataC = [];
-    this.state.dataProductos.map((data) => {
-      if (data.id_categoria === categoryId) {
-        dataC = data;
-      }
-    });
-    
-    return dataC;
+
+indicator = () => {
+  if(this.state.refreshing){
+    return (
+  <View style={styles.indicator} >
+        <ActivityIndicator size="large" color="#ffea0f" />
+      </View>
+    )
   }
-
-
-
-/* render */
-  render() {
-
-
-    //console.log("datacategarias"+this.getCategoria(this.state.categoria.id))
-    return <ScrollView style={styles.container}>
-    {this.Cabecera()}
-    <View style={{marginBottom:5}}>
-    <Text style={styles.titulo_categoria} > {this.state.categoria.titulo}</Text>
-    </View>
-
-     <View style={styles.infoContainer}>
+  return (<View style={styles.infoContainer}>
               <FlatList
                 numColumns={2}
                 data={this.state.dataProductos.filter(item => item.id_categoria === this.state.categoria.id)}
                 renderItem={this.renderProductos}
                 keyExtractor={(item) => item.id.toString()}
               />
-            </View>
+            </View>)
+}
 
-    </ScrollView>;
+
+/* render */
+  render() {
+   this.total_items();
+
+    //console.log("datacategarias"+this.getCategoria(this.state.categoria.id))
+    return (
+      <Container>
+<ScrollView style={styles.container}>
+    {this.Cabecera()}
+    <View style={{marginBottom:5}}>
+    <Text style={styles.titulo_categoria} > {this.state.categoria.titulo}</Text>
+    </View>
+    
+     {this.indicator()}
+
+ 
+
+    </ScrollView>
+    {this.footer()}
+    </Container>
+    );
   }
 
   /* functions */
+
+  
 
   Cabecera = () => {
     return (
@@ -138,6 +159,53 @@ getCategoria =(categoryId) => {
         />
       </View>
     );
+  };
+
+  footer = () => {
+    const foot = (
+      <Footer>
+        <FooterTab style={{backgroundColor: Colors.primario}}>
+          <Button
+            vertical
+          
+            style={{backgroundColor: Colors.primario}}>
+            <Icon2 name={'store'} size={25} color={Colors.negro} />
+            <Text>Sucursal</Text>
+          </Button>
+
+          <Button
+            vertical
+            //active
+            badge
+            
+            onPress={() => this.onPressCarrito()}>
+            <Badge style={{backgroundColor:Colors.secundario2}}><Text style={{color:Colors.blanco}}>{this.state.total_carrito}</Text></Badge>
+            <Icon name={'cart'} size={25} color={Colors.negro}/>
+            <Text style={{color: Colors.negro}}>Carrito</Text>
+          </Button>
+
+          {/* categorias */}
+           <Button
+            vertical
+            active
+            style={{backgroundColor: Colors.assent}}
+            
+            >
+            <Icon3 name={'category'} size={25} color={Colors.negro} />
+            <Text>Categorias</Text>
+          </Button>
+
+
+          {/*bton de  perfil category */}
+          <Button vertical onPress={() => this.onPressBuscador()}>
+            <Icon name={'ios-person'} size={30} color={Colors.negro} />
+            <Text>Perfil</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
+    );
+/*  icon3 category */
+    return foot;
   };
 
   renderProductos = ({item}) => (
@@ -210,6 +278,36 @@ onPressRecipiente = (item) => {
   };
    onPressCategorias = () => {
     this.props.navigation.navigate('Categorias', {sucursal: this.state.sucursal, categorias: this.state.dataCategorias});
+  };
+
+
+  /* total de carrito */
+
+  total_items = () => {
+    return new Promise(async (resolver, reject) => {
+      try {
+        let total_car = await AsyncStorage.getItem('carrito').then(
+          (datacarrito) => {
+            //console.log(JSON.parse(datacarrito));
+            if (datacarrito !== null) {
+              const cart = JSON.parse(datacarrito);
+              let cantidad_total = 0;
+              cart.forEach((element) => {
+                cantidad_total = cantidad_total + element.cantidad;
+              });
+
+              //console.log(cart.length)
+              this.setState({
+                total_carrito: cantidad_total,
+              });
+            } else {
+              //return 0;
+            }
+          },
+        );
+        resolver(total_car);
+      } catch (error) {}
+    });
   };
 }
 function Format_moneda(num) {

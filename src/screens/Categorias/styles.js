@@ -130,6 +130,12 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginLeft: 5,
   },
+  indicator:{
+    flex: 1,
+    
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
   
 });
 
