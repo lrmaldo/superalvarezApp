@@ -37,8 +37,13 @@ import Carrito  from '../screens/Carrito/Carrito';
 
 /* vista categorias */
 import Categorias from '../screens/Categorias/Categorias'
-
+/* item Categorias */
 import ItemCategorias from '../screens/Categorias/ItemCateogorias';
+
+/* perfil */
+import Perfil from '../screens/perfil/Perfil';
+import Mispedidos from '../screens/perfil/Mispedidos';
+import Misdirecciones from '../screens/perfil/Misdirecciones';
 
  
 const TabIconInicio = (props) => (
@@ -139,8 +144,53 @@ const HomeNavigator = createStackNavigator({
       },
     },
   },
+
   'ItemCategoria':{
      screen: ItemCategorias,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+
+  /* vista perfil */
+
+   'Perfil':{
+     screen: Perfil,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+
+  /* mis pedidos */
+   'Mispedidos':{
+     screen: Mispedidos,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+
+  /* mis direcciones */
+
+   'Misdirecciones':{
+     screen: Misdirecciones,
     navigationOptions: {
       headerTitleAlign: 'center',
       headerTitleStyle: {

@@ -186,7 +186,7 @@ export default class App extends React.Component {
   /* al presionar en el recipiente  */
 
   onPressRecipiente = (item) => {
-    this.props.navigation.navigate('DetalleProducto', {producto: item});
+    this.props.navigation.navigate('DetalleProducto', {producto: item, sucursal: this.state.sucursal,  categorias: this.state.dataCategorias});
     //alert('hola presionaste');
   };
 
@@ -205,6 +205,10 @@ export default class App extends React.Component {
    onPressCategorias = () => {
     this.props.navigation.navigate('Categorias', {sucursal: this.state.sucursal, categorias: this.state.dataCategorias});
   };
+
+  onPressPerfil = () => {
+    this.props.navigation.navigate('Perfil');
+  }
 
   banners = () => {
     return (
@@ -424,7 +428,7 @@ export default class App extends React.Component {
 
 
           {/*bton de  perfil category */}
-          <Button vertical onPress={() => this.onPressBuscador()}>
+          <Button vertical onPress={() => this.onPressPerfil()}>
             <Icon name={'ios-person'} size={30} color={Colors.negro} />
             <Text>Perfil</Text>
           </Button>

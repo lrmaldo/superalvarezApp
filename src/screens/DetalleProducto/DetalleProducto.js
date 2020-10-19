@@ -15,7 +15,11 @@ import {
   StyleSheet,
   StatusBar,
 } from 'react-native';
-/* import styles from './styles'; */
+/* native base */
+import {Container, Content, Footer, FooterTab, Button, Badge} from 'native-base';
+
+
+
 
 /* Colores */
 
@@ -27,6 +31,13 @@ var {height, width} = Dimensions.get('window');
 import styles from './styles';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import Icon3 from 'react-native-vector-icons/MaterialIcons';
+
+
+/* asyncstorage */
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {OnClickCarritoItem} from '../../logica_carrito/script_carrito';
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
@@ -45,11 +56,13 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.page = 1;
+   
     this.state = {
       producto: this.props.navigation.getParam(
         'producto',
       ) /* obtener datos de producto */,
+      sucursal:this.props.navigation.getParam('sucursal'),
+      categorias: this.props.navigation.getParam('categorias'),
       isLoading: true,
       loading: false, // cargar lista de paginacion
       cantidad:1,
@@ -61,6 +74,7 @@ export default class App extends React.Component {
       dataaux: [],
     };
     /* cargar datos */
+
   }
 
   getCategoriaTitulo(categoryId) {
@@ -141,7 +155,9 @@ export default class App extends React.Component {
   render() {
     //console.log(this.state.dataBanners[0]);
     /* console.log(this.state.dataProductos) */
+    this.total_items();
     return (
+       <Container>
       <ScrollView style={styles.container}>
        {/*  <StatusBar barStyle='dark-content' translucent backgroundColor="transparent" /> */}
         {this.state.producto.url_imagen != null ? this.ImagenPortada() : null}
@@ -195,15 +211,104 @@ export default class App extends React.Component {
           </View>
         </View>
       </ScrollView>
+       {this.footer()}
+       </Container>
     );
-
-
 
   }
 
-onClickAddCart =(item)=>{
-alert("agrego al carrito")
-}
+  footer = () => {
+    const foot = (
+      <Footer>
+        <FooterTab style={{backgroundColor: Colores.primario}}>
+          <Button
+            vertical
+            active
+            style={{backgroundColor: Colores.assent}}>
+            <Icon2 name={'store'} size={25} color={Colores.negro} />
+            <Text>Sucursal</Text>
+          </Button>
+
+          <Button
+            vertical
+            //active
+            badge
+            style={{backgroundColor: Colores.primario}}
+            onPress={() => this.onPressCarrito()}>
+            <Badge style={{backgroundColor:Colores.secundario2}}><Text style={{color:Colores.blanco}}>{this.state.total_carrito}</Text></Badge>
+            <Icon name={'cart'} size={25} color={Colores.negro}/>
+            <Text style={{color: Colores.negro}}>Carrito</Text>
+          </Button>
+
+          {/* categorias */}
+           <Button
+            vertical
+            onPress={()=> this.onPressCategorias()}
+            >
+            <Icon3 name={'category'} size={25} color={Colores.negro} />
+            <Text>Categorias</Text>
+          </Button>
+
+
+          {/*bton de  perfil category */}
+          <Button vertical onPress={() => this.onPressBuscador()}>
+            <Icon name={'ios-person'} size={30} color={Colores.negro} />
+            <Text>Perfil</Text>
+          </Button>
+        </FooterTab>
+      </Footer>
+    );
+/*  icon3 category */
+    return foot;
+  };
+
+  /* presionadores */
+  
+  /*  al presionar el boton buscador */
+  onPressBuscador = () => {
+    this.props.navigation.navigate('Buscador', {sucursal: this.state.sucursal});
+  };
+  onPressSucursal = () => {
+    this.props.navigation.navigate('DetalleSucursal', {
+      sucursal: this.state.sucursal,
+    });
+  };
+  onPressCarrito = () => {
+    this.props.navigation.navigate('Carrito', {sucursal: this.state.sucursal});
+  };
+   onPressCategorias = () => {
+    this.props.navigation.navigate('Categorias', {sucursal: this.state.sucursal, categorias: this.state.categorias});
+  };
+
+
+  /* total  de articulo del carrito */
+  
+  total_items = () => {
+    return new Promise(async (resolver, reject) => {
+      try {
+        let total_car = await AsyncStorage.getItem('carrito').then(
+          (datacarrito) => {
+            //console.log(JSON.parse(datacarrito));
+            if (datacarrito !== null) {
+              const cart = JSON.parse(datacarrito);
+              let cantidad_total = 0;
+              cart.forEach((element) => {
+                cantidad_total = cantidad_total + element.cantidad;
+              });
+
+              //console.log(cart.length)
+              this.setState({
+                total_carrito: cantidad_total,
+              });
+            } else {
+              //return 0;
+            }
+          },
+        );
+        resolver(total_car);
+      } catch (error) {}
+    });
+  };
 
 }
 function Format_moneda(num) {
