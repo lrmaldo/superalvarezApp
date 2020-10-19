@@ -78,7 +78,11 @@ export default class App extends React.Component {
     };
     /* cargar datos */
     this.GetData(this.page);
+    /* estado */
+      //this.total_items();
   }
+
+  
 
   /* obtener datos de la sucursal */
   GetData = (page) => {
@@ -175,6 +179,9 @@ export default class App extends React.Component {
       </View>
     </TouchableOpacity>
   );
+
+ 
+
 
   /* al presionar en el recipiente  */
 
@@ -309,7 +316,11 @@ export default class App extends React.Component {
   };
 
   render() {
-    this.total_items();
+ 
+   this.total_items()
+ 
+   
+ 
     // console.log(this.state.total_carrito);
     if (this.state.refreshing) {
       return (

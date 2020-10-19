@@ -167,7 +167,7 @@ indicator = () => {
         <FooterTab style={{backgroundColor: Colors.primario}}>
           <Button
             vertical
-          
+              onPress={() => this.onPressSucursal()}
             style={{backgroundColor: Colors.primario}}>
             <Icon2 name={'store'} size={25} color={Colors.negro} />
             <Text>Sucursal</Text>
@@ -269,7 +269,7 @@ onPressRecipiente = (item) => {
     this.props.navigation.navigate('Buscador', {sucursal: this.state.sucursal});
   };
   onPressSucursal = () => {
-    this.props.navigation.navigate('DetalleSucursal', {
+    this.props.navigation.navigate('Sucursal', {
       sucursal: this.state.sucursal,
     });
   };

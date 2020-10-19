@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   categoriesPhoto: {
     width: '100%',
-    height: 220,
+    height: 230,
     borderRadius: 20,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
