@@ -191,8 +191,9 @@ const HomeNavigator = createStackNavigator({
 
    'Misdirecciones':{
      screen: Misdirecciones,
-    navigationOptions: {
+      navigationOptions: {
       headerTitleAlign: 'center',
+      title:"Mi dirección",
       headerTitleStyle: {
         fontWeight: 'bold',
       },

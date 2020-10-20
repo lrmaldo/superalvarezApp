@@ -3,7 +3,7 @@ import Colors from '../Colors';
 
 const styles = StyleSheet.create({
 card:{
-    margin:10,
+    marginTop:10,
     padding: 10,
     marginLeft:10,
     marginRight:10,
@@ -24,7 +24,34 @@ text_item:{
  marginLeft:10,
  color:'gray',
  fontSize:20,
-}
+},
+ button:{
+     width:'80%',
+      margin:25,
+      height: 46,
+      backgroundColor: Colors.secundario2,
+      borderColor: '#f9aa34',
+      borderWidth: 1,
+      borderRadius: 8,
+      marginBottom: 10,
+      alignSelf: 'center',
+      justifyContent: 'center'
+    },
+
+alineacion_centro:{
+    alignItems: 'center',
+    alignSelf:'center',
+    justifyContent: 'center',
+},
+text_titulo:{
+    textAlign:'center',
+ 
+ color:'gray',
+ fontSize:20,
+},
+color_icon:{
+color:Colors.secundario2
+},
 });
 
 export default styles;

@@ -19,7 +19,7 @@ export default class Categorias extends Component {
     this.state = {
       categorias: this.props.navigation.getParam('categorias'),
       sucursal: this.props.navigation.getParam('sucursal'),
-     
+      
     }
     }
 

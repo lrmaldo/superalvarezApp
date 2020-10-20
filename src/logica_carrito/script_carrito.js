@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Alert,
 }from 'react-native';
 
-
+import { Toast} from 'native-base';
 //import { useNavigation, useNavigationParam, } from 'react-navigation-hooks'
 
  
@@ -71,21 +71,16 @@ export function OnClickAddCarrito(data){
         alert(err)
       })
 
-  const Alerta = () =>
-    Alert.alert(
-      "",
-      "Producto Agregado",
-      [
-      
-        {
-          text: "Seguir agregando",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-       
-      ],
-      { cancelable: false }
-    );
+  const Alerta = () => {
+ Toast.show({
+                text: 'Producto agregado',
+                buttonText: "Ok",
+                duration: 3000,
+                 
+              });
+  }
+  
+    
 
 
   
@@ -150,21 +145,15 @@ export function  OnClickCarritoItem(data, cant) {
         alert(err)
       })
 
-  const Alerta = () =>
-    Alert.alert(
-      "",
-      "Producto Agregado",
-      [
-      
-        {
-          text: "Seguir agregando",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-       
-      ],
-      { cancelable: true }
-    );
+ const Alerta = () => {
+ Toast.show({
+                text: 'Producto agregado',
+                buttonText: "Ok",
+                duration: 3000,
+                 
+              });
+  }
+    
   
 }
 

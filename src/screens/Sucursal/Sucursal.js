@@ -17,7 +17,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 /* import styles from './styles'; */
-import {SearchBar, } from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 
 /* carga de  imagen rapido */
 
@@ -30,7 +30,15 @@ import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import Icon3 from 'react-native-vector-icons/MaterialIcons';
 
 /* native base */
-import {Container, Content, Footer, FooterTab, Button, Badge} from 'native-base';
+import {
+  Container,
+  Content,
+  Footer,
+  FooterTab,
+  Button,
+  Badge,
+  Root,
+} from 'native-base';
 
 /* carrusel */
 //swiper
@@ -44,6 +52,8 @@ import Colors from '../Colors';
 import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
 
 export default class App extends React.Component {
+  _isMounted = false;
+
   static navigationOptions = ({navigation}) => {
     return {
       headerTransparent: 'true',
@@ -79,10 +89,8 @@ export default class App extends React.Component {
     /* cargar datos */
     this.GetData(this.page);
     /* estado */
-      //this.total_items();
+    //this.total_items();
   }
-
-  
 
   /* obtener datos de la sucursal */
   GetData = (page) => {
@@ -162,7 +170,7 @@ export default class App extends React.Component {
           onPress={() => OnClickAddCarrito(item)}
           style={{
             width: width / 2 - 40,
-            backgroundColor: Colors.primario,
+            backgroundColor: Colors.secundario2,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
@@ -170,23 +178,24 @@ export default class App extends React.Component {
             padding: 3,
             margin: 5,
           }}>
-          <Text style={{fontSize: 12, color: 'black', fontWeight: 'bold'}}>
+          <Text style={{fontSize: 12, color: Colors.blanco, fontWeight: 'bold'}}>
             Agregar carrito
           </Text>
           <View style={{width: 12}} />
-          <Icon name="ios-add-circle" size={15} color={'black'} />
+          <Icon name="ios-add-circle" size={15} color={'#FFF'} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
 
- 
-
-
   /* al presionar en el recipiente  */
 
   onPressRecipiente = (item) => {
-    this.props.navigation.navigate('DetalleProducto', {producto: item, sucursal: this.state.sucursal,  categorias: this.state.dataCategorias});
+    this.props.navigation.navigate('DetalleProducto', {
+      producto: item,
+      sucursal: this.state.sucursal,
+      categorias: this.state.dataCategorias,
+    });
     //alert('hola presionaste');
   };
 
@@ -202,13 +211,16 @@ export default class App extends React.Component {
   onPressCarrito = () => {
     this.props.navigation.navigate('Carrito', {sucursal: this.state.sucursal});
   };
-   onPressCategorias = () => {
-    this.props.navigation.navigate('Categorias', {sucursal: this.state.sucursal, categorias: this.state.dataCategorias});
+  onPressCategorias = () => {
+    this.props.navigation.navigate('Categorias', {
+      sucursal: this.state.sucursal,
+      categorias: this.state.dataCategorias,
+    });
   };
 
   onPressPerfil = () => {
     this.props.navigation.navigate('Perfil');
-  }
+  };
 
   banners = () => {
     return (
@@ -216,7 +228,7 @@ export default class App extends React.Component {
         <View style={styles.carousel}>
           <Swiper
             style={{height: width / 0.99}}
-            key={this.state.dataBanners.length}
+            key={this.state.dataBanners}
             showsButtons={false}
             autoplay={true}
             autoplayTimeout={4}>
@@ -320,11 +332,8 @@ export default class App extends React.Component {
   };
 
   render() {
- 
-   this.total_items()
- 
-   
- 
+    this.total_items();
+
     // console.log(this.state.total_carrito);
     if (this.state.refreshing) {
       return (
@@ -336,61 +345,62 @@ export default class App extends React.Component {
       );
     }
     return (
-      <Container>
-        <ScrollView
-          style={styles.container}
-          contentInsetAdjustmentBehavior="automatic"
-          refreshControl={
-            <RefreshControl
-              //refresh control used for the Pull to Refresh
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh.bind(this)}
-              colors={['#ef4b42', '#fff001', '#0000ff']}
-            />
-          }>
-          {this.state.dataBanners.length == 0 ? (
-            <View style={{marginTop: 35}} />
-          ) : (
-            this.banners()
-          )}
-          <SafeAreaView style={styles.infoRecipeContainer}>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: 'transparent',
-                  borderBottomColor: 'transparent',
-                  borderTopColor: 'transparent',
-                  width: '98%',
-                  flex: 1,
-                }}
-                onPress={() => this.onPressBuscador()}>
-                {this.renderBuscador()}
-              </TouchableOpacity>
-            
-            </View>
-            <View style={{margin: 10}} />
-            <View style={{flexDirection: 'row'}}>
-              {/* onpress al detalle sucursal */}
-              <TouchableOpacity onPress={() => this.onPressSucursal()}>
-                <Text style={styles.infoRecipeName}>
-                  {this.state.sucursal.name}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.infoContainer}>
-              <FlatList
-                numColumns={2}
-                data={this.state.dataProductos}
-                renderItem={this.renderProductos}
-                keyExtractor={(item) => item.id.toString()}
+      <Root>
+        <Container>
+          <ScrollView
+            style={styles.container}
+            contentInsetAdjustmentBehavior="automatic"
+            refreshControl={
+              <RefreshControl
+                //refresh control used for the Pull to Refresh
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh.bind(this)}
+                colors={[Colors.primario, Colors.secundario2, Colors.secundario]}
               />
-            </View>
-          </SafeAreaView>
-        </ScrollView>
+            }>
+            {this.state.dataBanners.length == 0 ? (
+              <View style={{marginTop: 35}} />
+            ) : (
+              this.banners()
+            )}
+            <SafeAreaView style={styles.infoRecipeContainer}>
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: 'transparent',
+                    borderBottomColor: 'transparent',
+                    borderTopColor: 'transparent',
+                    width: '98%',
+                    flex: 1,
+                  }}
+                  onPress={() => this.onPressBuscador()}>
+                  {this.renderBuscador()}
+                </TouchableOpacity>
+              </View>
+              <View style={{margin: 10}} />
+              <View style={{flexDirection: 'row'}}>
+                {/* onpress al detalle sucursal */}
+                <TouchableOpacity onPress={() => this.onPressSucursal()}>
+                  <Text style={styles.infoRecipeName}>
+                    {this.state.sucursal.name}
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
-        {this.footer()}
-      </Container>
+              <View style={styles.infoContainer}>
+                <FlatList
+                  numColumns={2}
+                  data={this.state.dataProductos}
+                  renderItem={this.renderProductos}
+                  keyExtractor={(item) => item.id.toString()}
+                />
+              </View>
+            </SafeAreaView>
+          </ScrollView>
+
+          {this.footer()}
+        </Container>
+      </Root>
     );
   }
 
@@ -398,10 +408,7 @@ export default class App extends React.Component {
     const foot = (
       <Footer>
         <FooterTab style={{backgroundColor: Colors.primario}}>
-          <Button
-            vertical
-            active
-            style={{backgroundColor: Colors.assent}}>
+          <Button vertical active style={{backgroundColor: Colors.assent}}>
             <Icon2 name={'store'} size={25} color={Colors.negro} />
             <Text>Sucursal</Text>
           </Button>
@@ -412,20 +419,20 @@ export default class App extends React.Component {
             badge
             style={{backgroundColor: Colors.primario}}
             onPress={() => this.onPressCarrito()}>
-            <Badge style={{backgroundColor:Colors.secundario2}}><Text style={{color:Colors.blanco}}>{this.state.total_carrito}</Text></Badge>
-            <Icon name={'cart'} size={25} color={Colors.negro}/>
+            <Badge style={{backgroundColor: Colors.secundario2}}>
+              <Text style={{color: Colors.blanco}}>
+                {this.state.total_carrito}
+              </Text>
+            </Badge>
+            <Icon name={'cart'} size={25} color={Colors.negro} />
             <Text style={{color: Colors.negro}}>Carrito</Text>
           </Button>
 
           {/* categorias */}
-           <Button
-            vertical
-            onPress={()=> this.onPressCategorias()}
-            >
+          <Button vertical onPress={() => this.onPressCategorias()}>
             <Icon3 name={'category'} size={25} color={Colors.negro} />
             <Text>Categorias</Text>
           </Button>
-
 
           {/*bton de  perfil category */}
           <Button vertical onPress={() => this.onPressPerfil()}>
@@ -435,7 +442,7 @@ export default class App extends React.Component {
         </FooterTab>
       </Footer>
     );
-/*  icon3 category */
+    /*  icon3 category */
     return foot;
   };
 }
