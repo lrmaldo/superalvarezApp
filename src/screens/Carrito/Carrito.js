@@ -11,6 +11,7 @@ import {
   StyleSheet,
   StatusBar,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import {Badge} from 'react-native-elements';
 
@@ -59,6 +60,7 @@ export default class App extends React.Component {
       carritovacio: null /* checar estado del carrito */,
       total_carrito: 0,/* total cantidad por precio del carrito */
       total_items: 0,
+      cargando:true,
     };
     /* cargar datos */
     /* this.GetData(); */
@@ -181,7 +183,7 @@ export default class App extends React.Component {
               {this.state.carritovacio == true ? (
                 <Text>Carrito Vacio</Text>
               ) : (
-                this.itemsCarrito()
+                this.state.cargando ? this.render_cargador(): this.itemsCarrito()
               )}
             </ScrollView>
            
@@ -193,7 +195,7 @@ export default class App extends React.Component {
       </Text>
     </TouchableOpacity>
         </View>
-        {this.footer()}
+       {/*  {this.footer()} */}
       </Container>
     );
   }
@@ -203,6 +205,12 @@ export default class App extends React.Component {
   onPressSucursal = () => {
     this.props.navigation.goBack();
   };
+  render_cargador =() =>{
+    const renderC =(<View style={[styles.container_cargador]}>
+          <ActivityIndicator size="large" color="#ffea0f" />
+        </View>)
+        return renderC;
+  }
 
   render_btn_checkout = () => {
 
@@ -253,6 +261,7 @@ export default class App extends React.Component {
   carrito = () => {
     return new Promise(async (resolve, reject) => {
       try {
+        this.setState({cargando:true});
         let items = await AsyncStorage.getItem('carrito')
           .then((cart) => {
             if (cart !== null) {
@@ -277,7 +286,7 @@ export default class App extends React.Component {
 
               this.setState({
                 carrito: carritodata,
-               
+                cargando:false,
                 total_items: cantidad_total,
               });
               if (carritodata.length > 0) {

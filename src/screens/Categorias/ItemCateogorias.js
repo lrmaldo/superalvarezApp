@@ -199,7 +199,7 @@ export default class ItemCateogorias extends Component {
           </Button>
 
           {/*bton de  perfil category */}
-          <Button vertical onPress={() => this.onPressBuscador()}>
+          <Button vertical onPress={() => this.onPressPerfil()}>
             <Icon name={'ios-person'} size={30} color={Colors.negro} />
             <Text>Perfil</Text>
           </Button>
@@ -262,8 +262,8 @@ export default class ItemCateogorias extends Component {
   };
 
   /*  al presionar el boton buscador */
-  onPressBuscador = () => {
-    this.props.navigation.navigate('Buscador', {sucursal: this.state.sucursal});
+  onPressPerfil = () => {
+    this.props.navigation.navigate('Perfil');
   };
   onPressSucursal = () => {
     this.props.navigation.navigate('Sucursal', {

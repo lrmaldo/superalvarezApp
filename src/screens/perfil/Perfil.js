@@ -31,7 +31,7 @@ export default class Perfil extends Component {
 
   render() {
     return (
-      <Container style={{marginTop:2,}}>
+      <Container style={{marginTop: 2}}>
         <Card style={styles.card}>
           <CardItem button onPress={() => this.onPressMisdirecciones()}>
             <Icon
@@ -85,5 +85,4 @@ export default class Perfil extends Component {
   };
 
   /* renderizacion  por partes */
-  
 }

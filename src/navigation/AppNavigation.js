@@ -31,12 +31,12 @@ import DetalleProducto from '../screens/DetalleProducto/DetalleProducto';
 /* vista de buscador */
 import Buscador from '../screens/buscador/buscador';
 /* vista detalle sucursal */
-import DetalleSucursal from  '../screens/DetalleSucursal/DetalleSucursal';
+import DetalleSucursal from '../screens/DetalleSucursal/DetalleSucursal';
 /* vista carrito */
-import Carrito  from '../screens/Carrito/Carrito';
+import Carrito from '../screens/Carrito/Carrito';
 
 /* vista categorias */
-import Categorias from '../screens/Categorias/Categorias'
+import Categorias from '../screens/Categorias/Categorias';
 /* item Categorias */
 import ItemCategorias from '../screens/Categorias/ItemCateogorias';
 
@@ -45,13 +45,12 @@ import Perfil from '../screens/perfil/Perfil';
 import Mispedidos from '../screens/perfil/Mispedidos';
 import Misdirecciones from '../screens/perfil/Misdirecciones';
 
- 
 const TabIconInicio = (props) => (
   <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
 );
 
 const HomeNavigator = createStackNavigator({
- " Inicio": {
+  ' Inicio': {
     screen: Inicio,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -65,7 +64,7 @@ const HomeNavigator = createStackNavigator({
   },
 
   /* vista sucursal */
-   'Sucursal': {
+  Sucursal: {
     screen: Sucursal,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -79,7 +78,7 @@ const HomeNavigator = createStackNavigator({
   },
 
   /* vista sucursal */
-   'DetalleProducto': {
+  DetalleProducto: {
     screen: DetalleProducto,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -91,9 +90,9 @@ const HomeNavigator = createStackNavigator({
       },
     },
   },
-  
+
   /* vista del buscador  */
-'Buscador': {
+  Buscador: {
     screen: Buscador,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -107,7 +106,7 @@ const HomeNavigator = createStackNavigator({
   },
   /* vista detalle sucursal */
 
-  'DetalleSucursal': {
+  DetalleSucursal: {
     screen: DetalleSucursal,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -120,7 +119,7 @@ const HomeNavigator = createStackNavigator({
     },
   },
 
-  'Carrito': {
+  Carrito: {
     screen: Carrito,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -132,8 +131,8 @@ const HomeNavigator = createStackNavigator({
       },
     },
   },
-  'Categorias':{
-     screen: Categorias,
+  Categorias: {
+    screen: Categorias,
     navigationOptions: {
       headerTitleAlign: 'center',
       headerTitleStyle: {
@@ -145,8 +144,8 @@ const HomeNavigator = createStackNavigator({
     },
   },
 
-  'ItemCategoria':{
-     screen: ItemCategorias,
+  ItemCategoria: {
+    screen: ItemCategorias,
     navigationOptions: {
       headerTitleAlign: 'center',
       headerTitleStyle: {
@@ -160,8 +159,8 @@ const HomeNavigator = createStackNavigator({
 
   /* vista perfil */
 
-   'Perfil':{
-     screen: Perfil,
+  Perfil: {
+    screen: Perfil,
     navigationOptions: {
       headerTitleAlign: 'center',
       headerTitleStyle: {
@@ -174,8 +173,8 @@ const HomeNavigator = createStackNavigator({
   },
 
   /* mis pedidos */
-   'Mispedidos':{
-     screen: Mispedidos,
+  Mispedidos: {
+    screen: Mispedidos,
     navigationOptions: {
       headerTitleAlign: 'center',
       headerTitleStyle: {
@@ -189,11 +188,11 @@ const HomeNavigator = createStackNavigator({
 
   /* mis direcciones */
 
-   'Misdirecciones':{
-     screen: Misdirecciones,
-      navigationOptions: {
+  Misdirecciones: {
+    screen: Misdirecciones,
+    navigationOptions: {
       headerTitleAlign: 'center',
-      title:"Mi dirección",
+      title: 'Mi dirección',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
@@ -202,7 +201,6 @@ const HomeNavigator = createStackNavigator({
       },
     },
   },
-
 });
 
 /* const BottonNavegation = createBottomTabNavigator(
@@ -228,15 +226,14 @@ const HomeNavigator = createStackNavigator({
     },
   },
 ); */
-const stackNavigator =  createSwitchNavigator(
+const stackNavigator = createSwitchNavigator(
   {
-    App:HomeNavigator,
+    App: HomeNavigator,
   },
   {
-    initialRouteName:'App'
-  }
-)
-
+    initialRouteName: 'App',
+  },
+);
 
 //export default createAppContainer(BottonNavegation);
 export default createAppContainer(stackNavigator);

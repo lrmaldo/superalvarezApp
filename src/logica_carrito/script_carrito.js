@@ -1,167 +1,121 @@
-
 import AsyncStorage from '@react-native-community/async-storage';
-import {Alert,
-}from 'react-native';
+import {Alert} from 'react-native';
 
-import { Toast} from 'native-base';
+import {Toast} from 'native-base';
 //import { useNavigation, useNavigationParam, } from 'react-navigation-hooks'
 
- 
-
-
-export function OnClickAddCarrito(data){
+export function OnClickAddCarrito(data) {
   //const { navigate } = useNavigation();
 
-     //AsyncStorage.removeItem('carrito');
- 
- const itemCarrito = {
-     producto:data,
-     cantidad: 1,
-     precio:data.precio
- }
+  //AsyncStorage.removeItem('carrito');
 
-  AsyncStorage.getItem('carrito').then((datacarrito) => {
-          console.log(JSON.parse(datacarrito));
+  const itemCarrito = {
+    producto: data,
+    cantidad: 1,
+    precio: data.precio,
+  };
+
+  AsyncStorage.getItem('carrito')
+    .then((datacarrito) => {
+      console.log(JSON.parse(datacarrito));
       if (datacarrito !== null) {
-          console.log('carrito no esta vacio')
-          const cart = JSON.parse(datacarrito);
+        console.log('carrito no esta vacio');
+        const cart = JSON.parse(datacarrito);
 
-      // const sin_duplicacion = []; 
-       /* al presionar el boton agrega más elementos en cantidad  */
-       cart.forEach(element => {
-           if(element.producto.id==data.id){
-               element.cantidad = element.cantidad +1;
-               console.log(element)
-           }
-        
-       });
-       /* si excite el producto */
-         const exite = cart.filter((item)=>{
-              return item.producto.id == data.id ;  
-              
-          });
-          if(exite.length > 0){
-
-             /*  Alert.alert("Ya agregaste este producto",
-              'se agrego cantidad, ¿Deseas ir al carrito? ',); */
-              Alerta();
-
-
-          }else{
-            Alerta();
-              cart.push(itemCarrito);
-
+        // const sin_duplicacion = [];
+        /* al presionar el boton agrega más elementos en cantidad  */
+        cart.forEach((element) => {
+          if (element.producto.id == data.id) {
+            element.cantidad = element.cantidad + 1;
+            console.log(element);
           }
-         
-     AsyncStorage.setItem('carrito', JSON.stringify(cart));
+        });
+        /* si excite el producto */
+        const exite = cart.filter((item) => {
+          return item.producto.id == data.id;
+        });
+        if (exite.length > 0) {
+          /*  Alert.alert("Ya agregaste este producto",
+              'se agrego cantidad, ¿Deseas ir al carrito? ',); */
+          Alerta();
+        } else {
+          Alerta();
+          cart.push(itemCarrito);
+        }
 
-       
-
-
-
-      }else{
-        const cart = []
-        cart.push(itemCarrito)
         AsyncStorage.setItem('carrito', JSON.stringify(cart));
-       Alerta()
-
+      } else {
+        const cart = [];
+        cart.push(itemCarrito);
+        AsyncStorage.setItem('carrito', JSON.stringify(cart));
+        Alerta();
       }
-  })
-   .catch((err) => {
-        alert(err)
-      })
+    })
+    .catch((err) => {
+      alert(err);
+    });
 
   const Alerta = () => {
- Toast.show({
-                text: 'Producto agregado',
-                buttonText: "Ok",
-                duration: 3000,
-                 
-              });
-  }
-  
-    
-
-
-  
-
+    Toast.show({
+      text: 'Producto agregado',
+      buttonText: 'Ok',
+      duration: 3000,
+    });
+  };
 }
 
-export function  OnClickCarritoItem(data, cant) {
+export function OnClickCarritoItem(data, cant) {
   const itemCarrito = {
-     producto:data,
-     cantidad: cant,
-     precio:data.precio
- }
+    producto: data,
+    cantidad: cant,
+    precio: data.precio,
+  };
 
-  AsyncStorage.getItem('carrito').then((datacarrito) => {
-          console.log(JSON.parse(datacarrito));
+  AsyncStorage.getItem('carrito')
+    .then((datacarrito) => {
+      console.log(JSON.parse(datacarrito));
       if (datacarrito !== null) {
-          console.log('carrito no esta vacio')
-          const cart = JSON.parse(datacarrito);
+        console.log('carrito no esta vacio');
+        const cart = JSON.parse(datacarrito);
 
-      // const sin_duplicacion = []; 
-       /* al presionar el boton agrega más elementos en cantidad  */
-       cart.forEach(element => {
-           if(element.producto.id==data.id){
-               element.cantidad = cant;
-               console.log(element)
-           }
-        
-       });
-       /* si excite el producto */
-         const exite = cart.filter((item)=>{
-              return item.producto.id == data.id ;  
-              
-          });
-          if(exite.length > 0){
-
-             /*  Alert.alert("Ya agregaste este producto",
-              'se agrego cantidad, ¿Deseas ir al carrito? ',); */
-              Alerta();
-
-
-          }else{
-            Alerta();
-              cart.push(itemCarrito);
-
+        // const sin_duplicacion = [];
+        /* al presionar el boton agrega más elementos en cantidad  */
+        cart.forEach((element) => {
+          if (element.producto.id == data.id) {
+            element.cantidad = cant;
+            console.log(element);
           }
-         
-     AsyncStorage.setItem('carrito', JSON.stringify(cart));
+        });
+        /* si excite el producto */
+        const exite = cart.filter((item) => {
+          return item.producto.id == data.id;
+        });
+        if (exite.length > 0) {
+          /*  Alert.alert("Ya agregaste este producto",
+              'se agrego cantidad, ¿Deseas ir al carrito? ',); */
+          Alerta();
+        } else {
+          Alerta();
+          cart.push(itemCarrito);
+        }
 
-       
-
-
-
-      }else{
-        const cart = []
-        cart.push(itemCarrito)
         AsyncStorage.setItem('carrito', JSON.stringify(cart));
-       Alerta()
-
+      } else {
+        const cart = [];
+        cart.push(itemCarrito);
+        AsyncStorage.setItem('carrito', JSON.stringify(cart));
+        Alerta();
       }
-  })
-   .catch((err) => {
-        alert(err)
-      })
+    })
+    .catch((err) => {
+      alert(err);
+    });
 
- const Alerta = () => {
- Toast.show({
-                text: 'Producto agregado',
-                buttonText: "Ok",
-                duration: 3000,
-                 
-              });
-  }
-    
-  
+  const Alerta = () => {
+    Toast.show({
+      text: 'Producto agregado',
+      buttonText: 'Ok',
+      duration: 3000,
+    });
+  };
 }
-
-
-
-
-
-
-
-  
-

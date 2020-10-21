@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {
   Container,
@@ -219,4 +219,4 @@ if (this.state.nombre && this.state.telefono && this.state.direccion && this.sta
 }
 
 
-/* falta poner la funcion para guardar en la api desde la funcion save */
+/* falta poner la funcion para guardar en la api desde la funcion save */ 

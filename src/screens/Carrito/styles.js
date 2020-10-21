@@ -105,6 +105,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         color: Colors.negro
+    },
+    container_cargador:{
+        justifyContent:'center',
+        flex:1,
+        
     }
 
 });

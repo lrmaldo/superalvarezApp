@@ -59,7 +59,18 @@ const styles = StyleSheet.create({
     fontSize:12,
   
     //marginBottom: 15 
-  }
+  },
+   horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+  },
+  container1: {
+    flex: 1,
+    justifyContent: 'center',
+    
+    
+  },
 });
 
 

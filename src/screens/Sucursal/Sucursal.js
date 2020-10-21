@@ -16,8 +16,7 @@ import {
   RefreshControl,
   SafeAreaView,
 } from 'react-native';
-/* import styles from './styles'; */
-import {SearchBar} from 'react-native-elements';
+
 
 /* carga de  imagen rapido */
 
@@ -102,7 +101,7 @@ export default class App extends React.Component {
     //const url = `http://test.sattlink.com/api/sucursal/${this.state.id_sucursal[0].id?page=${page}`;
     //const url =`http://markettux.sattlink.com/api/recursos?page=21`;
 
-    this.setState({loading: true});
+     this.setState({loading: true,refreshing: true});
     return fetch(url)
       .then((response) => response.json())
       .then((response) => {
@@ -330,9 +329,11 @@ export default class App extends React.Component {
       } catch (error) {}
     });
   };
-
+async componentDidMount():Promise<void> {
+   await this.total_items();
+}
+compo
   render() {
-    this.total_items();
 
     // console.log(this.state.total_carrito);
     if (this.state.refreshing) {
