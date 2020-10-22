@@ -2,10 +2,24 @@
 Repositorio del proyecto de la App de Android y iOS  de Super Alvarez
 
 
-#primer commit 22 de Sep 2020 
+# primer commit 22 de Sep 2020 
 tiempos de COVID 
 
 
-#construccion de vistas
+# construccion de vistas
 - Inicio
 - Sucursal
+- buscador
+- Carrito
+- Checkout
+- DetalleProducto
+- DetalleSucursal
+- Mispedidos
+- Perfil
+- - midirecion
+- - mispedidos 
+
+
+# Carrito
+
+Falta poner la logica del  boton para finalizar el checkout de la compra 

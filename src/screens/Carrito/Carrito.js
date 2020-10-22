@@ -73,7 +73,7 @@ export default class App extends React.Component {
   itemsCarrito = () => {
     //console.log(this.state.total_items);
     var mostrar = this.state.carrito.map((item, i) => {
-      console.log(item.producto.url_imagen);
+     // console.log(item.producto.url_imagen);
       return (
         <View style={styles.item_carro}>
           <FastImage
@@ -189,11 +189,19 @@ export default class App extends React.Component {
            
           </View>
          {this.render_total()}
-           <TouchableOpacity style={styles.btn_check}>
-    <Text style={styles.btn_text}>
+         <Button
+            horizontal
+            disabled
+            onPress={() => this.onPressSucursal()}
+            style={styles.btn_check}>
+            <Text style={styles.btn_text2}>Terminar compra</Text>
+            <Icon2 name={'arrow-right'} size={20} color={Colors.blanco} />
+          </Button>
+         {/*   <TouchableOpacity style={styles.btn_check}>
+             <Text style={styles.btn_text}>
                 Terminar compra
-      </Text>
-    </TouchableOpacity>
+           </Text>
+           </TouchableOpacity> */}
         </View>
        {/*  {this.footer()} */}
       </Container>

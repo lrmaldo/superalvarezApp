@@ -148,6 +148,7 @@ export default class App extends React.Component {
       //AsyncStorage.setItem('cart',JSON.stringify(dataCar));
     }
   };
+  
 
   render() {
     //console.log(this.state.dataBanners[0]);

@@ -122,8 +122,7 @@ export default class ItemCateogorias extends Component {
 
   /* render */
   render() {
-    this.total_items();
-
+    
     //console.log("datacategarias"+this.getCategoria(this.state.categoria.id))
     return (
       <Root>
@@ -283,9 +282,7 @@ export default class ItemCateogorias extends Component {
   /* total de carrito */
 
   total_items = () => {
-    return new Promise(async (resolver, reject) => {
-      try {
-        let total_car = await AsyncStorage.getItem('carrito').then(
+    let total_car =  AsyncStorage.getItem('carrito').then(
           (datacarrito) => {
             //console.log(JSON.parse(datacarrito));
             if (datacarrito !== null) {
@@ -304,10 +301,11 @@ export default class ItemCateogorias extends Component {
             }
           },
         );
-        resolver(total_car);
-      } catch (error) {}
-    });
+      
   };
+componentWillUpdate(){
+   this.total_items();
+}
 }
 function Format_moneda(num) {
   return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');

@@ -94,17 +94,26 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
     },
     btn_check:{
-    backgroundColor: Colors.assent,
-    width: '80%',
+    justifyContent: 'center',
+    backgroundColor: Colors.secundario2,
+    width: '95%',
     alignItems: 'center',
-    padding: 2,
+    padding: 0,
     borderRadius: 5,
-    marginBottom: 5
+    marginBottom: 15,
+    marginLeft:10,
+    marginRight: 10,
     },
     btn_text:{
         fontSize: 24,
         fontWeight: "bold",
         color: Colors.negro
+    },
+    btn_text2:{
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Colors.blanco,
+        marginRight: 10,
     },
     container_cargador:{
         justifyContent:'center',

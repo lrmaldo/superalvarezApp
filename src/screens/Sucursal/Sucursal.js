@@ -303,10 +303,8 @@ export default class App extends React.Component {
     //this.GetData();
   }
 
-  total_items = () => {
-    return new Promise(async (resolver, reject) => {
-      try {
-        let total_car = await AsyncStorage.getItem('carrito').then(
+  total_items =  () => {
+    let total_car =  AsyncStorage.getItem('carrito').then(
           (datacarrito) => {
             //console.log(JSON.parse(datacarrito));
             if (datacarrito !== null) {
@@ -325,14 +323,12 @@ export default class App extends React.Component {
             }
           },
         );
-        resolver(total_car);
-      } catch (error) {}
-    });
+      
   };
-async componentDidMount():Promise<void> {
-   await this.total_items();
+componentWillUpdate(){
+   this.total_items();
 }
-compo
+
   render() {
 
     // console.log(this.state.total_carrito);
