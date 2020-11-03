@@ -191,10 +191,10 @@ export default class App extends React.Component {
          {this.render_total()}
          <Button
             horizontal
-            disabled
-            onPress={() => this.onPressSucursal()}
+            /* disabled */
+            onPress={()=>this.onPressCheckout()}
             style={styles.btn_check}>
-            <Text style={styles.btn_text2}>Terminar compra</Text>
+            <Text style={styles.btn_text2}>Terminar pedido</Text>
             <Icon2 name={'arrow-right'} size={20} color={Colors.blanco} />
           </Button>
          {/*   <TouchableOpacity style={styles.btn_check}>
@@ -213,6 +213,15 @@ export default class App extends React.Component {
   onPressSucursal = () => {
     this.props.navigation.goBack();
   };
+
+  onPressCheckout = () => {
+    if(this.total()>0){
+    this.props.navigation.navigate('Checkout')
+
+    }else{
+      alert('no hay pedidos en el carrito')
+    }
+  };
   render_cargador =() =>{
     const renderC =(<View style={[styles.container_cargador]}>
           <ActivityIndicator size="large" color="#ffea0f" />
@@ -220,10 +229,11 @@ export default class App extends React.Component {
         return renderC;
   }
 
+
   render_btn_checkout = () => {
 
     const btn_check = (
-    <TouchableOpacity style={styles.btn_check}>
+    <TouchableOpacity  style={styles.btn_check}>
     <Text style={styles.btn_text}>
                 Terminar compra
       </Text>

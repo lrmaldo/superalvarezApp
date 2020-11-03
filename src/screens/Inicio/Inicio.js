@@ -149,7 +149,7 @@ onRefresh() {
             />
           }>
           <View>
-            <StatusBar barStyle="light-content" backgroundColor="#c7b800" />
+            <StatusBar barStyle="dark-content" backgroundColor="#c7b800" />
             <FlatList
               data={this.state.dataSucursales}
               renderItem={this.renderSucursal}

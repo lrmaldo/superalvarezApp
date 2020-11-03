@@ -45,6 +45,9 @@ import Perfil from '../screens/perfil/Perfil';
 import Mispedidos from '../screens/perfil/Mispedidos';
 import Misdirecciones from '../screens/perfil/Misdirecciones';
 
+/* Checkout */
+import Checkout from '../screens/Checkout/Checkout';
+
 const TabIconInicio = (props) => (
   <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
 );
@@ -64,7 +67,7 @@ const HomeNavigator = createStackNavigator({
   },
 
   /* vista sucursal */
-  Sucursal: {
+  'Sucursal': {
     screen: Sucursal,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -78,7 +81,7 @@ const HomeNavigator = createStackNavigator({
   },
 
   /* vista sucursal */
-  DetalleProducto: {
+ ' DetalleProducto': {
     screen: DetalleProducto,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -92,7 +95,7 @@ const HomeNavigator = createStackNavigator({
   },
 
   /* vista del buscador  */
-  Buscador: {
+  'Buscador': {
     screen: Buscador,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -106,7 +109,7 @@ const HomeNavigator = createStackNavigator({
   },
   /* vista detalle sucursal */
 
-  DetalleSucursal: {
+  'DetalleSucursal': {
     screen: DetalleSucursal,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -119,7 +122,7 @@ const HomeNavigator = createStackNavigator({
     },
   },
 
-  Carrito: {
+  'Carrito': {
     screen: Carrito,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -131,7 +134,7 @@ const HomeNavigator = createStackNavigator({
       },
     },
   },
-  Categorias: {
+  'Categorias': {
     screen: Categorias,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -144,7 +147,7 @@ const HomeNavigator = createStackNavigator({
     },
   },
 
-  ItemCategoria: {
+  'ItemCategoria': {
     screen: ItemCategorias,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -159,7 +162,7 @@ const HomeNavigator = createStackNavigator({
 
   /* vista perfil */
 
-  Perfil: {
+  'Perfil': {
     screen: Perfil,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -173,7 +176,7 @@ const HomeNavigator = createStackNavigator({
   },
 
   /* mis pedidos */
-  Mispedidos: {
+  'Mispedidos': {
     screen: Mispedidos,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -188,7 +191,7 @@ const HomeNavigator = createStackNavigator({
 
   /* mis direcciones */
 
-  Misdirecciones: {
+  'Misdirecciones': {
     screen: Misdirecciones,
     navigationOptions: {
       headerTitleAlign: 'center',
@@ -201,6 +204,20 @@ const HomeNavigator = createStackNavigator({
       },
     },
   },
+  /* Checkout */
+
+    'Checkout': {
+    screen: Checkout,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      title: null,
+       headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+      
+    },
+  },
+
 });
 
 /* const BottonNavegation = createBottomTabNavigator(
