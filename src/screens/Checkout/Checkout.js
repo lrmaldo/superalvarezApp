@@ -5,6 +5,10 @@ import Steps from 'react-native-steps';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import ViewPager from '@react-native-community/viewpager';
 import Carrito  from '../Carrito/Carrito';
+import Colors from '../Colors';
+import Component_direccion from './Componentes/DireccionCheck';
+import Direccion from '../perfil/Misdirecciones';
+import styles from './styles';
 const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
 
 
@@ -14,24 +18,24 @@ const secondIndicatorConfigs = {
     currentStepIndicatorSize: 30,
     separatorStrokeWidth: 2,
     currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: '#fe7013',
+    stepStrokeCurrentColor: Colors.secundario2,
     stepStrokeWidth: 3,
     separatorStrokeFinishedWidth: 4,
-    stepStrokeFinishedColor: '#fe7013',
+    stepStrokeFinishedColor: Colors.secundario2,
     stepStrokeUnFinishedColor: '#aaaaaa',
-    separatorFinishedColor: '#fe7013',
+    separatorFinishedColor: Colors.secundario2,
     separatorUnFinishedColor: '#aaaaaa',
-    stepIndicatorFinishedColor: '#fe7013',
+    stepIndicatorFinishedColor: Colors.secundario2,
     stepIndicatorUnFinishedColor: '#ffffff',
     stepIndicatorCurrentColor: '#ffffff',
     stepIndicatorLabelFontSize: 13,
     currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: '#fe7013',
+    stepIndicatorLabelCurrentColor: Colors.secundario2,
     stepIndicatorLabelFinishedColor: '#ffffff',
     stepIndicatorLabelUnFinishedColor: '#aaaaaa',
     labelColor: '#999999',
     labelSize: 13,
-    currentStepLabelColor: '#fe7013',
+    currentStepLabelColor: Colors.secundario2,
 };
 
 
@@ -39,7 +43,7 @@ const secondIndicatorConfigs = {
 const getStepIndicatorIconConfig = ({position, stepStatus}) => {
     const iconConfig = {
         name: 'feed',
-        color: stepStatus === 'finished' ? '#ffffff' : '#fe7013',
+        color: stepStatus === 'finished' ? '#ffffff' : Colors.secundario2,
         size: 15
     };
     switch (position) {
@@ -126,7 +130,37 @@ export default class Checkout extends Component {
   }
 
 renderViewPagerPage = (data, index) => {
-        if(index==0){
+       switch (index) {
+        case 0: {
+            return(<Carrito/>)
+            break
+        }
+        case 1: {
+            return (  <View  key={index}>
+               <Direccion/>
+            </View>)
+            break
+        }
+        case 2: {
+        return (  <View  key={index}>
+                <Text> resumen</Text>
+            </View>)
+            break
+        }
+      
+        case 3: {
+          return (  <View  key={index}>
+                <Text> finalizar</Text>
+            </View>)
+            break
+        }
+        default: {
+            break
+        }
+    }
+       
+       
+       /*  if(index==0){
           return(<Carrito/>)
         }else{
 
@@ -135,26 +169,21 @@ renderViewPagerPage = (data, index) => {
                 <Text>{data}</Text>
             </View>
         )
-        }
+        } */
         
     };
 
     renderStepIndicator = params => (
         <MaterialIcon {...getStepIndicatorIconConfig(params)} />
     )
+
+    Render_resumen = () =>{
+    const render = <View></View>;
+
+    return render; 
+
+    }
+
+
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#ffffff'
-    },
-    stepIndicator: {
-        marginVertical: 50
-    },
-    page: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-});

@@ -23,6 +23,8 @@ import {
   FooterTab,
   Button,
   Badge,
+  Root,
+  Toast
 } from 'native-base';
 
 /* Colores */
@@ -38,7 +40,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import Icon3 from 'react-native-vector-icons/MaterialIcons';
 
-import {Root,Toast} from 'native-base';
+
 /* asyncstorage */
 import AsyncStorage from '@react-native-community/async-storage';
 

@@ -81,7 +81,7 @@ const HomeNavigator = createStackNavigator({
   },
 
   /* vista sucursal */
- ' DetalleProducto': {
+ 'DetalleProducto': {
     screen: DetalleProducto,
     navigationOptions: {
       headerTitleAlign: 'center',

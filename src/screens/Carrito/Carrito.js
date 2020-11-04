@@ -34,6 +34,8 @@ import {Container, Content, Footer, FooterTab, Button} from 'native-base';
 /* funcion */
 import {cambio, total_items} from '../../logica_carrito/script_carrito';
 
+
+
 const {width: viewportWidth} = Dimensions.get('window');
 const {width, height} = Dimensions.get('window');
 
@@ -171,12 +173,12 @@ export default class App extends React.Component {
     return (
       <Container>
         <View style={styles.container}>
-          <View style={{height: 20}} />
-          <Text
+          <View style={{height: -20}} />
+         {/*  <Text
             style={{fontSize: 32, fontWeight: 'bold', color: Colors.assent}}>
             Carrito
-          </Text>
-          <View style={{height: 10}} />
+          </Text> */}
+         {/*  <View style={{height: 10}} /> */}
 
           <View style={{flex: 1}}>
             <ScrollView style={{flex: 2}}>
