@@ -49,6 +49,7 @@ import Colors from '../Colors';
 
 /* funciones de carrito */
 import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
+/* import {guardarDatosSucursal} from '../../logica_carrito/datosSucursal'; */
 
 export default class App extends React.Component {
   _isMounted = false;
@@ -89,7 +90,10 @@ export default class App extends React.Component {
     this.GetData(this.page);
     /* estado */
     //this.total_items();
+   /*  guardarDatosSucursal(this.state.sucursal); */
   }
+
+  
 
   /* obtener datos de la sucursal */
   GetData = (page) => {

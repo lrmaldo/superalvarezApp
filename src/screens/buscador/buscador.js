@@ -223,7 +223,7 @@ export default class App extends React.Component {
   /* al presionar en el recipiente  */
 
   onPressRecipiente = (item) => {
-    this.props.navigation.navigate('DetalleProducto', {producto: item});
+    this.props.navigation.navigate('DetalleProducto', {producto: item,sucursal:this.state.sucursal});
     //alert('hola presionaste');
   };
 

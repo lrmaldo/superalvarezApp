@@ -270,7 +270,7 @@ export default class ItemCateogorias extends Component {
     });
   };
   onPressCarrito = () => {
-    this.props.navigation.navigate('Carrito', {sucursal: this.state.sucursal});
+    this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
   };
   onPressCategorias = () => {
     this.props.navigation.navigate('Categorias', {

@@ -191,14 +191,14 @@ export default class App extends React.Component {
            
           </View>
          {this.render_total()}
-         <Button
+        {/*  <Button
             horizontal
-            /* disabled */
+           
             onPress={()=>this.onPressCheckout()}
             style={styles.btn_check}>
             <Text style={styles.btn_text2}>Terminar pedido</Text>
             <Icon2 name={'arrow-right'} size={20} color={Colors.blanco} />
-          </Button>
+          </Button> */}
          {/*   <TouchableOpacity style={styles.btn_check}>
              <Text style={styles.btn_text}>
                 Terminar compra

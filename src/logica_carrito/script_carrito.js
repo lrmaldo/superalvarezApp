@@ -119,3 +119,24 @@ export function OnClickCarritoItem(data, cant) {
     });
   };
 }
+
+export const  totalCarrito = async ()=> {
+
+  try {
+    const total = await AsyncStorage.getItem('carrito')
+    .then((datacarrito) => {
+      console.log(JSON.parse(datacarrito));
+      if (datacarrito !== null) {
+        var total_items = 0;
+        const cart = JSON.parse(datacarrito);
+         cart.forEach(element => {
+                total_items = total_items + (element.cantidad * element.producto.precio );
+        
+          });
+          return parseFloat(total_items);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
