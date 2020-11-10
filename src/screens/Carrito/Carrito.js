@@ -244,39 +244,7 @@ export default class App extends React.Component {
     return btn_check;
   }
 
-  footer = () => {
-    const foot = (
-      <Footer>
-        <FooterTab style={{backgroundColor: Colors.primario}}>
-          <Button
-            vertical
-            onPress={() => this.onPressSucursal()}
-            style={{backgroundColor: Colors.primario}}>
-            <Icon2 name={'store'} size={25} color={Colors.negro} />
-            <Text>Sucursal</Text>
-          </Button>
-
-          <Button
-            vertical
-            active
-            style={{backgroundColor: Colors.assent}}>
-            <View style={{flexDirection: 'row'}}>
-              <Icon name={'cart'} size={30} color={Colors.negro} />
-            
-            </View>
-            <Text style={{color: Colors.negro}}>Carrito</Text>
-          </Button>
-          {/*bton de  perfil */}
-          <Button vertical onPress={() => this.onPressBuscador()}>
-            <Icon name={'ios-person'} size={30} color={Colors.negro} />
-            <Text>Perfil</Text>
-          </Button>
-        </FooterTab>
-      </Footer>
-    );
-    /*  icon3 category */
-    return foot;
-  };
+ 
 
   carrito = () => {
     return new Promise(async (resolve, reject) => {

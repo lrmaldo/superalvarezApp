@@ -212,7 +212,14 @@ export default class App extends React.Component {
     });
   };
   onPressCarrito = () => {
+
+      if(this.state.total_carrito>0){
+    
     this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
+
+    }else{
+      alert('No hay articulos en el carrito')
+    }
   };
   onPressCategorias = () => {
     this.props.navigation.navigate('Categorias', {

@@ -10,15 +10,23 @@ import Component_direccion from './Componentes/DireccionCheck';
 import Direccion from '../perfil/Misdirecciones';
 import styles from './styles';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
-import {Content, Card, CardItem, Body, Button, DatePicker} from 'native-base';
+import {
+  Content,
+  Card,
+  CardItem,
+  Body,
+  Button,
+  DatePicker,
+ } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+
+
 
 /* import {GetDatosSucursal} from '../../logica_carrito/datosSucursal'; */
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
 
- 
 const secondIndicatorConfigs = {
   stepIndicatorSize: 30,
   currentStepIndicatorSize: 30,
@@ -83,7 +91,7 @@ export default class Checkout extends Component {
     super(props);
     this.state = {
       currentPage: 0,
-      total_carrito: 0,
+      total_carrito: false,
       nombre: null,
       telefono: null,
       direccion: null,
@@ -93,26 +101,27 @@ export default class Checkout extends Component {
       datos_usuario: false,
       chosenDate: new Date(),
       visibleTime: null,
-      sucursal: this.props.navigation.getParam(
-        'sucursal',
-      ) 
+      sucursal: this.props.navigation.getParam('sucursal'),
     };
 
     this.viewPager = React.createRef();
     this.cargarDatos();
     this.fechaahora = new Date();
     this.setDate = this.setDate.bind(this);
-
-    //console.warn('datos guardados  sucursal '+ this.state.sucursal.direccion);
+    this.cantidad =  AsyncStorage.getItem('carrito').then((result) => {
+      const data  = JSON.parse(result);
+      return data;
+    }).catch((err) => {
+      
+    });;
   }
 
   setDate(newDate) {
     this.setState({chosenDate: newDate});
   }
-  onStepPress(num){
-  this.setState({currentPage: num});
-  this.viewPager.setPage(num)
- // this.renderViewPagerPage(num, num);
+  onStepPress(num) {
+    this.setState({currentPage: num});
+    this.viewPager.setPage(num);
   }
 
   render() {
@@ -124,21 +133,15 @@ export default class Checkout extends Component {
             renderStepIndicator={this.renderStepIndicator}
             configs={secondIndicatorConfigs}
             current={this.state.currentPage}
-            onPress={(number)=>{
+            onPress={(number) => {
               this.onStepPress(number);
             }}
-            labels={[
-              'Carrito',
-              'Dirección de entrega',
-              'Resumen',
-              /* 'Payment Method', */
-             /*  'Finalizar', */
-            ]}
+            labels={['Carrito', 'Dirección de entrega', 'Resumen']}
           />
         </View>
 
         <ViewPager
-         ref={ref => this.viewPager = ref}
+          ref={(ref) => (this.viewPager = ref)}
           style={{flex: 1}}
           initialPage={0}
           onPageSelected={(page) => {
@@ -160,9 +163,11 @@ export default class Checkout extends Component {
     }
   };
 
+
+
   total_items = () => {
     let total_car = AsyncStorage.getItem('carrito').then((datacarrito) => {
-      //console.log(JSON.parse(datacarrito));
+     
       if (datacarrito !== null) {
         const cart = JSON.parse(datacarrito);
         let cantidad_total = 0;
@@ -182,26 +187,37 @@ export default class Checkout extends Component {
   componentWillUpdate() {
     //this.total_items();
     //this.cargarDatos();
+    /* this._getValue().then((result) => {
+
+      if(result!== null){
+        const cart = JSON.parse(result);
+        if(cart.length>0){
+
+     this.setState({
+       total_carrito: true,
+     });      
+        }
+        this.setState({
+       total_carrito: false,
+     });
+
+      }else{
+      }
+    }).catch((err) => {
+    
+    }); */
+  }
+  componentWillUnmount() {
     console.log(this.state.datos_usuario);
   }
 
   renderViewPagerPage = (data, index) => {
-   
     switch (index) {
       case 0: {
         return (
           <View style={{marginBottom: 20}}>
             <Carrito />
-            <View>
-              {/*   <Button
-                horizontal
-               
-                onPress={() => this.onPressCheckout(data)}
-                style={styles.btn_check}>
-                <Text style={styles.btn_text2}>Terminar pedido</Text>
-                <Icon2 name={'arrow-right'} size={20} color={Colors.blanco} />
-              </Button> */}
-            </View>
+            <View></View>
           </View>
         );
         break;
@@ -219,14 +235,14 @@ export default class Checkout extends Component {
         break;
       }
 
-      case 3: {
+      /*  case 3: {
         return (
           <View key={index}>
             <Text> finalizar</Text>
           </View>
         );
         break;
-      }
+      } */
       default: {
         break;
       }
@@ -240,7 +256,7 @@ export default class Checkout extends Component {
   Render_resumen = () => {
     const render = (
       <Content padder>
-        <Card>
+        {/* <Card>
           <CardItem header bordered>
             <Text>Pedido</Text>
           </CardItem>
@@ -252,7 +268,7 @@ export default class Checkout extends Component {
           <CardItem footer bordered>
             <Text>Total: </Text>
           </CardItem>
-        </Card>
+        </Card> */}
         {this.Render_direcion_resumen()}
         {this.render_sucursal()}
       </Content>
@@ -263,6 +279,7 @@ export default class Checkout extends Component {
 
   Render_direcion_resumen = () => {
     const render = (
+       
       <Card>
         <CardItem header bordered>
           <Text style={styles.texto_header_checkout}>Día de entrega:</Text>
@@ -285,18 +302,22 @@ export default class Checkout extends Component {
               animationType={'fade'}
               androidMode={'default'}
               placeHolderText="Seleccionar fecha"
-              textStyle={{color: Colors.secundario2, fontSize:14}}
+              textStyle={{color: Colors.secundario2, fontSize: 14}}
               placeHolderTextStyle={{color: Colors.secundario2}}
               onDateChange={this.setDate}
               disabled={false}
+              datePickerTextColor={{color: Colors.secundario2}}
             />
             <Text style={styles.text_fecha}>
               Fecha de entrega: {this.state.chosenDate.toString().substr(4, 12)}
             </Text>
-            <Text style={styles.text_fecha1}>La hora de entrega sera en el transcurso del día.</Text>
+            <Text style={styles.text_fecha1}>
+              La hora de entrega sera en el transcurso del día que elijas
+            </Text>
           </Body>
         </CardItem>
       </Card>
+    
     );
     return render;
   };
@@ -331,25 +352,78 @@ export default class Checkout extends Component {
     const render = (
       <Card>
         <CardItem header bordered>
-          <Text style={styles.texto_header_checkout} >Sucursal que recibe tu pedido:</Text>
+          <Text style={styles.texto_header_checkout}>
+            Sucursal que recibe tu pedido:
+          </Text>
         </CardItem>
         <CardItem>
           <Body>
-          <Text style={styles.titulo_sucursal}>{this.state.sucursal.name}</Text>
-          <Text>Direccion: {this.state.sucursal.direccion}</Text>
-          <TouchableOpacity
-          onPress={()=>
-           Linking.openURL(
-            `tel://${this.state.sucursal.telefono}`,
-          ).catch((err) => console.log('Error:', err))
-          }>
-          <Text>Telefono: {this.state.sucursal.telefono}</Text>
-          </TouchableOpacity>
+            <Text style={styles.titulo_sucursal}>
+              {this.state.sucursal.name}
+            </Text>
+            <Text>Direccion: {this.state.sucursal.direccion}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL(
+                  `tel://${this.state.sucursal.telefono}`,
+                ).catch((err) => console.log('Error:', err))
+              }>
+              <Text>Telefono: {this.state.sucursal.telefono}</Text>
+            </TouchableOpacity>
           </Body>
         </CardItem>
+
+        {this.render_button_finalizar()}
       </Card>
     );
 
     return render;
   };
+
+
+
+
+
+onClickTerminar = () =>{
+
+console.log(cant())
+  if(cant()>0){
+    if(this.state.datos_usuario){
+    alert('vista finalizar')
+
+    }else{
+      alert('falta llenar los datos de envio');
+    }
+    }
+   else{
+     //console.log(this._getValue());
+     alert('no vista')
+     
+     }
+
 }
+
+  render_button_finalizar = () =>{
+
+
+    const renderButon =  <Button
+            horizontal
+            
+            onPress={()=>this.onClickTerminar()}
+            style={styles.btn_check}>
+            <Text style={styles.btn_text2}>Terminar pedido</Text>
+            <Icon2 name={'arrow-right'} size={20} color={Colors.blanco} />
+          </Button>;
+
+
+    return  renderButon;
+  }
+}
+
+
+let cant = async function _getValue() {
+    var value = await AsyncStorage.getItem('carrito');
+  var json = await JSON.parse(value);
+  console.log(json.length);
+  return json.length;
+} 
