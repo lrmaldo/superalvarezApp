@@ -43,6 +43,9 @@ const styles = StyleSheet.create({
     texto_header_checkout:{
         fontSize:18,
         fontWeight:'bold',
+    },
+    textArea:{
+        width:'100%',
     }
 
     /* view_resumen */

@@ -17,12 +17,10 @@ import {
   Body,
   Button,
   DatePicker,
- } from 'native-base';
+  Textarea,
+} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 
-
-
-/* import {GetDatosSucursal} from '../../logica_carrito/datosSucursal'; */
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
@@ -91,13 +89,15 @@ export default class Checkout extends Component {
     super(props);
     this.state = {
       currentPage: 0,
-      total_carrito: false,
+      total_carrito: 0,
+      data_carrito:[],
       nombre: null,
       telefono: null,
       direccion: null,
       entre: null,
       colonia: null,
       referencia: null,
+      comentario: null,
       datos_usuario: false,
       chosenDate: new Date(),
       visibleTime: null,
@@ -108,12 +108,6 @@ export default class Checkout extends Component {
     this.cargarDatos();
     this.fechaahora = new Date();
     this.setDate = this.setDate.bind(this);
-    this.cantidad =  AsyncStorage.getItem('carrito').then((result) => {
-      const data  = JSON.parse(result);
-      return data;
-    }).catch((err) => {
-      
-    });;
   }
 
   setDate(newDate) {
@@ -163,53 +157,8 @@ export default class Checkout extends Component {
     }
   };
 
-
-
-  total_items = () => {
-    let total_car = AsyncStorage.getItem('carrito').then((datacarrito) => {
-     
-      if (datacarrito !== null) {
-        const cart = JSON.parse(datacarrito);
-        let cantidad_total = 0;
-        cart.forEach((element) => {
-          cantidad_total = cantidad_total + element.cantidad;
-        });
-
-        //console.log(cart.length)
-        this.setState({
-          total_carrito: cantidad_total,
-        });
-      } else {
-        //return 0;
-      }
-    });
-  };
-  componentWillUpdate() {
-    //this.total_items();
-    //this.cargarDatos();
-    /* this._getValue().then((result) => {
-
-      if(result!== null){
-        const cart = JSON.parse(result);
-        if(cart.length>0){
-
-     this.setState({
-       total_carrito: true,
-     });      
-        }
-        this.setState({
-       total_carrito: false,
-     });
-
-      }else{
-      }
-    }).catch((err) => {
-    
-    }); */
-  }
-  componentWillUnmount() {
-    console.log(this.state.datos_usuario);
-  }
+  componentWillUpdate() {}
+  componentDidMount() {}
 
   renderViewPagerPage = (data, index) => {
     switch (index) {
@@ -235,14 +184,6 @@ export default class Checkout extends Component {
         break;
       }
 
-      /*  case 3: {
-        return (
-          <View key={index}>
-            <Text> finalizar</Text>
-          </View>
-        );
-        break;
-      } */
       default: {
         break;
       }
@@ -256,21 +197,9 @@ export default class Checkout extends Component {
   Render_resumen = () => {
     const render = (
       <Content padder>
-        {/* <Card>
-          <CardItem header bordered>
-            <Text>Pedido</Text>
-          </CardItem>
-          <CardItem bordered>
-            <Body>
-              <Text>Poner aqui los productos</Text>
-            </Body>
-          </CardItem>
-          <CardItem footer bordered>
-            <Text>Total: </Text>
-          </CardItem>
-        </Card> */}
         {this.Render_direcion_resumen()}
         {this.render_sucursal()}
+        {this.render_button_finalizar()}
       </Content>
     );
 
@@ -279,7 +208,6 @@ export default class Checkout extends Component {
 
   Render_direcion_resumen = () => {
     const render = (
-       
       <Card>
         <CardItem header bordered>
           <Text style={styles.texto_header_checkout}>Día de entrega:</Text>
@@ -317,7 +245,6 @@ export default class Checkout extends Component {
           </Body>
         </CardItem>
       </Card>
-    
     );
     return render;
   };
@@ -372,58 +299,96 @@ export default class Checkout extends Component {
             </TouchableOpacity>
           </Body>
         </CardItem>
-
-        {this.render_button_finalizar()}
       </Card>
     );
 
     return render;
   };
 
+  onClickTerminar = async () => {
+    await this._updateCarrito();
 
+    //console.log(getCarro());
+    console.log(this.state.datos_usuario);
+    console.log(this.state.total_carrito);
 
-
-
-onClickTerminar = () =>{
-
-console.log(cant())
-  if(cant()>0){
-    if(this.state.datos_usuario){
-    alert('vista finalizar')
-
-    }else{
-      alert('falta llenar los datos de envio');
+    if (this.state.total_carrito) {
+      if (this.state.datos_usuario) {
+        alert('vista finalizar');
+        this.GetData();
+      } else {
+        alert('falta llenar los datos de envio');
+      }
+    } else {
+      //console.log(this._getValue());
+      alert('no vista');
     }
+  };
+
+  render_button_finalizar = () => {
+    const comentario = this.state.comentario;
+    const renderButon = (
+      <Card>
+        <CardItem>
+          <Body>
+            <Textarea
+              style={{width: '100%'}}
+              rowSpan={5}
+              bordered
+              placeholder="Escribe un comentario"
+              onChangeText={(comentario) => this.setState({comentario})}
+              value={comentario}
+            />
+            <View style={{marginBottom: 10}} />
+            <Button
+              horizontal
+              onPress={() => this.onClickTerminar()}
+              style={styles.btn_check}>
+              <Text style={styles.btn_text2}>Terminar pedido</Text>
+              <Icon2 name={'arrow-right'} size={20} color={Colors.blanco} />
+            </Button>
+          </Body>
+        </CardItem>
+      </Card>
+    );
+
+    return renderButon;
+  };
+
+  async _updateCarrito() {
+    let response = await AsyncStorage.getItem('carrito');
+    let carro = (await JSON.parse(response)) || [];
+
+    this.setState({
+      data_carrito:carro,
+      total_carrito: carro.length,
+    });
+  }
+
+  GetData() {
+    const f = this.state.chosenDate.toString();
+    const {nombre,telefono, direccion,entre,colonia,referencia,comentario,data_carrito,sucursal} = this.state;
+   
+   
+    const datosC ={
+      nombre:nombre,
+      telefono:telefono,
+      direccion:direccion,
+      entre:entre,
+      colonia,colonia,
+      referencia:referencia,
     }
-   else{
-     //console.log(this._getValue());
-     alert('no vista')
-     
-     }
-
-}
-
-  render_button_finalizar = () =>{
 
 
-    const renderButon =  <Button
-            horizontal
-            
-            onPress={()=>this.onClickTerminar()}
-            style={styles.btn_check}>
-            <Text style={styles.btn_text2}>Terminar pedido</Text>
-            <Icon2 name={'arrow-right'} size={20} color={Colors.blanco} />
-          </Button>;
+    var data = {
+      carrito: data_carrito,
+      datos_cliente: datosC,
+      comentario:comentario,
+      fecha_entrega:f, //fecha de entraga variable f
+      id_sucursal:sucursal.id,
 
+    };
 
-    return  renderButon;
+    console.log(JSON.stringify(data));
   }
 }
-
-
-let cant = async function _getValue() {
-    var value = await AsyncStorage.getItem('carrito');
-  var json = await JSON.parse(value);
-  console.log(json.length);
-  return json.length;
-} 

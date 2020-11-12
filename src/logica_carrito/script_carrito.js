@@ -115,7 +115,8 @@ export function OnClickCarritoItem(data, cant) {
     Toast.show({
       text: 'Producto agregado',
       buttonText: 'Ok',
-      duration: 3000,
+      duration: 2500,
+       position: "bottom"
     });
   };
 }
