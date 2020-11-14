@@ -336,12 +336,12 @@ export default class Checkout extends Component {
       if (this.state.datos_usuario) {
         //alert('vista finalizar');
         this.GetData();
-        this.setState({visible:true})
+       // this.setState({visible:true}) **************** quitar esto para funcionar la animacion 
       } else {
         alert('falta llenar los datos de envio');
       }
     } else {
-      console.log("eeroe");
+      console.log("error");
       //alert('El carrito esta vacio');
       this.ToastMsj('danger', 'Error, el carrito esta vacio');
     }
@@ -414,6 +414,14 @@ export default class Checkout extends Component {
 
     console.log(JSON.stringify(data));
     try {
+/* 
+       setInterval(() => {
+      this.setState({
+        visible:
+      });
+    }, 2000); */
+
+     this.props.navigation.navigate('Finalizar');
       //await this.enviarApi(); ***************** deshabilitar cuando este listo el  link 
     } catch (error) {
       

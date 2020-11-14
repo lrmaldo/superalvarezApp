@@ -48,6 +48,10 @@ import Misdirecciones from '../screens/perfil/Misdirecciones';
 /* Checkout */
 import Checkout from '../screens/Checkout/Checkout';
 
+/* finalizacion */
+
+import Finalizar from '../screens/Finalizacion/finalizar';
+
 const TabIconInicio = (props) => (
   <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
 );
@@ -208,6 +212,18 @@ const HomeNavigator = createStackNavigator({
 
     'Checkout': {
     screen: Checkout,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      title: null,
+       headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+      
+    },
+  },
+
+  'Finalizar': {
+    screen: Finalizar,
     navigationOptions: {
       headerTitleAlign: 'center',
       title: null,
