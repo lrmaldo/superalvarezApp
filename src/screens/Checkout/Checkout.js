@@ -10,6 +10,7 @@ import Component_direccion from './Componentes/DireccionCheck';
 import Direccion from '../perfil/Misdirecciones';
 import styles from './styles';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import AnimatedLoader from 'react-native-animated-loader';
 import {
   Content,
   Card,
@@ -18,10 +19,15 @@ import {
   Button,
   DatePicker,
   Textarea,
+  Toast,
+  Root,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 
+
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+/* importar url de guardar datos  del pedido */
+import {url_store} from '../../URLs/url';
 
 const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
 
@@ -101,7 +107,10 @@ export default class Checkout extends Component {
       datos_usuario: false,
       chosenDate: new Date(),
       visibleTime: null,
+      visible:false,
+      showToast: false,
       sucursal: this.props.navigation.getParam('sucursal'),
+      json_pedido:[],
     };
 
     this.viewPager = React.createRef();
@@ -120,7 +129,17 @@ export default class Checkout extends Component {
 
   render() {
     return (
+      <Root> 
       <View style={styles.container}>
+      
+          <AnimatedLoader
+            visible={this.state.visible}
+            overlayColor="rgba(255,255,255,0.75)"
+            source={require("../../../img/animation.json")}
+            animationStyle={styles.lottie}
+            speed={1}
+
+          />
         <View style={styles.stepIndicator}>
           <Steps
             count={3}
@@ -145,6 +164,7 @@ export default class Checkout extends Component {
           {PAGES.map((page, index) => this.renderViewPagerPage(page, index))}
         </ViewPager>
       </View>
+      </Root>
     );
   }
 
@@ -314,19 +334,22 @@ export default class Checkout extends Component {
 
     if (this.state.total_carrito) {
       if (this.state.datos_usuario) {
-        alert('vista finalizar');
+        //alert('vista finalizar');
         this.GetData();
+        this.setState({visible:true})
       } else {
         alert('falta llenar los datos de envio');
       }
     } else {
-      //console.log(this._getValue());
-      alert('no vista');
+      console.log("eeroe");
+      //alert('El carrito esta vacio');
+      this.ToastMsj('danger', 'Error, el carrito esta vacio');
     }
   };
 
   render_button_finalizar = () => {
     const comentario = this.state.comentario;
+    
     const renderButon = (
       <Card>
         <CardItem>
@@ -390,5 +413,76 @@ export default class Checkout extends Component {
     };
 
     console.log(JSON.stringify(data));
+    try {
+      //await this.enviarApi(); ***************** deshabilitar cuando este listo el  link 
+    } catch (error) {
+      
+    }
+  }
+
+
+/* metodo para enviar a la api en el server */
+  enviarApi = async (datos) =>{
+    this.setState({visible:!this.state.visible,
+                  json_pedido:datos});
+     var that = this;
+      fetch(url_store, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(datos)
+    }).then(function (response) {
+      return response.json();
+    }).then(function (result) {
+      console.log(result);
+      if (!result.error) {
+       
+        that.setState({ visible: false });
+        //Alert.alert(result.message);
+        that.guardaPedido();
+        that.props.navigation.navigate('Finalizacion', );
+        //Toast.showWithGravity(result.message, Toast.LONG, Toast.CENTER);
+      } else {
+        // Alert.alert(result.error_msg);
+        console.log(result);
+      }
+    }).catch(function (error) {
+      console.log("-------- error ------- " + error);
+      that.setState({ visible: false });
+      that.ToastMsj('danger','Ocurrio un problema no se hizo el pedido a la sucursal');
+
+    });
+
+
+  }
+
+  guardaPedido = async () =>{
+    await AsyncStorage.getItem('mispedidos').then((result) => {
+      if(result !== null){
+        const datos_pedidos = JSON.parse(result);
+        datos_pedidos.push(this.state.json_pedido);
+        AsyncStorage.setItem('mispedidos',JSON.stringify(datos_pedidos));
+      }else{
+        const pedido = [];
+        pedido.push(this.state.json_pedido);
+        AsyncStorage.setItem('mispedidos',JSON.stringify(pedido));
+      }
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+
+
+  ToastMsj =(type,msj) =>{
+      return Toast.show({
+                text: msj,
+                buttonText: "Ok",
+                position: "top",
+                duration: 3000,
+                 type: type
+              });
   }
 }

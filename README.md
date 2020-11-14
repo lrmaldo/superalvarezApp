@@ -1,4 +1,4 @@
-# superalvarez App
+# Super Alvarez App
 Repositorio del proyecto de la App de Android y iOS  de Super Alvarez
 
 

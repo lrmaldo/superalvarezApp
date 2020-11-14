@@ -58,7 +58,12 @@ export default class Misdirecciones extends Component {
         <Content>
           <Card>
             <CardItem header style={styles.alineacion_centro}>
-              <Text></Text>
+              <Button
+                buttonStyle={styles.button}
+                title="  Guardar"
+                loading={this.state.visible ? true : false}
+                onPress={this.Submit}
+              />
             </CardItem>
             <CardItem>
               <Body>
@@ -128,12 +133,7 @@ export default class Misdirecciones extends Component {
               </Body>
             </CardItem>
             <CardItem style={styles.alineacion_centro} footer>
-              <Button
-                buttonStyle={styles.button}
-                title="  Guardar"
-                loading={this.state.visible ? true : false}
-                onPress={this.Submit}
-              />
+              
             </CardItem>
           </Card>
         </Content>

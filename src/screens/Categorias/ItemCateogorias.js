@@ -38,6 +38,8 @@ import Colors from './../Colors';
 /* funciones de carrito */
 import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
 
+/* url*/
+import {url_sucursal} from '../../URLs/url';
 export default class ItemCateogorias extends Component {
   static navigationOptions = ({navigation}) => {
     return {
@@ -65,8 +67,11 @@ export default class ItemCateogorias extends Component {
   /* obtener datos de la sucursal */
   GetData = (page) => {
     const id_sucursal = this.state.sucursal.id;
-
-    const url = `http://test.sattlink.com/api/sucursal/${id_sucursal}?page=${page}`;
+      
+      const url = url_sucursal+`${id_sucursal}?page=${page}`;
+      
+      //const url = url_sucursales+`?page=${page}`
+    //const url = `http://test.sattlink.com/api/sucursal/${id_sucursal}?page=${page}`;
     //const url = `http://test.sattlink.com/api/sucursal/${this.state.id_sucursal[0].id?page=${page}`;
     //const url =`http://markettux.sattlink.com/api/recursos?page=21`;
 

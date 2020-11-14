@@ -21,6 +21,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 import Colors from '../Colors';
 
+import {url_sucursales}  from  '../../URLs/url';
+
 export default class Inicio extends Component {
   constructor(props) {
     super(props);
@@ -45,10 +47,10 @@ export default class Inicio extends Component {
   GetData = (page) => {
     // AsyncStorage.removeItem('cart');
     //Service to get the data from the server to render
-
-    const url = `http://test.sattlink.com/api/sucursales?page=${page}`;
+    const url = url_sucursales+`?page=${page}`
+    //const url = `http://test.sattlink.com/api/sucursales?page=${page}`;
     //const url =`http://markettux.sattlink.com/api/recursos?page=21`;
-    console.log(page);
+    console.log(url);
     //console.log(this.state.dataFood)
     this.setState({loading: true,refreshing: true});
     return fetch(url)

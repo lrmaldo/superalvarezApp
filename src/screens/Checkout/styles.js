@@ -46,7 +46,12 @@ const styles = StyleSheet.create({
     },
     textArea:{
         width:'100%',
-    }
+    },
+     lottie: {
+    width: '100%',
+    height: '100%',
+    aspectRatio: 4
+  }
 
     /* view_resumen */
 
