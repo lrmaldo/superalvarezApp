@@ -23,3 +23,6 @@ tiempos de COVID
 # Carrito
 
 Falta poner la logica del  boton para finalizar el checkout de la compra 
+
+
+falta sincronizar datos en la vista checkout

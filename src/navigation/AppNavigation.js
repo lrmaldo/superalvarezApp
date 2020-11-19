@@ -42,7 +42,12 @@ import ItemCategorias from '../screens/Categorias/ItemCateogorias';
 
 /* perfil */
 import Perfil from '../screens/perfil/Perfil';
+/* mispedidos */
 import Mispedidos from '../screens/perfil/Mispedidos';
+
+/* detalle pedido */
+
+import DetallePedido from '../screens/DetallePedido/detallePedido';
 import Misdirecciones from '../screens/perfil/Misdirecciones';
 
 /* Checkout */
@@ -193,6 +198,20 @@ const HomeNavigator = createStackNavigator({
     },
   },
 
+  /* detalle pedido */
+'DetallePedido': {
+    screen: DetallePedido,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+    },
+  },
+
   /* mis direcciones */
 
   'Misdirecciones': {
@@ -262,6 +281,7 @@ const HomeNavigator = createStackNavigator({
 const stackNavigator = createSwitchNavigator(
   {
     App: HomeNavigator,
+    //routeTwo:Perfil,
   },
   {
     initialRouteName: 'App',

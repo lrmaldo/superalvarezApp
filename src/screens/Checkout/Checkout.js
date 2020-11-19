@@ -29,6 +29,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 /* importar url de guardar datos  del pedido */
 import {url_store} from '../../URLs/url';
 
+import {eliminarCarrito, totalCarrito} from '../../logica_carrito/script_carrito';
+
 const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
 
 const secondIndicatorConfigs = {
@@ -95,7 +97,7 @@ export default class Checkout extends Component {
     super(props);
     this.state = {
       currentPage: 0,
-      total_carrito: 0,
+      total_carrito_items: 0,
       data_carrito:[],
       nombre: null,
       telefono: null,
@@ -111,12 +113,17 @@ export default class Checkout extends Component {
       showToast: false,
       sucursal: this.props.navigation.getParam('sucursal'),
       json_pedido:[],
+      total_carro:0,
     };
 
     this.viewPager = React.createRef();
     this.cargarDatos();
     this.fechaahora = new Date();
     this.setDate = this.setDate.bind(this);
+    
+   
+
+  
   }
 
   setDate(newDate) {
@@ -169,7 +176,7 @@ export default class Checkout extends Component {
   }
 
   onPressCheckout = (data) => {
-    if (this.state.total_carrito > 0) {
+    if (this.state.total_carrito_items > 0) {
       this.setState({currentPage: 1});
       this.viewPager.setPage(data);
     } else {
@@ -177,8 +184,12 @@ export default class Checkout extends Component {
     }
   };
 
-  componentWillUpdate() {}
-  componentDidMount() {}
+  componentWillUpdate() {
+
+  }
+  componentDidMount() {
+    
+  }
 
   renderViewPagerPage = (data, index) => {
     switch (index) {
@@ -268,7 +279,7 @@ export default class Checkout extends Component {
     );
     return render;
   };
-
+/* carga los datos a la variable de la direccion a los estados  */
   cargarDatos = async () => {
     try {
       const misdatos = await AsyncStorage.getItem('midireccion');
@@ -330,9 +341,9 @@ export default class Checkout extends Component {
 
     //console.log(getCarro());
     console.log(this.state.datos_usuario);
-    console.log(this.state.total_carrito);
+    console.log(this.state.total_carrito_items);
 
-    if (this.state.total_carrito) {
+    if (this.state.total_carrito_items) {
       if (this.state.datos_usuario) {
         //alert('vista finalizar');
         this.GetData();
@@ -368,7 +379,7 @@ export default class Checkout extends Component {
               onPress={() => this.onClickTerminar()}
               style={styles.btn_check}>
               <Text style={styles.btn_text2}>Terminar pedido</Text>
-              <Icon2 name={'arrow-right'} size={20} color={Colors.blanco} />
+              
             </Button>
           </Body>
         </CardItem>
@@ -381,16 +392,24 @@ export default class Checkout extends Component {
   async _updateCarrito() {
     let response = await AsyncStorage.getItem('carrito');
     let carro = (await JSON.parse(response)) || [];
-
+     let total =  await totalCarrito().then((result) => {
+       this.setState({
+         total_carro:result,
+       })
+    }).catch((err) => {
+      
+    });
     this.setState({
       data_carrito:carro,
-      total_carrito: carro.length,
+      total_carrito_items: carro.length,
     });
+
+    console.log("variable total: "+total)
   }
 
   GetData() {
     const f = this.state.chosenDate.toString();
-    const {nombre,telefono, direccion,entre,colonia,referencia,comentario,data_carrito,sucursal} = this.state;
+    const {total_carro,nombre,telefono, direccion,entre,colonia,referencia,comentario,data_carrito,sucursal} = this.state;
    
    
     const datosC ={
@@ -409,6 +428,7 @@ export default class Checkout extends Component {
       comentario:comentario,
       fecha_entrega:f, //fecha de entraga variable f
       id_sucursal:sucursal.id,
+      totalc:total_carro
 
     };
 
@@ -420,7 +440,7 @@ export default class Checkout extends Component {
         visible:
       });
     }, 2000); */
-
+      this.guardaPedido(data);
      this.props.navigation.navigate('Finalizar');
       //await this.enviarApi(); ***************** deshabilitar cuando este listo el  link 
     } catch (error) {
@@ -467,17 +487,19 @@ export default class Checkout extends Component {
 
   }
 
-  guardaPedido = async () =>{
+  guardaPedido = async (data) =>{
+   
     await AsyncStorage.getItem('mispedidos').then((result) => {
       if(result !== null){
         const datos_pedidos = JSON.parse(result);
-        datos_pedidos.push(this.state.json_pedido);
+        datos_pedidos.push(data);
         AsyncStorage.setItem('mispedidos',JSON.stringify(datos_pedidos));
       }else{
         const pedido = [];
-        pedido.push(this.state.json_pedido);
+        pedido.push(data);
         AsyncStorage.setItem('mispedidos',JSON.stringify(pedido));
       }
+       eliminarCarrito();
     }).catch((err) => {
       console.log(err)
     });

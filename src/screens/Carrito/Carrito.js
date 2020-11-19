@@ -281,8 +281,10 @@ export default class App extends React.Component {
                 /*   console.log("se checho") */
                 this.setState({carritovacio: false});
               } else {
-                this.setState({carritovacio: true});
+                this.setState({carritovacio: true,cargando:false});
               }
+            }else{
+              this.setState({carritovacio: true,cargando:false});
             }
           })
           .catch((err) => {
@@ -345,7 +347,7 @@ export default class App extends React.Component {
       AsyncStorage.setItem('carrito', JSON.stringify(dataCar));
     }
     //mostrar vista de carrito vacio
-    if (dataCar.length === 0) {
+    if (dataCar.length === 0 || dataCar === []) {
       this.setState({carritovacio: true});
       //console.log("entro")
     }

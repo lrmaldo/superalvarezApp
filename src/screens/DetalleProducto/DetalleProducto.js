@@ -273,7 +273,7 @@ export default class App extends React.Component {
           </Button>
 
           {/*bton de  perfil category */}
-          <Button vertical onPress={() => this.onPressBuscador()}>
+          <Button vertical onPress={() => this.onPressPerfil()}>
             <Icon name={'ios-person'} size={30} color={Colores.negro} />
             <Text>Perfil</Text>
           </Button>
@@ -287,8 +287,8 @@ export default class App extends React.Component {
   /* presionadores */
 
   /*  al presionar el boton buscador */
-  onPressBuscador = () => {
-    this.props.navigation.navigate('Buscador', {sucursal: this.state.sucursal});
+  onPressPerfil = () => {
+    this.props.navigation.navigate('Perfil');
   };
   onPressSucursal = () => {
     this.props.navigation.navigate('DetalleSucursal', {
@@ -325,7 +325,9 @@ export default class App extends React.Component {
                 total_carrito: cantidad_total,
               });
             } else {
-              //return 0;
+              this.setState({
+                total_carrito: 0,
+              });
             }
           },
         );

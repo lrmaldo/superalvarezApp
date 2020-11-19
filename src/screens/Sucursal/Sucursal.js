@@ -330,13 +330,15 @@ export default class App extends React.Component {
                 total_carrito: cantidad_total,
               });
             } else {
-              //return 0;
+              this.setState({
+                total_carrito:0,
+              });
             }
           },
         );
       
   };
-componentWillUpdate(){
+componentDidUpdate(){
    this.total_items();
 }
 
