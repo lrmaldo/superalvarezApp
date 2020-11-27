@@ -11,6 +11,10 @@ import Direccion from '../perfil/Misdirecciones';
 import styles from './styles';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import AnimatedLoader from 'react-native-animated-loader';
+/* hora  */
+import Moment from 'moment'
+import   'moment/locale/es';
+
 import {
   Content,
   Card,
@@ -25,11 +29,13 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
 /* importar url de guardar datos  del pedido */
 import {url_store} from '../../URLs/url';
 
 import {eliminarCarrito, totalCarrito} from '../../logica_carrito/script_carrito';
+
+
 
 const PAGES = ['Page 1', 'Page 2', 'Page 3', 'Page 4'];
 
@@ -129,6 +135,7 @@ export default class Checkout extends Component {
   setDate(newDate) {
     this.setState({chosenDate: newDate});
   }
+
   onStepPress(num) {
     this.setState({currentPage: num});
     this.viewPager.setPage(num);
@@ -185,7 +192,7 @@ export default class Checkout extends Component {
   };
 
   componentWillUpdate() {
-
+ this.cargarDatos();
   }
   componentDidMount() {
     
@@ -337,6 +344,7 @@ export default class Checkout extends Component {
   };
 
   onClickTerminar = async () => {
+    this.setState({visible:!this.state.visible});
     await this._updateCarrito();
 
     //console.log(getCarro());
@@ -408,9 +416,12 @@ export default class Checkout extends Component {
   }
 
   GetData() {
-    const f = this.state.chosenDate.toString();
+     Moment.locale('es-mx')
+    const f = Moment(this.state.chosenDate).format('DD [de] MMM [de] YYYY')
+    const fapp = this.state.chosenDate.toString();
     const {total_carro,nombre,telefono, direccion,entre,colonia,referencia,comentario,data_carrito,sucursal} = this.state;
-   
+
+  
    
     const datosC ={
       nombre:nombre,
@@ -427,6 +438,7 @@ export default class Checkout extends Component {
       datos_cliente: datosC,
       comentario:comentario,
       fecha_entrega:f, //fecha de entraga variable f
+      fecha_entrega_app:fapp,
       id_sucursal:sucursal.id,
       totalc:total_carro
 
@@ -440,9 +452,9 @@ export default class Checkout extends Component {
         visible:
       });
     }, 2000); */
-      this.guardaPedido(data);
-     this.props.navigation.navigate('Finalizar');
-      //await this.enviarApi(); ***************** deshabilitar cuando este listo el  link 
+      //this.guardaPedido(data);
+       this.enviarApi(data); //***************** deshabilitar cuando este listo el  link 
+     //this.props.navigation.navigate('Finalizar');
     } catch (error) {
       
     }
@@ -451,14 +463,15 @@ export default class Checkout extends Component {
 
 /* metodo para enviar a la api en el server */
   enviarApi = async (datos) =>{
-    this.setState({visible:!this.state.visible,
+    this.setState({
                   json_pedido:datos});
+                  console.log(url_store);
      var that = this;
       fetch(url_store, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Accept-encoding': 'gzip, deflate',
+        'Accept-encoding': 'gzip',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(datos)
@@ -470,8 +483,8 @@ export default class Checkout extends Component {
        
         that.setState({ visible: false });
         //Alert.alert(result.message);
-        that.guardaPedido();
-        that.props.navigation.navigate('Finalizacion', );
+        that.guardaPedido(datos);
+        that.props.navigation.navigate('Finalizar');
         //Toast.showWithGravity(result.message, Toast.LONG, Toast.CENTER);
       } else {
         // Alert.alert(result.error_msg);

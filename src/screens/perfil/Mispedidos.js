@@ -136,7 +136,7 @@ this.props.navigation.setParams({
   }
 
   _renderItemPedidos = (item)=>{
-      const fecha = Date.parse(item.fecha_entrega);
+      const fecha = Date.parse(item.fecha_entrega_app);
       Moment.locale('es-mx')
       const carrito =  this.pedidoCard(item.carrito);
     return(<Card>

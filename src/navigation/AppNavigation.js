@@ -72,6 +72,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      title:null,
     },
   },
 
@@ -195,6 +196,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      title:'Mis pedidos',
     },
   },
 
@@ -209,6 +211,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+       title:null,
     },
   },
 

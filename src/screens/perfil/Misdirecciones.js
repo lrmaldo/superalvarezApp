@@ -126,7 +126,7 @@ export default class Misdirecciones extends Component {
                   style={{width: '100%'}}
                   rowSpan={5}
                   bordered
-                  placeholder="Escribe una referencia detallad, color de la casa, lugares cercanos, etc."
+                  placeholder="Escribe una referencia detallada, color de la casa, lugares cercanos, etc."
                   onChangeText={(referencia) => this.setState({referencia})}
                   value={referencia}
                 />

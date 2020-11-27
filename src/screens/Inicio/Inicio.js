@@ -22,6 +22,10 @@ import Icon2 from 'react-native-vector-icons/FontAwesome';
 import Colors from '../Colors';
 
 import {url_sucursales}  from  '../../URLs/url';
+import {eliminarCarrito} from '../../logica_carrito/script_carrito';
+
+/* asyncstorage */
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Inicio extends Component {
   constructor(props) {
@@ -48,8 +52,7 @@ export default class Inicio extends Component {
     // AsyncStorage.removeItem('cart');
     //Service to get the data from the server to render
     const url = url_sucursales+`?page=${page}`
-    //const url = `http://test.sattlink.com/api/sucursales?page=${page}`;
-    //const url =`http://markettux.sattlink.com/api/recursos?page=21`;
+    
     console.log(url);
     //console.log(this.state.dataFood)
     this.setState({loading: true,refreshing: true});
@@ -95,6 +98,9 @@ onRefresh() {
 
 
   onPressSucursal = (item) => {
+    eliminarCarrito();
+
+    //AsyncStorage.removeItem('mispedidos');
     this.props.navigation.navigate('Sucursal', {sucursal: item});
   };
   /* render de sucursales */
