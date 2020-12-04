@@ -92,18 +92,20 @@ componentWillMount()
               {this._render_sucursal()}
             </CardItem>
             <CardItem bordered>
-              <Text style={styles.color_texto} >Dirección:</Text>
+             {/*  <Text style={styles.color_texto} >Dirección:</Text> */}
+             <View> </View>
            
             </CardItem>
             <CardItem>
                <Body>
                 <Text>{this.state.pedido.datos_cliente.direccion}  entre:{this.state.pedido.datos_cliente.entre}  colonia: {this.state.pedido.datos_cliente.colonia} 
-                referencia: {this.state.pedido.datos_cliente.referencia}
+                Referencia: {this.state.pedido.datos_cliente.referencia} 
                 Recibe: {this.state.pedido.datos_cliente.nombre} </Text>
               </Body>
             </CardItem>
             <CardItem>
-            <Text style={styles.color_texto}>Fecha de entrega: </Text><Text>{Moment(fecha).format('DD [de] MMM [de] YYYY [,] h:mm a')}</Text>
+            <Text style={styles.color_texto}>Fecha de entrega: </Text>
+            <Text style={styles.text_fecha}>{Moment(fecha).format('DD [de] MMM [de] YYYY [,] h:mm a')}</Text>
             </CardItem>
           </Card>
         </Content>

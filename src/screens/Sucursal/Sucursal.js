@@ -239,16 +239,17 @@ export default class App extends React.Component {
         <View style={styles.carousel}>
           <Swiper
             style={{height: width / 0.99}}
-            key={this.state.dataBanners}
+            key={this.state.dataBanners.length}
             showsButtons={false}
             autoplay={true}
-            autoplayTimeout={4}>
+            autoplayTimeout={6}>
             {this.state.dataBanners.map((itembann) => {
               return (
                 <Image
                   style={styles.imageBanner}
                   resizeMode="contain"
                   source={{uri: itembann.url_imagen}}
+                  key={itembann.id}
                 />
               );
             })}

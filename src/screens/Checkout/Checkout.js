@@ -362,6 +362,7 @@ export default class Checkout extends Component {
     } else {
       console.log("error");
       //alert('El carrito esta vacio');
+      this.setState({visible:false});
       this.ToastMsj('danger', 'Error, el carrito esta vacio');
     }
   };
@@ -488,6 +489,8 @@ export default class Checkout extends Component {
         //Toast.showWithGravity(result.message, Toast.LONG, Toast.CENTER);
       } else {
         // Alert.alert(result.error_msg);
+        that.setState({ visible: false });
+        that.ToastMsj('danger','Ocurrio un problema no se hizo el pedido a la sucursal');
         console.log(result);
       }
     }).catch(function (error) {

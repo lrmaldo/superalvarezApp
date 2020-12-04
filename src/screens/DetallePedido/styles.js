@@ -48,6 +48,10 @@ var { height, width } = Dimensions.get('window');
     color: Colors.secundario2,
     fontSize: 34,
   },
+  text_fecha:{
+      flex:1,
+      flexDirection:'row',
+  }
 })
 
 export default styles;
