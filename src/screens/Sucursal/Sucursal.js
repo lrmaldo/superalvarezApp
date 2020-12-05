@@ -341,10 +341,11 @@ export default class App extends React.Component {
       
   };
 componentDidUpdate(){
-   this.total_items();
+   
 }
 
   render() {
+    this.total_items();/* =============================== */
 
     // console.log(this.state.total_carrito);
     if (this.state.refreshing) {

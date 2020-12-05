@@ -51,6 +51,20 @@ var { height, width } = Dimensions.get('window');
   text_fecha:{
       flex:1,
       flexDirection:'row',
+  },
+  circle:{
+      width: 50,
+        height: 50,
+        justifyContent: "center",
+        borderRadius: 50 / 2,
+        backgroundColor: Colors.secundario2,
+
+  },
+  IconGps:{
+ color: Colors.blanco,
+    fontSize: 24,
+    alignSelf:'center',
+
   }
 })
 
