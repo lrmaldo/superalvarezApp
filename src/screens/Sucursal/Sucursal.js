@@ -48,6 +48,8 @@ import styles from './styles';
 
 import Colors from '../Colors';
 
+import {url_sucursal} from './../../URLs/url';
+
 /* funciones de carrito */
 import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
 /* import {guardarDatosSucursal} from '../../logica_carrito/datosSucursal'; */
@@ -102,10 +104,12 @@ export default class App extends React.Component {
     // AsyncStorage.removeItem('cart');
     //Service to get the data from the server to render
 
-    const url = `http://test.sattlink.com/api/sucursal/${id_sucursal}?page=${page}`;
+    //const url = `http://test.sattlink.com/api/sucursal/${id_sucursal}?page=${page}`;
+    const url =  url_sucursal+`${id_sucursal}?page=${page}`;
     //const url = `http://test.sattlink.com/api/sucursal/${this.state.id_sucursal[0].id?page=${page}`;
     //const url =`http://markettux.sattlink.com/api/recursos?page=21`;
 
+      console.log(url);
      this.setState({loading: true,refreshing: true});
     return fetch(url)
       .then((response) => response.json())
