@@ -36,9 +36,7 @@ export default class App extends React.Component {
     return {
       headerTransparent: 'true',
       title: null,
-        headerLeft: (
-        headerBackTitle:"Seguir Comprando"
-      )
+        
     };
   };
 

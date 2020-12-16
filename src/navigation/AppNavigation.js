@@ -87,6 +87,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Regresar',
     },
   },
 
@@ -101,6 +102,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Seguir Comprando',
     },
   },
 
@@ -115,6 +117,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Regresar',
     },
   },
   /* vista detalle sucursal */
@@ -129,6 +132,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Regresar',
     },
   },
 
@@ -142,6 +146,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Seguir Comprando',
     },
   },
   'Categorias': {
@@ -154,6 +159,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Regresar',
     },
   },
 
@@ -182,6 +188,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Regresar',
     },
   },
 
@@ -197,6 +204,7 @@ const HomeNavigator = createStackNavigator({
         backgroundColor: '#ffea00',
       },
       title:'Mis pedidos',
+      headerBackTitle:'Regresar',
     },
   },
 
@@ -211,6 +219,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Regresar',
        title:null,
     },
   },
@@ -228,6 +237,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Regresar',
     },
   },
   /* Checkout */
@@ -252,6 +262,7 @@ const HomeNavigator = createStackNavigator({
        headerStyle: {
         backgroundColor: '#ffea00',
       },
+      headerBackTitle:'Regresar',
       
     },
   },

@@ -50,6 +50,7 @@ export default class App extends React.Component {
     return {
       headerTransparent: 'true',
       title: null,
+      headerBackTitle:'Seguir Comprando',
       /*   headerLeft: (
         <BackButton
           onPress={() => {
