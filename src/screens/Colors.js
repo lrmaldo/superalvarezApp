@@ -6,6 +6,8 @@ const Colors = {
     blanco:'#FFFFFF',
     rojo:'red',
     secundario2:'#ef4a46',
+    //primarioDark:'#c7b800',
+
 
 }
 

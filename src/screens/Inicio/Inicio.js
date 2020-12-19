@@ -14,7 +14,8 @@ import {
   ActivityIndicator,
 
 } from 'react-native';
-import { Root } from 'native-base';
+import { Root,
+  } from 'native-base';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 //import fontAwesome
@@ -146,6 +147,7 @@ onRefresh() {
     }
     return (
       <Root>
+     
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           refreshControl={
@@ -168,4 +170,6 @@ onRefresh() {
       </Root>
     );
   }
+
+  
 }

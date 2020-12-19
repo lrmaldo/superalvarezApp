@@ -34,7 +34,7 @@ import Icon3 from 'react-native-vector-icons/FontAwesome5';
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
-      headerTransparent: 'true',
+      //headerTransparent: 'true',
       title: null,
         
     };

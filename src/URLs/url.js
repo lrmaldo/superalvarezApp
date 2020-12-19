@@ -1,6 +1,6 @@
 
 const test = 'http://test.sattlink.com';
-const url_alvarez  = 'http://app.superalvarez.com';
+ export const url_alvarez  = 'http://app.superalvarez.com';
 /* url get sucursal */
 export const url_sucursales = url_alvarez+'/api/sucursales';
 

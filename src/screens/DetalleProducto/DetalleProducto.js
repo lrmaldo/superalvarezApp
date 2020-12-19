@@ -24,7 +24,11 @@ import {
   Button,
   Badge,
   Root,
-  Toast
+  Toast,
+  Header,
+  Left,
+  Right,
+  Icon,
 } from 'native-base';
 
 /* Colores */
@@ -36,7 +40,7 @@ import Colores from '../Colors';
 var {height, width} = Dimensions.get('window');
 import styles from './styles';
 
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon1 from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import Icon3 from 'react-native-vector-icons/MaterialIcons';
 
@@ -51,6 +55,13 @@ export default class App extends React.Component {
       headerTransparent: 'true',
       title: null,
       headerBackTitle:'Seguir Comprando',
+     /*  headerRight: () => (
+      <Button
+        onPress={() => alert('This is a button!')}
+        title="Info"
+        color="#fff"
+      />
+    ), */
       /*   headerLeft: (
         <BackButton
           onPress={() => {
@@ -151,6 +162,8 @@ export default class App extends React.Component {
       //AsyncStorage.setItem('cart',JSON.stringify(dataCar));
     }
   };
+
+
   
 
   render() {
@@ -160,7 +173,10 @@ export default class App extends React.Component {
     return (
       <Root>
         <Container>
+         {this.header()}
           <ScrollView style={styles.container}>
+
+        
             {/*  <StatusBar barStyle='dark-content' translucent backgroundColor="transparent" /> */}
             {this.state.producto.url_imagen != null
               ? this.ImagenPortada()
@@ -181,7 +197,7 @@ export default class App extends React.Component {
                     onPress={() =>
                       this.onChangeQual(this.state.cantidad, false)
                     }>
-                    <Icon
+                    <Icon1
                       name="ios-remove-circle"
                       size={36}
                       style={{color: Colores.assent}}
@@ -199,7 +215,7 @@ export default class App extends React.Component {
                     onPress={() =>
                       this.onChangeQual(this.state.cantidad, true)
                     }>
-                    <Icon
+                    <Icon1
                       name="ios-add-circle"
                       size={35}
                       color={Colores.assent}
@@ -227,7 +243,7 @@ export default class App extends React.Component {
                   Agregar carrito
                 </Text>
                 <View style={{width: 12}} />
-                <Icon name="ios-add-circle" size={15} color={Colores.blanco} />
+                <Icon1 name="ios-add-circle" size={15} color={Colores.blanco} />
               </TouchableOpacity>
 
               <View style={styles.infoContainer}>
@@ -241,6 +257,32 @@ export default class App extends React.Component {
         </Container>
       </Root>
     );
+  }
+
+  header = ()=>{
+    const header =(
+       <Header androidStatusBarColor={Colores.assent}  iosBarStyle="dark-content"  style={{backgroundColor: '#ffea00'}}>
+         <StatusBar barStyle='dark-content' />
+         
+          <Right>
+           
+            
+            <Button transparent
+              onPress={() => this.onPressMisdirecciones()}
+            >
+            
+
+              <Icon2 name='user-circle'
+                     size={30} 
+                     style={{color: Colores.negro}}
+                    />
+            </Button>
+      
+     
+          </Right>
+        </Header>
+    )
+    return header;
   }
 
   footer = () => {
@@ -263,7 +305,7 @@ export default class App extends React.Component {
                 {this.state.total_carrito}
               </Text>
             </Badge>
-            <Icon name={'cart'} size={25} color={Colores.negro} />
+            <Icon1 name={'cart'} size={25} color={Colores.negro} />
             <Text style={{color: Colores.negro}}>Carrito</Text>
           </Button>
 
@@ -274,9 +316,9 @@ export default class App extends React.Component {
           </Button>
 
           {/*bton de  perfil category */}
-          <Button vertical onPress={() => this.onPressPerfil()}>
-            <Icon name={'ios-person'} size={30} color={Colores.negro} />
-            <Text>Perfil</Text>
+          <Button vertical onPress={() => this.onPressPedidos()}>
+            <Icon2 name={'shopping-bag'} size={30} color={Colores.negro} />
+            <Text>Mis pedidos</Text>
           </Button>
         </FooterTab>
       </Footer>
@@ -286,10 +328,13 @@ export default class App extends React.Component {
   };
 
   /* presionadores */
+  onPressMisdirecciones = () => {
+    this.props.navigation.navigate('Misdirecciones');
+  };
 
   /*  al presionar el boton buscador */
-  onPressPerfil = () => {
-    this.props.navigation.navigate('Perfil');
+  onPressPedidos = () => {
+    this.props.navigation.navigate('Mispedidos');
   };
   onPressSucursal = () => {
     this.props.navigation.navigate('DetalleSucursal', {

@@ -38,6 +38,8 @@ import {
   Button,
   Badge,
   Root,
+   Header,
+   Right,
 } from 'native-base';
 
 /* carrusel */
@@ -363,6 +365,7 @@ componentDidUpdate(){
     }
     return (
       <Root>
+         {this.header()}
         <Container>
           <ScrollView
             style={styles.container}
@@ -451,10 +454,10 @@ componentDidUpdate(){
             <Text>Categorias</Text>
           </Button>
 
-          {/*bton de  perfil category */}
-          <Button vertical onPress={() => this.onPressPerfil()}>
-            <Icon name={'ios-person'} size={30} color={Colors.negro} />
-            <Text>Perfil</Text>
+          {/*bton de  pedidos */}
+          <Button vertical onPress={() => this.onPressMispedidos()}>
+            <Icon2 name={'shopping-bag'} size={30} color={Colors.negro} />
+            <Text>Mis pedidos</Text>
           </Button>
         </FooterTab>
       </Footer>
@@ -462,7 +465,55 @@ componentDidUpdate(){
     /*  icon3 category */
     return foot;
   };
+
+  /* functions */
+
+  header = ()=>{
+    const header =(
+       <Header androidStatusBarColor={Colors.assent}  iosBarStyle="dark-content"  style={{backgroundColor: '#ffea00'}}>
+       {/*   <StatusBar barStyle='dark-content' /> */}
+         
+          <Right>
+           
+           <Button transparent 
+            onPress ={()=>this.onPressSucursal()}
+            >
+
+             <Icon2
+                  name="store"
+                  size={30}
+                  style={{color:Colors.negro}}
+                />
+            </Button>
+            
+            <Button transparent
+              onPress={() => this.onPressMisdirecciones()}
+            >
+            
+
+              <Icon2 name='user-circle'
+                     size={30} 
+                     style={{color: Colors.negro}}
+                    />
+            </Button>
+      
+     
+          </Right>
+        </Header>
+    )
+    return header;
+  }
+/* presionadores */
+  onPressMisdirecciones = () => {
+    this.props.navigation.navigate('Misdirecciones');
+  };
+   onPressMispedidos = () => {
+    this.props.navigation.navigate('Mispedidos');
+  };
 }
+
+
+
 
 function Format_moneda(num) {
   return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');

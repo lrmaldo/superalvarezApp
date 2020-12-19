@@ -27,7 +27,9 @@ var {height, width} = Dimensions.get('window');
 import styles from './styles';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+/* import url */
 
+import {url_alvarez}  from '../../URLs/url';
 export default class App extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
@@ -67,7 +69,7 @@ export default class App extends React.Component {
     // AsyncStorage.removeItem('cart');
     //Service to get the data from the server to render
 
-    const url = `http://test.sattlink.com/api/sucursal/productosSucursal/${id_sucursal}`;
+    const url = url_alvarez+`/api/sucursal/productosSucursal/${id_sucursal}`;
   
     console.log(url);
     //console.log(this.state.sucursal.id);

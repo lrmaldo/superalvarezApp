@@ -203,9 +203,9 @@ export default class ItemCateogorias extends Component {
           </Button>
 
           {/*bton de  perfil category */}
-          <Button vertical onPress={() => this.onPressPerfil()}>
-            <Icon name={'ios-person'} size={30} color={Colors.negro} />
-            <Text>Perfil</Text>
+          <Button vertical onPress={() => this.onPressMispedidos()}>
+            <Icon2 name={'shopping-bag'} size={30} color={Colors.negro} />
+            <Text>Mis pedios</Text>
           </Button>
         </FooterTab>
       </Footer>
@@ -276,6 +276,10 @@ export default class ItemCateogorias extends Component {
   };
   onPressCarrito = () => {
     this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
+  };
+
+   onPressMispedidos = () => {
+    this.props.navigation.navigate('Mispedidos');
   };
   onPressCategorias = () => {
     this.props.navigation.navigate('Categorias', {
