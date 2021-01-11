@@ -18,7 +18,7 @@ import 'moment/locale/es';
 
 import styles from './styles';
 
-import {Linking, TouchableOpacity} from 'react-native';
+import {Linking, TouchableOpacity}from 'react-native';
 /* icons */
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';

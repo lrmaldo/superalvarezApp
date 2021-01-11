@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import {
+  Alert,
   FlatList,
   ScrollView,
   Text,
@@ -251,7 +252,7 @@ export default class App extends React.Component {
   }
 
 onClickAddCart =(item)=>{
-alert("agrego al carrito")
+Alert.alert("","Se agrego al carrito")
 }
 
 }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import {
+  Alert,
   FlatList,
   ScrollView,
   Text,
@@ -236,7 +237,7 @@ export default class ItemCateogorias extends Component {
         <Text style={styles.title}>{item.titulo}</Text>
         <Text style={styles.title}>{Format_moneda(item.precio)}</Text>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => OnClickAddCarrito(item)}
           style={{
             width: width / 2 - 40,
@@ -253,7 +254,7 @@ export default class ItemCateogorias extends Component {
           </Text>
           <View style={{width: 12}} />
           <Icon name="ios-add-circle" size={15} color={Colors.blanco} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </TouchableOpacity>
   );
@@ -261,7 +262,7 @@ export default class ItemCateogorias extends Component {
   /* onpress */
 
   onPressRecipiente = (item) => {
-    this.props.navigation.navigate('DetalleProducto', {producto: item});
+    this.props.navigation.navigate('DetalleProducto', {producto: item,sucursal: this.state.sucursal});
     //alert('hola presionaste');
   };
 
@@ -275,7 +276,13 @@ export default class ItemCateogorias extends Component {
     });
   };
   onPressCarrito = () => {
+    if(this.state.total_carrito>0){
+    
     this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
+
+    }else{
+      Alert.alert('','No hay articulos en el carrito')
+    }
   };
 
    onPressMispedidos = () => {

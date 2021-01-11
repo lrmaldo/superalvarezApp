@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Linking, TouchableOpacity} from 'react-native';
+import {StyleSheet, Alert, Text, View, Linking, TouchableOpacity} from 'react-native';
 
 import Steps from 'react-native-steps';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -99,6 +99,28 @@ const getStepIndicatorIconConfig = ({position, stepStatus}) => {
 };
 
 export default class Checkout extends Component {
+ static navigationOptions = ({navigation}) => {
+    return {
+      //headerTransparent: 'true',
+      title: null,
+      headerBackTitle:'Regresar',
+     /*  headerRight: () => (
+      <Button
+        onPress={() => alert('This is a button!')}
+        title="Info"
+        color="#fff"
+      />
+    ), */
+      /*   headerLeft: (
+        <BackButton
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      ) */
+    };
+  };
+ 
   constructor(props) {
     super(props);
     this.state = {
@@ -121,6 +143,7 @@ export default class Checkout extends Component {
       json_pedido:[],
       total_carro:0,
     };
+    
 
     this.viewPager = React.createRef();
     this.cargarDatos();
