@@ -380,7 +380,8 @@ export default class Checkout extends Component {
         this.GetData();
        // this.setState({visible:true}) **************** quitar esto para funcionar la animacion 
       } else {
-        alert('falta llenar los datos de envio');
+        Alert.alert('falta llenar los datos de envio');
+         this.setState({visible:false});
       }
     } else {
       console.log("error");
@@ -440,8 +441,8 @@ export default class Checkout extends Component {
   }
 
   GetData() {
-     Moment.locale('es-mx')
-    const f = Moment(this.state.chosenDate).format('DD [de] MMM [de] YYYY')
+     //Moment.locale('es-mx')
+    //const f = Moment(this.state.chosenDate).format('DD [de] MMM [de] YYYY')
     const fapp = this.state.chosenDate.toString();
     const {total_carro,nombre,telefono, direccion,entre,colonia,referencia,comentario,data_carrito,sucursal} = this.state;
 
@@ -461,7 +462,7 @@ export default class Checkout extends Component {
       carrito: data_carrito,
       datos_cliente: datosC,
       comentario:comentario,
-      fecha_entrega:f, //fecha de entraga variable f
+      fecha_entrega:fapp, //fecha de entrega variable f
       fecha_entrega_app:fapp,
       id_sucursal:sucursal.id,
       totalc:total_carro
@@ -495,7 +496,7 @@ export default class Checkout extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Accept-encoding': 'gzip',
+        'Accept-encoding': 'gzip, deflate',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(datos)
