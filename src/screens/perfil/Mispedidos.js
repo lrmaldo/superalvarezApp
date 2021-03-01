@@ -20,7 +20,7 @@ import {getPedidos}  from './script/script_mispedidos';
 import styles from './styles';
 /* hora  */
 import Moment from 'moment'
-import   'moment/locale/es';
+/* import   'moment/locale/es'; */
 
 
 
@@ -137,7 +137,7 @@ this.props.navigation.setParams({
 
   _renderItemPedidos = (item)=>{
       const fecha = Date.parse(item.fecha_entrega_app);
-      Moment.locale('es-mx')
+      //Moment.locale('es')
       const carrito =  this.pedidoCard(item.carrito);
     return(<Card>
             <CardItem header bordered>
