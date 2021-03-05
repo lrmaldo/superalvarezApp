@@ -14,7 +14,7 @@ import {
 import {url_sucursal_datos} from '../../URLs/url';
 /* hora  */
 import Moment from 'moment';
-import 'moment/locale/es';
+
 
 import styles from './styles';
 
@@ -78,7 +78,7 @@ export default class detallePedido extends Component {
   render() {
     console.log(this.state.sucursal);
     const fecha = Date.parse(this.state.pedido.fecha_entrega_app);
-    Moment.locale('es-mx');
+    /* Moment.locale('es'); */
     return (
       <Container>
         <Content padder>
@@ -108,12 +108,16 @@ export default class detallePedido extends Component {
             <CardItem>
               <Body>
                 <Text>
-                 Dirección: {this.state.pedido.datos_cliente.direccion} {' '}  
-                  Entre:{this.state.pedido.datos_cliente.entre}
-                  colonia: {this.state.pedido.datos_cliente.colonia}
-                  Referencia: {this.state.pedido.datos_cliente.referencia}
-                  Recibe: {this.state.pedido.datos_cliente.nombre}{' '}
+                  Dirección: {this.state.pedido.datos_cliente.direccion} {' '}  
                 </Text>
+                <Text>
+                Entre: {this.state.pedido.datos_cliente.entre}
+                </Text>
+
+                <Text>
+                 colonia: {this.state.pedido.datos_cliente.colonia}</Text>
+                <Text>Referencia: {this.state.pedido.datos_cliente.referencia}</Text>
+                <Text>Recibe: {this.state.pedido.datos_cliente.nombre}</Text>
               </Body>
             </CardItem>
             <CardItem>
