@@ -103,6 +103,7 @@ const HomeNavigator = createStackNavigator({
         backgroundColor: '#ffea00',
       },
       headerBackTitle:'Seguir Comprando',
+      headerLeft: () => (navigation.goBack()),
     },
   },
 
