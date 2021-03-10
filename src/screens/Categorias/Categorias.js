@@ -10,7 +10,7 @@ StatusBar,
 TouchableHighlight
 } from 'react-native';
 
-
+import {HeaderBackButton}  from 'react-navigation-stack';
 /* styles */
 import styles from './styles';
 export default class Categorias extends Component {
@@ -21,7 +21,37 @@ export default class Categorias extends Component {
       sucursal: this.props.navigation.getParam('sucursal'),
       
     }
+      const { params } = this.props.navigation.state;
     }
+    /* regresar botn */
+    static navigationOptions = ({navigation}) => {
+      const { params = {} } = navigation.state;
+    //const {direccionTienda} =this.state
+    //console.log(params.descripcion)
+    return {
+       headerLeft:  (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            params.regresar()
+          }}
+        />
+      ),
+
+    }
+  };
+  componentDidMount() {
+
+this.props.navigation.setParams({
+      regresar: this._regresar.bind(this),
+      });
+
+     
+  }
+  _regresar= ()=>{
+      this.props.navigation.goBack()
+    
+  }
 
     render() {
         return (

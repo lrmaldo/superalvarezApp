@@ -24,6 +24,7 @@ import FastImage from 'react-native-fast-image';
 
 
 var {height, width} = Dimensions.get('window');
+import {HeaderBackButton}  from 'react-navigation-stack';
 
 import styles from './styles';
 
@@ -32,19 +33,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {url_alvarez}  from '../../URLs/url';
 export default class App extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    return {
-      headerTransparent: 'true',
-      title: null,
-      /*   headerLeft: (
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      ) */
-    };
-  };
 
   constructor(props) {
     super(props);
@@ -61,6 +49,36 @@ export default class App extends React.Component {
     }; 
     /* cargar datos */
     this.GetData();
+  }
+static navigationOptions = ({ navigation }) => {
+
+    const { params = {} } = navigation.state;
+    //const {direccionTienda} =this.state
+    //console.log(params.descripcion)
+    return {
+       headerLeft:  (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            params.regresar()
+          }}
+        />
+      ),
+
+    }
+ }
+
+  componentDidMount() {
+
+this.props.navigation.setParams({
+      regresar: this._regresar.bind(this),
+      });
+
+     
+  }
+   _regresar= ()=>{
+      this.props.navigation.goBack()
+    
   }
 
   /* obtener los datos  de los productos de la sucursal */

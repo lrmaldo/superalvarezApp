@@ -45,10 +45,7 @@ export default class Mispedidos extends Component {
   }
 
   
-componentDidMount()
-{
-     
-}
+
 
 componentWillUpdate(){
   this.getDataPedidos();

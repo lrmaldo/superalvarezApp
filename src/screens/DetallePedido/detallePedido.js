@@ -25,7 +25,7 @@ import Icon3 from 'react-native-vector-icons/FontAwesome5';
 
 /* colores */
 import Colors from './../Colors';
-
+import {HeaderBackButton}  from 'react-navigation-stack';
 export default class detallePedido extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +34,39 @@ export default class detallePedido extends Component {
       carrito: null,
       sucursal: [],
     };
+     const { params } = this.props.navigation.state;
   }
+
+ static navigationOptions = ({ navigation }) => {
+
+    const { params = {} } = navigation.state;
+    //const {direccionTienda} =this.state
+    //console.log(params.descripcion)
+    return {
+       headerLeft:  (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            params.regresar()
+          }}
+        />
+      ),
+
+    }
+ }
+   componentDidMount() {
+
+this.props.navigation.setParams({
+      regresar: this._regresar.bind(this),
+      });
+
+     
+  }
+   _regresar= ()=>{
+      this.props.navigation.goBack()
+    
+  }
+  
   componentWillMount() {
     this.GetSucursal();
   }

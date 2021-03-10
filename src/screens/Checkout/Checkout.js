@@ -6,14 +6,15 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import ViewPager from '@react-native-community/viewpager';
 import Carrito from '../Carrito/Carrito';
 import Colors from '../Colors';
-import Component_direccion from './Componentes/DireccionCheck';
-import Direccion from '../perfil/Misdirecciones';
+/* import Component_direccion from './Componentes/DireccionCheck'; */
+import Direccion from './Componentes/DireccionCheck';
 import styles from './styles';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import AnimatedLoader from 'react-native-animated-loader';
 /* hora  */
 import Moment from 'moment'
 /* import   'moment/locale/es'; */
+import {HeaderBackButton}  from 'react-navigation-stack';
 
 import {
   Content,
@@ -99,27 +100,7 @@ const getStepIndicatorIconConfig = ({position, stepStatus}) => {
 };
 
 export default class Checkout extends Component {
- static navigationOptions = ({navigation}) => {
-    return {
-      //headerTransparent: 'true',
-      title: null,
-      headerBackTitle:'Regresar',
-     /*  headerRight: () => (
-      <Button
-        onPress={() => alert('This is a button!')}
-        title="Info"
-        color="#fff"
-      />
-    ), */
-      /*   headerLeft: (
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      ) */
-    };
-  };
+ 
  
   constructor(props) {
     super(props);
@@ -150,10 +131,43 @@ export default class Checkout extends Component {
     this.fechaahora = new Date();
     this.setDate = this.setDate.bind(this);
     
-   
+    const { params } = this.props.navigation.state;
 
   
   }
+
+
+  static navigationOptions = ({ navigation }) => {
+
+    const { params = {} } = navigation.state;
+    //const {direccionTienda} =this.state
+    //console.log(params.descripcion)
+    return {
+       headerLeft:  (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            params.regresar()
+          }}
+        />
+      ),
+
+    }
+ }
+
+   componentWillUpdate() {
+ this.cargarDatos();
+  }
+  
+ componentDidMount() {
+
+this.props.navigation.setParams({
+      regresar: this._regresar.bind(this),
+      });
+
+     
+  }
+
 
   setDate(newDate) {
     this.setState({chosenDate: newDate});
@@ -214,12 +228,13 @@ export default class Checkout extends Component {
     }
   };
 
-  componentWillUpdate() {
- this.cargarDatos();
-  }
-  componentDidMount() {
+ 
+
+  _regresar= ()=>{
+      this.props.navigation.goBack()
     
   }
+
 
   renderViewPagerPage = (data, index) => {
     switch (index) {

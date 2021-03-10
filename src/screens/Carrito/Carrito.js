@@ -34,23 +34,26 @@ import {Container, Content, Footer, FooterTab, Button} from 'native-base';
 /* funcion */
 import {cambio, total_items} from '../../logica_carrito/script_carrito';
 
-
+import {HeaderBackButton}  from 'react-navigation-stack';
 
 const {width: viewportWidth} = Dimensions.get('window');
 const {width, height} = Dimensions.get('window');
 
 export default class App extends React.Component {
+  
   static navigationOptions = ({navigation}) => {
     return {
       //headerTransparent: 'true',
+      headerBackTitle:'Seguir comprando',
+
       title: null,
-      /*   headerLeft: (
-        <BackButton
+        headerLeft: (
+        <HeaderBackButton
           onPress={() => {
             navigation.goBack();
           }}
         />
-      ) */
+      )
     };
   };
 

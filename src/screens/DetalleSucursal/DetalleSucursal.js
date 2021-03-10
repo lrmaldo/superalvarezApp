@@ -29,16 +29,10 @@ import styles from './styles'; */
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
 
-
+import {HeaderBackButton}  from 'react-navigation-stack';
 
 export default class App extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    return {
-      //headerTransparent: 'true',
-      title: null,
-        
-    };
-  };
+ 
 
   constructor(props) {
     super(props);
@@ -50,6 +44,38 @@ export default class App extends React.Component {
     };
     /* cargar datos */
     /* this.GetData(); */
+    const { params } = this.props.navigation.state;
+  }
+
+  static navigationOptions = ({ navigation }) => {
+
+    const { params = {} } = navigation.state;
+    //const {direccionTienda} =this.state
+    //console.log(params.descripcion)
+    return {
+       headerLeft:  (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            params.regresar()
+          }}
+        />
+      ),
+
+    }
+ }
+  
+  componentDidMount() {
+
+this.props.navigation.setParams({
+      regresar: this._regresar.bind(this),
+      });
+
+     
+  }
+   _regresar= ()=>{
+      this.props.navigation.goBack()
+    
   }
   Cabecera = () => {
     //console.log(this.state.sucursal);

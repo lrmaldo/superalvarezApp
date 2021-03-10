@@ -23,7 +23,7 @@ import Color from '../Colors';
 
 /* asyncstorage */
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {HeaderBackButton}  from 'react-navigation-stack';
 export default class Misdirecciones extends Component {
   constructor(props) {
     super(props);
@@ -39,8 +39,39 @@ export default class Misdirecciones extends Component {
       visible:false,
     };
     this.cargarDatos();
+    const { params } = this.props.navigation.state;
+
   }
-   
+
+   static navigationOptions = ({ navigation }) => {
+
+    const { params = {} } = navigation.state;
+    //const {direccionTienda} =this.state
+    //console.log(params.descripcion)
+    return {
+       headerLeft:  (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            params.regresar()
+          }}
+        />
+      ),
+
+    }
+ }
+ componentDidMount() {
+
+this.props.navigation.setParams({
+      regresar: this._regresar.bind(this),
+      });
+
+     
+  }
+   _regresar= ()=>{
+      this.props.navigation.goBack()
+    
+  }
 
 
   render() {

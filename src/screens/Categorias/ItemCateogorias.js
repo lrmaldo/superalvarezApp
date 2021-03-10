@@ -41,13 +41,8 @@ import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
 
 /* url*/
 import {url_sucursal} from '../../URLs/url';
+import { HeaderBackButton } from 'react-navigation-stack';
 export default class ItemCateogorias extends Component {
-  static navigationOptions = ({navigation}) => {
-    return {
-      title: null,
-      headerTransparent: 'true',
-    };
-  };
 
   constructor(props) {
     super(props);
@@ -62,7 +57,41 @@ export default class ItemCateogorias extends Component {
       total_carrito: 0,
     };
     this.GetData(this.page);
+
+    const { params } = this.props.navigation.state;
+
   }
+
+  static navigationOptions = ({ navigation }) => {
+
+    const { params = {} } = navigation.state;
+    //const {direccionTienda} =this.state
+    //console.log(params.descripcion)
+    return {
+       headerLeft:  (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            params.regresar()
+          }}
+        />
+      ),
+
+    }
+ }
+  componentDidMount() {
+
+this.props.navigation.setParams({
+      regresar: this._regresar.bind(this),
+      });
+
+     
+  }
+  _regresar= ()=>{
+      this.props.navigation.goBack()
+    
+  }
+  
   /* peticion al servidor  */
 
   /* obtener datos de la sucursal */

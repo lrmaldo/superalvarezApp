@@ -102,8 +102,9 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
-      headerBackTitle:'Seguir Comprando',
-      headerLeft: () => (navigation.goBack()),
+      title:null,
+      headerTransparent: 'true',
+      headerBackTitle:'Regresar',
     },
   },
 
@@ -118,8 +119,11 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      title:null,
+      headerTransparent:true,
       headerBackTitle:'Regresar',
     },
+
   },
   /* vista detalle sucursal */
 
@@ -133,6 +137,7 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      title:null,
       headerBackTitle:'Regresar',
     },
   },
@@ -174,6 +179,8 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
+      title:'',
+      headerBackTitle:'Regresar',
     },
   },
 
@@ -247,11 +254,14 @@ const HomeNavigator = createStackNavigator({
     screen: Checkout,
     navigationOptions: {
       headerTitleAlign: 'center',
-      title: null,
-       headerStyle: {
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
         backgroundColor: '#ffea00',
       },
-      
+      title:'Checkout',
+      headerBackTitle:'Seguir Comprando',
     },
   },
 

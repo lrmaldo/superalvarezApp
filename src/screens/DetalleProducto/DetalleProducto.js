@@ -48,30 +48,11 @@ import Icon3 from 'react-native-vector-icons/MaterialIcons';
 
 /* asyncstorage */
 import AsyncStorage from '@react-native-community/async-storage';
-
+import {HeaderBackButton}  from 'react-navigation-stack';
 import {OnClickCarritoItem} from '../../logica_carrito/script_carrito';
 export default class App extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    return {
-      headerTransparent: 'true',
-      title: null,
-      headerBackTitle:'Seguir Comprando',
-     /*  headerRight: () => (
-      <Button
-        onPress={() => alert('This is a button!')}
-        title="Info"
-        color="#fff"
-      />
-    ), */
-      /*   headerLeft: (
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      ) */
-    };
-  };
+  
+ 
 
   constructor(props) {
     super(props);
@@ -93,6 +74,38 @@ export default class App extends React.Component {
       dataaux: [],
     };
     /* cargar datos */
+     const { params } = this.props.navigation.state;
+
+  }
+  static navigationOptions = ({ navigation }) => {
+
+    const { params = {} } = navigation.state;
+    //const {direccionTienda} =this.state
+    //console.log(params.descripcion)
+    return {
+       headerLeft:  (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            params.regresar()
+          }}
+        />
+      ),
+
+    }
+ }
+
+  componentDidMount() {
+
+this.props.navigation.setParams({
+      regresar: this._regresar.bind(this),
+      });
+
+     
+  }
+ _regresar= ()=>{
+      this.props.navigation.goBack()
+    
   }
 
   getCategoriaTitulo(categoryId) {
