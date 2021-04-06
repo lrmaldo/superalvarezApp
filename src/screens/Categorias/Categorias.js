@@ -17,6 +17,7 @@ export default class Categorias extends Component {
     constructor(props) {
     super(props);
     this.state = {
+      
       categorias: this.props.navigation.getParam('categorias'),
       sucursal: this.props.navigation.getParam('sucursal'),
       
@@ -73,7 +74,7 @@ this.props.navigation.setParams({
 /* */
 
 
-  /* render de sucursales */
+  /* render de Categorias */
 
 
   renderCategorias = ({item}) => (

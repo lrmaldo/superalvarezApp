@@ -4,7 +4,7 @@ import {View, Image, Platform, Dimensions} from 'react-native';
 
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {createStackNavigator} from 'react-navigation-stack';
+import {createStackNavigator, HeaderBackButton} from 'react-navigation-stack';
 
 // import icons
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -79,16 +79,19 @@ const HomeNavigator = createStackNavigator({
   /* vista sucursal */
   'Sucursal': {
     screen: Sucursal,
-    navigationOptions: {
-      headerTitleAlign: 'center',
+    navigationOptions:({navigation}) => ({
+       headerTitleAlign: 'center',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
       headerStyle: {
         backgroundColor: '#ffea00',
       },
-      headerBackTitle:'Regresar',
-    },
+      headerTransparent:true,
+      headerBackTitle:'Regresar', 
+      title:null,
+      headerLeft:null
+    }),
   },
 
   /* vista sucursal */
@@ -104,7 +107,7 @@ const HomeNavigator = createStackNavigator({
       },
       title:null,
       headerTransparent: 'true',
-      headerBackTitle:'Regresar',
+      //headerBackTitle:'Regresar',
     },
   },
 
@@ -212,7 +215,9 @@ const HomeNavigator = createStackNavigator({
         backgroundColor: '#ffea00',
       },
       title:'Mis pedidos',
-      headerBackTitle:'Regresar',
+      /* headerBackTitle:'Regresar', */
+      headerTransparent:true,
+      headerLeft:null,
     },
   },
 
@@ -229,6 +234,8 @@ const HomeNavigator = createStackNavigator({
       },
       headerBackTitle:'Regresar',
        title:null,
+       headerTransparent:true,
+       headerLeft:null,
     },
   },
 
@@ -260,8 +267,10 @@ const HomeNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: '#ffea00',
       },
-      title:'Checkout',
-      headerBackTitle:'Seguir Comprando',
+      title:null,
+      /* headerBackTitle:'Seguir Comprando', */
+      headerLeft:null,
+      headerTransparent:true,
     },
   },
 
@@ -274,7 +283,7 @@ const HomeNavigator = createStackNavigator({
         backgroundColor: '#ffea00',
       },
       headerBackTitle:'Regresar',
-      
+      headerLeft:null,
     },
   },
 

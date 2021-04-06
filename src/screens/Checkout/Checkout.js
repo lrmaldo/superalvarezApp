@@ -10,6 +10,7 @@ import Colors from '../Colors';
 import Direccion from './Componentes/DireccionCheck';
 import styles from './styles';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import Icon3 from 'react-native-vector-icons/MaterialIcons';
 import AnimatedLoader from 'react-native-animated-loader';
 /* hora  */
 import Moment from 'moment'
@@ -26,6 +27,9 @@ import {
   Textarea,
   Toast,
   Root,
+  Header,
+  Left,
+  Right,
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -149,6 +153,7 @@ export default class Checkout extends Component {
           onPress={() => {
             params.regresar()
           }}
+          label='Seguir comprando'
         />
       ),
 
@@ -181,6 +186,7 @@ this.props.navigation.setParams({
   render() {
     return (
       <Root> 
+       {this.header()}
       <View style={styles.container}>
       
           <AnimatedLoader
@@ -348,6 +354,39 @@ this.props.navigation.setParams({
       this.ToastMsj('danger', 'Error al cargar datos');
     }
   };
+
+  /* render header */
+   header = ()=>{
+    const icon_back = Platform.select({
+      ios:'arrow-back-ios',
+      android:'arrow-back'});
+
+    const header =(
+       <Header androidStatusBarColor={Colors.assent}  iosBarStyle="dark-content"  style={{backgroundColor: '#ffea00'}}>
+       {/*   <StatusBar barStyle='dark-content' /> */}
+        <Left> 
+        <Button transparent 
+            onPress ={()=>this.props.navigation.goBack()}
+            >
+
+             <Icon3
+                  name= {icon_back}
+                  size={25}
+                  style={{color:Platform.OS==='ios'?'#147efb':Colors.negro}}
+                />
+                {Platform.OS === 'ios' ?
+                <Text style={{paddingLeft:-30, fontSize:15,color: '#147efb' }} >Seguir comprando</Text>:null  
+              }
+            </Button>
+          </Left>
+         
+      
+     
+         
+        </Header>
+    )
+    return header;
+  }
 
   /* render datos de la sucursal  */
 

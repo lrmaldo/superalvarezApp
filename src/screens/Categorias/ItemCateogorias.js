@@ -173,7 +173,7 @@ this.props.navigation.setParams({
 
             {this.indicator()}
           </ScrollView>
-          {this.footer()}
+          {/* {this.footer()} */}
         </Container>
       </Root>
     );
@@ -188,7 +188,7 @@ this.props.navigation.setParams({
         <FastImage
           key={this.state.categoria.id}
           style={styles.photo_categoria}
-          resizeMode={FastImage.resizeMode.cover}
+          resizeMode={FastImage.resizeMode.contain}
           source={{
             uri: this.state.categoria.url_imagen,
             headers: {Authorization: 'someAuthToken'},
@@ -215,27 +215,27 @@ this.props.navigation.setParams({
           <Button
             vertical
             //active
-            badge
+          /*   badge */
             onPress={() => this.onPressCarrito()}>
-            <Badge style={{backgroundColor: Colors.secundario2}}>
+           {/*  <Badge style={{backgroundColor: Colors.secundario2}}>
               <Text style={{color: Colors.blanco}}>
                 {this.state.total_carrito}
               </Text>
-            </Badge>
+            </Badge> */}
             <Icon name={'cart'} size={25} color={Colors.negro} />
             <Text style={{color: Colors.negro}}>Carrito</Text>
           </Button>
 
           {/* categorias */}
-          <Button vertical active style={{backgroundColor: Colors.assent}}>
+       {/*    <Button vertical active style={{backgroundColor: Colors.assent}}>
             <Icon3 name={'category'} size={25} color={Colors.negro} />
             <Text>Categorias</Text>
-          </Button>
+          </Button> */}
 
           {/*bton de  perfil category */}
           <Button vertical onPress={() => this.onPressMispedidos()}>
             <Icon2 name={'shopping-bag'} size={30} color={Colors.negro} />
-            <Text>Mis pedios</Text>
+            <Text>Mis pedidos</Text>
           </Button>
         </FooterTab>
       </Footer>
@@ -304,15 +304,17 @@ this.props.navigation.setParams({
       sucursal: this.state.sucursal,
     });
   };
-  onPressCarrito = () => {
-    if(this.state.total_carrito>0){
-    
-    this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
+  onPressCarrito = async () => {
+    await this._total_items();
+    console.log(this.state.total_carrito)
+  if(this.state.total_carrito){
 
-    }else{
-      Alert.alert('','No hay articulos en el carrito')
-    }
-  };
+this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
+
+}else{
+  Alert.alert('','No hay articulos en el carrito')
+}
+};
 
    onPressMispedidos = () => {
     this.props.navigation.navigate('Mispedidos');
@@ -324,33 +326,29 @@ this.props.navigation.setParams({
     });
   };
 
-  /* total de carrito */
+ /* total  de articulo del carrito */
 
-  total_items = () => {
-    let total_car =  AsyncStorage.getItem('carrito').then(
-          (datacarrito) => {
-            //console.log(JSON.parse(datacarrito));
-            if (datacarrito !== null) {
-              const cart = JSON.parse(datacarrito);
-              let cantidad_total = 0;
-              cart.forEach((element) => {
-                cantidad_total = cantidad_total + element.cantidad;
-              });
+ async _total_items() {
+  let response = await AsyncStorage.getItem('carrito');
+  let carro = (await JSON.parse(response)) || [];
+   let total =  await totalCarrito().then((result) => {
+     /* this.setState({
+       total_carro:result,
+     }) */
+  }).catch((err) => {
+    
+  });
+  this.setState({
+    
+    total_carrito: carro.length,
+  });
 
-              //console.log(cart.length)
-              this.setState({
-                total_carrito: cantidad_total,
-              });
-            } else {
-              //return 0;
-            }
-          },
-        );
-      
-  };
-componentWillUpdate(){
+  console.log("variable total: "+total)
+    
+};
+/* componentWillUpdate(){
    this.total_items();
-}
+} */
 }
 function Format_moneda(num) {
   return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');

@@ -40,8 +40,11 @@ import {
   Root,
    Header,
    Right,
+   Left,
+   Text as texto,
 } from 'native-base';
 
+ 
 /* carrusel */
 //swiper
 import Swiper from 'react-native-swiper';
@@ -53,26 +56,13 @@ import Colors from '../Colors';
 import {url_sucursal} from './../../URLs/url';
 
 /* funciones de carrito */
-import {OnClickAddCarrito} from '../../logica_carrito/script_carrito';
+import {OnClickAddCarrito, totalCarrito} from '../../logica_carrito/script_carrito';
 /* import {guardarDatosSucursal} from '../../logica_carrito/datosSucursal'; */
-
+import { HeaderBackButton } from 'react-navigation-stack';
 export default class App extends React.Component {
   _isMounted = false;
 
-  static navigationOptions = ({navigation}) => {
-    return {
-      headerTransparent: 'true',
-      title: null,
-      /*   headerLeft: (
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      ) */
-    };
-  };
-
+  
   constructor(props) {
     super(props);
     this.page = 1;
@@ -90,13 +80,20 @@ export default class App extends React.Component {
       hasScrolled: false,
       dataaux: [],
       total_carrito: 0,
+      
     };
     /* cargar datos */
     this.GetData(this.page);
     /* estado */
     //this.total_items();
-   /*  guardarDatosSucursal(this.state.sucursal); */
+ 
+  
   }
+
+
+  
+
+    
 
   
 
@@ -121,11 +118,9 @@ export default class App extends React.Component {
         var data = listData.concat(response.data.productos);
         var dataaux = response.data.productos;
 
-        /* var listData = this.state.dataSucursales;
-        var data = listData.concat(responseJson.data.sucursales.data);
-        var dataaux = responseJson.data.sucursales; */
+    
         this.setState({
-          // isLoading: true,
+         
           dataCategorias: response.data.categorias,
           dataBanners: response.data.banners,
           dataProductos: data,
@@ -218,9 +213,10 @@ export default class App extends React.Component {
       sucursal: this.state.sucursal,
     });
   };
-  onPressCarrito = () => {
-
-      if(this.state.total_carrito>0){
+  onPressCarrito = async () => {
+        await this._total_items();
+        console.log(this.state.total_carrito)
+      if(this.state.total_carrito){
     
     this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
 
@@ -322,36 +318,31 @@ export default class App extends React.Component {
     //this.GetData();
   }
 
-  total_items =  () => {
-    let total_car =  AsyncStorage.getItem('carrito').then(
-          (datacarrito) => {
-            //console.log(JSON.parse(datacarrito));
-            if (datacarrito !== null) {
-              const cart = JSON.parse(datacarrito);
-              let cantidad_total = 0;
-              cart.forEach((element) => {
-                cantidad_total = cantidad_total + element.cantidad;
-              });
+  async _total_items() {
+    let response = await AsyncStorage.getItem('carrito');
+    let carro = (await JSON.parse(response)) || [];
+     let total =  await totalCarrito().then((result) => {
+       /* this.setState({
+         total_carro:result,
+       }) */
+    }).catch((err) => {
+      
+    });
+    this.setState({
+      
+      total_carrito: carro.length,
+    });
 
-              //console.log(cart.length)
-              this.setState({
-                total_carrito: cantidad_total,
-              });
-            } else {
-              this.setState({
-                total_carrito:0,
-              });
-            }
-          },
-        );
+    console.log("variable total: "+total)
       
   };
-componentDidUpdate(){
-   
-}
+
+  /* componentDidUpdate (){
+    this.total_items;
+  } */
 
   render() {
-    this.total_items();/* =============================== */
+    //this.total_items();/* =============================== */
 
     // console.log(this.state.total_carrito);
     if (this.state.refreshing) {
@@ -407,14 +398,22 @@ componentDidUpdate(){
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.infoContainer}>
+              {/* <View style={styles.infoContainer}>
                 <FlatList
                   numColumns={2}
                   data={this.state.dataProductos}
                   renderItem={this.renderProductos}
                   keyExtractor={(item) => item.id.toString()}
                 />
-              </View>
+              </View> */}
+
+              {/* render categorias */}
+
+               <FlatList
+          data={this.state.dataCategorias}
+          renderItem={this.renderCategorias}
+          keyExtractor={(item) => `${item.id}`} 
+        />
             </SafeAreaView>
           </ScrollView>
 
@@ -436,23 +435,23 @@ componentDidUpdate(){
           <Button
             vertical
             //active
-            badge
+          /*   badge */
             style={{backgroundColor: Colors.primario}}
             onPress={() => this.onPressCarrito()}>
-            <Badge style={{backgroundColor: Colors.secundario2}}>
+            {/* <Badge style={{backgroundColor: Colors.secundario2}}>
               <Text style={{color: Colors.blanco}}>
                 {this.state.total_carrito}
               </Text>
-            </Badge>
+            </Badge> */}
             <Icon name={'cart'} size={25} color={Colors.negro} />
             <Text style={{color: Colors.negro}}>Carrito</Text>
           </Button>
 
           {/* categorias */}
-          <Button vertical onPress={() => this.onPressCategorias()}>
+         {/*  <Button vertical onPress={() => this.onPressCategorias()}>
             <Icon3 name={'category'} size={25} color={Colors.negro} />
             <Text>Categorias</Text>
-          </Button>
+          </Button> */}
 
           {/*bton de  pedidos */}
           <Button vertical onPress={() => this.onPressMispedidos()}>
@@ -466,13 +465,32 @@ componentDidUpdate(){
     return foot;
   };
 
+  
   /* functions */
 
   header = ()=>{
+    const icon_back = Platform.select({
+      ios:'arrow-back-ios',
+      android:'arrow-back'});
+
     const header =(
        <Header androidStatusBarColor={Colors.assent}  iosBarStyle="dark-content"  style={{backgroundColor: '#ffea00'}}>
        {/*   <StatusBar barStyle='dark-content' /> */}
-         
+        <Left> 
+        <Button transparent 
+            onPress ={()=>this.props.navigation.goBack()}
+            >
+
+             <Icon3
+                  name= {icon_back}
+                  size={25}
+                  style={{color:Platform.OS==='ios'?'#147efb':Colors.negro}}
+                />
+                {Platform.OS === 'ios' ?
+                <Text style={{paddingLeft:-30, fontSize:18,color: '#147efb' }} >Regresar</Text>:null  
+              }
+            </Button>
+          </Left>
           <Right>
            
            <Button transparent 
@@ -503,6 +521,53 @@ componentDidUpdate(){
     )
     return header;
   }
+
+
+  /* render de Categorias */
+
+
+  renderCategorias = ({item}) => (
+    <TouchableHighlight
+      underlayColor="rgba(73,182,77,1,0.9)"
+      onPress={() => this.onPressCategoria(item)}
+      >
+      <View style={styles.categoriesItemContainer}>
+      {item.url_imagen ==null ?  <Image style={styles.Photo} source={require('./../../../img/logo.jpg')} />
+      : <Image 
+      style={styles.categoriesPhoto}
+      key={item.id}
+      source={{uri: item.url_imagen}} />}
+      {/* <FastImage
+          key={item.id}
+          style={styles.photo}
+          resizeMode={FastImage.resizeMode.contain}
+          source={{
+            uri: item.url_imagen,
+            headers: {Authorization: 'someAuthToken'},
+            priority: FastImage.priority.normal,
+          }}
+          defaultSource={{uri: require('./../../../img/logo.jpg')}}
+        /> */}
+       
+        <Text style={styles.categoriesName}>{item.titulo}</Text> 
+        <Text style={styles.categoriesInfo}>  
+
+            {item.direccion} 
+         {/*  {getNumberOfRecipes(item.id)} recipes */}
+        </Text>
+      </View>
+    </TouchableHighlight>
+  );
+
+    
+
+ /* functions */
+     onPressCategoria = item => {
+    this.props.navigation.navigate('ItemCategoria', { categoria:item,sucursal:this.state.sucursal});
+  };
+
+
+  
 /* presionadores */
   onPressMisdirecciones = () => {
     this.props.navigation.navigate('Misdirecciones');

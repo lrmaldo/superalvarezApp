@@ -9,12 +9,15 @@ import {
   CardItem,
   Text,
   Body,
+  Header,
+  Button,
 } from 'native-base';
 
 import {url_sucursal_datos} from '../../URLs/url';
 /* hora  */
 import Moment from 'moment';
 
+import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './styles';
 
@@ -26,6 +29,7 @@ import Icon3 from 'react-native-vector-icons/FontAwesome5';
 /* colores */
 import Colors from './../Colors';
 import {HeaderBackButton}  from 'react-navigation-stack';
+import { Platform } from 'react-native';
 export default class detallePedido extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +51,7 @@ export default class detallePedido extends Component {
         <HeaderBackButton
           {...props}
           onPress={() => {
-            params.regresar()
+            navigation.goBack();
           }}
         />
       ),
@@ -55,7 +59,7 @@ export default class detallePedido extends Component {
     }
  }
    componentDidMount() {
-
+    this.GetSucursal();
 this.props.navigation.setParams({
       regresar: this._regresar.bind(this),
       });
@@ -67,9 +71,7 @@ this.props.navigation.setParams({
     
   }
   
-  componentWillMount() {
-    this.GetSucursal();
-  }
+  
   /* functions */
 
   GetSucursal = async () => {
@@ -108,11 +110,12 @@ this.props.navigation.setParams({
   };
 
   render() {
-    console.log(this.state.sucursal);
+   
     const fecha = Date.parse(this.state.pedido.fecha_entrega_app);
     /* Moment.locale('es'); */
     return (
       <Container>
+          {this.header()}
         <Content padder>
           <Card style={styles.divPedido}>
             <CardItem header bordered>
@@ -275,6 +278,57 @@ this.props.navigation.setParams({
       </View>
     );
   };
+
+  header = ()=>{
+    const icon_back = Platform.select({
+      ios:'arrow-back-ios',
+      android:'arrow-back'});
+
+    const header =(
+       <Header androidStatusBarColor={Colors.assent}  iosBarStyle="dark-content"  style={{backgroundColor: '#ffea00'}}>
+       {/*   <StatusBar barStyle='dark-content' /> */}
+        <Left> 
+        <Button transparent 
+            onPress ={()=>this.props.navigation.goBack()}
+            >
+
+             <Icon2
+                  name= {icon_back}
+                  size={25}
+                  style={{color:Platform.OS==='ios'?'#147efb':Colors.negro}}
+                />
+                {Platform.OS === 'ios' ?
+                <Text style={{paddingLeft:-30}} >Regresar</Text>:null  
+              }
+            </Button>
+          </Left>
+          <Right>
+           
+          
+            
+            <Button transparent
+              onPress={() => this.onPressMisdirecciones()}
+            >
+            
+
+              <Icon3 name='user-circle'
+                     size={30} 
+                     style={{color: Colors.negro}}
+                    />
+            </Button>
+      
+     
+          </Right>
+        </Header>
+    )
+    return header;
+  }
+  /* presionadores */
+  onPressMisdirecciones = () => {
+    this.props.navigation.navigate('Misdirecciones');
+  };
+ 
+
 }
 function Format_moneda(num) {
   return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');

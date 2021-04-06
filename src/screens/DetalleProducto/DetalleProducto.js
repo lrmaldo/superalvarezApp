@@ -49,7 +49,7 @@ import Icon3 from 'react-native-vector-icons/MaterialIcons';
 /* asyncstorage */
 import AsyncStorage from '@react-native-community/async-storage';
 import {HeaderBackButton}  from 'react-navigation-stack';
-import {OnClickCarritoItem} from '../../logica_carrito/script_carrito';
+import {OnClickCarritoItem, totalCarrito} from '../../logica_carrito/script_carrito';
 export default class App extends React.Component {
   
  
@@ -72,37 +72,36 @@ export default class App extends React.Component {
       icon: null,
       hasScrolled: false,
       dataaux: [],
+      total_carrito:0,
     };
     /* cargar datos */
      const { params } = this.props.navigation.state;
 
   }
-  static navigationOptions = ({ navigation }) => {
-
-    const { params = {} } = navigation.state;
-    //const {direccionTienda} =this.state
-    //console.log(params.descripcion)
+  static navigationOptions = ({navigation}) => {
     return {
-       headerLeft:  (props) => (
+      headerTransparent: 'true',
+      title: null,
+      headerLeft: (
         <HeaderBackButton
-          {...props}
+          label='Regresar'
           onPress={() => {
-            params.regresar()
+            navigation.goBack();
           }}
         />
       ),
-
-    }
- }
-
+      //headerBackTitle:'Regresar',
+    };
+  };
   componentDidMount() {
-
+    /* this.total_items; */
 this.props.navigation.setParams({
       regresar: this._regresar.bind(this),
       });
 
      
   }
+  
  _regresar= ()=>{
       this.props.navigation.goBack()
     
@@ -178,12 +177,15 @@ this.props.navigation.setParams({
   };
 
 
-  
+/* componentDidUpdate (){
+    this.total_items();
+  }
+ */
 
   render() {
     //console.log(this.state.dataBanners[0]);
     /* console.log(this.state.dataProductos) */
-    this.total_items();
+//    this.total_items();
     return (
       <Root>
         <Container>
@@ -311,23 +313,23 @@ this.props.navigation.setParams({
           <Button
             vertical
             //active
-            badge
+           /*  badge */
             style={{backgroundColor: Colores.primario}}
             onPress={() => this.onPressCarrito()}>
-            <Badge style={{backgroundColor: Colores.secundario2}}>
+           {/*  <Badge style={{backgroundColor: Colores.secundario2}}>
               <Text style={{color: Colores.blanco}}>
                 {this.state.total_carrito}
               </Text>
-            </Badge>
+            </Badge> */}
             <Icon1 name={'cart'} size={25} color={Colores.negro} />
             <Text style={{color: Colores.negro}}>Carrito</Text>
           </Button>
 
           {/* categorias */}
-          <Button vertical onPress={() => this.onPressCategorias()}>
+         {/*  <Button vertical onPress={() => this.onPressCategorias()}>
             <Icon3 name={'category'} size={25} color={Colores.negro} />
             <Text>Categorias</Text>
-          </Button>
+          </Button> */}
 
           {/*bton de  perfil category */}
           <Button vertical onPress={() => this.onPressPedidos()}>
@@ -355,8 +357,10 @@ this.props.navigation.setParams({
       sucursal: this.state.sucursal,
     });
   };
-  onPressCarrito = () => {
-  if(this.state.total_carrito>0){
+ onPressCarrito = async () => {
+        await this._total_items();
+        console.log(this.state.total_carrito)
+      if(this.state.total_carrito){
     
     this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
 
@@ -373,33 +377,23 @@ this.props.navigation.setParams({
 
   /* total  de articulo del carrito */
 
-  total_items = () => {
-    return new Promise(async (resolver, reject) => {
-      try {
-        let total_car = await AsyncStorage.getItem('carrito').then(
-          (datacarrito) => {
-            //console.log(JSON.parse(datacarrito));
-            if (datacarrito !== null) {
-              const cart = JSON.parse(datacarrito);
-              let cantidad_total = 0;
-              cart.forEach((element) => {
-                cantidad_total = cantidad_total + element.cantidad;
-              });
-
-              //console.log(cart.length)
-              this.setState({
-                total_carrito: cantidad_total,
-              });
-            } else {
-              this.setState({
-                total_carrito: 0,
-              });
-            }
-          },
-        );
-        resolver(total_car);
-      } catch (error) {}
+  async _total_items() {
+    let response = await AsyncStorage.getItem('carrito');
+    let carro = (await JSON.parse(response)) || [];
+     let total =  await totalCarrito().then((result) => {
+       /* this.setState({
+         total_carro:result,
+       }) */
+    }).catch((err) => {
+      
     });
+    this.setState({
+      
+      total_carrito: carro.length,
+    });
+
+    console.log("variable total: "+total)
+      
   };
 }
 function Format_moneda(num) {

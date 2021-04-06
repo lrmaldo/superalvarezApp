@@ -187,6 +187,7 @@ export default class App extends React.Component {
             <ScrollView style={{flex: 2}}>
               {this.state.carritovacio == true ? (
                 <Text>Carrito Vacio</Text>
+                
               ) : (
                 this.state.cargando ? this.render_cargador(): this.itemsCarrito()
               )}

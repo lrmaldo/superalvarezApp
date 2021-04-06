@@ -53,14 +53,14 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     marginTop: 15,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+  /*   justifyContent: 'flex-start',
+    alignItems: 'center', */
   },
   infoContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+   /*  justifyContent: 'flex-start', */
   },
   buttonContainer: {
     flex: 1,
@@ -189,7 +189,68 @@ const styles = StyleSheet.create({
     backgroundColor:Colors.primario,
     borderRadius:25/2,
     
-  }
+  },
+  /* style de categorias */
+   categoriesItemContainer: {
+    flex: 1,
+    margin: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 315,
+    borderColor: '#cccccc',
+    borderWidth: 0.5,
+    borderRadius: 20,
+     backgroundColor: 'white',
+  },
+   Photo: {
+    width: '100%',
+    height: 150,
+    borderRadius: 20,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    shadowColor: 'white',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    //color:'white',
+    shadowRadius: 5,
+    shadowOpacity: 1.0,
+   
+    resizeMode:"contain"
+    
+  },
+  categoriesPhoto: {
+    width: '100%',
+    height: 220,
+    borderRadius: 20,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    shadowColor: 'blue', 
+    shadowOffset: { 
+      width: 0,
+      height: 3 
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1.0,
+   
+  },
+  categoriesName: {
+    
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#333333',
+    marginTop: 10
+  },
+  categoriesInfo: {
+    margin: 10,
+    marginLeft:5,
+    textAlign:'center',
+    fontSize:12,
+  
+    //marginBottom: 15 
+  },
 
 });
 

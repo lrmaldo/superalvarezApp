@@ -12,6 +12,9 @@ import {H1, Container,
     Text, 
     Body,
     Button, 
+    Header,
+    Left,
+    Right,
     } from "native-base";
 import FastImage from 'react-native-fast-image';
 
@@ -20,7 +23,12 @@ import {getPedidos}  from './script/script_mispedidos';
 import styles from './styles';
 /* hora  */
 import Moment from 'moment'
+import Colors from './../Colors';
 /* import   'moment/locale/es'; */
+import Icon from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/MaterialIcons';
+import Icon3 from 'react-native-vector-icons/FontAwesome5';
+
 
 
 
@@ -95,17 +103,20 @@ this.props.navigation.setParams({
       return (
         //loading view while data is loading
         //loading view while data is loading
+          <Container> 
+           {this.header()}
         <View style={[styles.container1]}>
         <Image source={require('../../../img/logo.jpg')} style={{ width: 300, height: 200, alignSelf: 'center'}} />
           <H1>Aun no tienes pedidos</H1>
         </View>
+        </Container>
       );
     }
 
 
 
     return ( <Container>
-       
+       {this.header()}
         <Content padder>
                 <FlatList
                   numColumns={1}
@@ -132,11 +143,39 @@ this.props.navigation.setParams({
     }
   }
 
+ header = ()=>{
+    const icon_back = Platform.select({
+      ios:'arrow-back-ios',
+      android:'arrow-back'});
+
+    const header =(
+       <Header androidStatusBarColor={Colors.assent}  iosBarStyle="dark-content"  style={{backgroundColor: '#ffea00'}}>
+       {/*   <StatusBar barStyle='dark-content' /> */}
+        <Left> 
+        <Button transparent 
+            onPress ={()=>this.props.navigation.goBack()}
+            >
+
+             <Icon2
+                  name= {icon_back}
+                  size={25}
+                  style={{color:Platform.OS==='ios'?'#147efb':Colors.negro}}
+                />
+                {Platform.OS === 'ios' ?
+                <Text style={{paddingLeft:-30}} >Regresar</Text>:null  
+              }
+            </Button>
+          </Left>
+         
+        </Header>
+    )
+    return header;
+  }
   _renderItemPedidos = (item)=>{
       const fecha = Date.parse(item.fecha_entrega_app);
       //Moment.locale('es')
       const carrito =  this.pedidoCard(item.carrito);
-    return(<Card>
+    return(<Card  onPress={() => this.onClickDetallePedidos(item)}>
             <CardItem header bordered>
               <Text style={styles.text_color}> Pedido: {Moment(fecha).format('DD [de] MMM [de] YYYY [,] h:mm a')}</Text>
             </CardItem>
