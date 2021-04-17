@@ -56,6 +56,8 @@ import Checkout from '../screens/Checkout/Checkout';
 /* finalizacion */
 
 import Finalizar from '../screens/Finalizacion/finalizar';
+/* mayorista  */
+import Mayoristas from '../screens/Mayoristas/index';
 
 const TabIconInicio = (props) => (
   <Icon name="md-home" size={30} color={props.focused ? 'black' : 'darkgrey'} />
@@ -93,6 +95,23 @@ const HomeNavigator = createStackNavigator({
       headerLeft:null
     }),
   },
+  /* mayoristas */
+  'Mayoristas': {
+    screen: Mayoristas,
+    navigationOptions: {
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerStyle: {
+        backgroundColor: '#ffea00',
+      },
+      title:null,
+      headerTransparent:false,
+      headerBackTitle:'Regresar',
+    },
+
+  },
 
   /* vista sucursal */
  'DetalleProducto': {
@@ -128,6 +147,7 @@ const HomeNavigator = createStackNavigator({
     },
 
   },
+
   /* vista detalle sucursal */
 
   'DetalleSucursal': {
@@ -206,20 +226,23 @@ const HomeNavigator = createStackNavigator({
   /* mis pedidos */
   'Mispedidos': {
     screen: Mispedidos,
-    navigationOptions: {
-      headerTitleAlign: 'center',
+   navigationOptions:({navigation}) => ({
+       headerTitleAlign: 'center',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
       headerStyle: {
         backgroundColor: '#ffea00',
       },
-      title:'Mis pedidos',
-      /* headerBackTitle:'Regresar', */
       headerTransparent:true,
-      headerLeft:null,
-    },
+      headerBackTitle:'Regresar', 
+      title:'Mis pedidos',
+      headerLeft: Platform.OS === 'ios'? null:<HeaderBackButton onPress={()=>{navigation.goBack()}}  />
+    }),
+      
   },
+
+  
 
   /* detalle pedido */
 'DetallePedido': {
@@ -259,19 +282,19 @@ const HomeNavigator = createStackNavigator({
 
     'Checkout': {
     screen: Checkout,
-    navigationOptions: {
-      headerTitleAlign: 'center',
+   navigationOptions:({navigation}) => ({
+       headerTitleAlign: 'center',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
       headerStyle: {
         backgroundColor: '#ffea00',
       },
-      title:null,
-      /* headerBackTitle:'Seguir Comprando', */
-      headerLeft:null,
       headerTransparent:true,
-    },
+      headerBackTitle:'Regresar', 
+      title:'',
+      headerLeft: Platform.OS === 'ios'? null:<HeaderBackButton onPress={()=>{navigation.goBack()}}  />
+    }),
   },
 
   'Finalizar': {

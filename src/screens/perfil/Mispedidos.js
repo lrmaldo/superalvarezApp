@@ -151,7 +151,8 @@ this.props.navigation.setParams({
     const header =(
        <Header androidStatusBarColor={Colors.assent}  iosBarStyle="dark-content"  style={{backgroundColor: '#ffea00'}}>
        {/*   <StatusBar barStyle='dark-content' /> */}
-        <Left> 
+        {Platform.select({
+          ios:<Left> 
         <Button transparent 
             onPress ={()=>this.props.navigation.goBack()}
             >
@@ -165,7 +166,9 @@ this.props.navigation.setParams({
                 <Text style={{paddingLeft:-30}} >Regresar</Text>:null  
               }
             </Button>
-          </Left>
+          </Left>,
+          android: null,
+        })}
          
         </Header>
     )

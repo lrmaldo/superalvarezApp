@@ -60,13 +60,6 @@ const styles = StyleSheet.create({
   
     //marginBottom: 15 
   },
-  text_mayorista:{
-    fontWeight:'bold',
-    margin: 10,
-    marginLeft:5,
-    textAlign:'center',
-    fontSize:15,
-  },
    horizontal: {
     flexDirection: 'row',
     justifyContent: 'space-around',

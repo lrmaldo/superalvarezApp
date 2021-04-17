@@ -12,7 +12,8 @@ import {
   SafeAreaView,
   TouchableHighlight,
   ActivityIndicator,
-
+  Linking,
+  Alert,   
 } from 'react-native';
 import { Root,
   } from 'native-base';
@@ -104,10 +105,37 @@ onRefresh() {
     //AsyncStorage.removeItem('mispedidos');
     this.props.navigation.navigate('Sucursal', {sucursal: item});
   };
+
+  onPressMayorista = (item) =>{
+    Alert.alert("","¿Ya eres cliente ?",
+    [
+      {
+        text:"Sí",
+        onPress:()=> Linking.openURL(
+              `https://wa.me/52${item.whatsapp}`, 
+            ).catch((err) => console.log('Error:', err)),
+      },
+      {text:'No',
+      onPress:()=>Linking.openURL(
+              `https://wa.me/52${item.whatstapp_mayoreo}`, 
+            ).catch((err) => console.log('Error:', err)),
+      },
+      {
+        text:'Cancelar',
+        style:'cancel',
+      }
+    ])
+  }
+   /*  {item.mayoreo==1 ? <Text style={styles.text_mayorista} onPress={() =>  Linking.openURL(
+              `https://wa.me/52${item.whatsapp}`, 
+            ).catch((err) => console.log('Error:', err))}>Eres mayorista,haz click aquí</Text>
+        :
+        null} */
   /* render de sucursales */
 
   renderSucursal = ({item}) => (
-    <TouchableHighlight
+    <View>
+     <TouchableHighlight
       underlayColor="rgba(73,182,77,1,0.9)"
       onPress={() => this.onPressSucursal(item)}>
       <View style={styles.categoriesItemContainer}>
@@ -123,14 +151,45 @@ onRefresh() {
             source={{uri: item.url_imagen}}
           />
         )}
-
+        <Text style={{ fontWeight:'bold',}}>Autoservicio</Text>
         <Text style={styles.categoriesName}>{item.name}</Text>
         <Text style={styles.categoriesInfo}>
           {item.direccion}
           {/*  {getNumberOfRecipes(item.id)} recipes */}
         </Text>
+        
+        
       </View>
     </TouchableHighlight>
+   {item.mayoreo ==1 ?/* si hay autoservio */
+
+    <TouchableHighlight
+      underlayColor="rgba(73,182,77,1,0.9)"
+      onPress={() => this.onPressMayorista(item)}>
+      <View style={styles.categoriesItemContainer}>
+        {item.url_imagen == null ? (
+          <Image
+            style={styles.Photo}
+            source={require('./../../../img/logo.jpg')}
+          />
+        ) : (
+          <Image
+            style={styles.categoriesPhoto}
+            key={item.id}
+            source={{uri: item.url_imagen}}
+          />
+        )}
+        <Text style={{ fontWeight:'bold',}}>Mayoreo</Text>
+        <Text style={styles.categoriesName}>{item.name}</Text>
+        <Text style={styles.categoriesInfo}>
+          {item.direccion}
+          {/*  {getNumberOfRecipes(item.id)} recipes */}
+        </Text>
+        
+        
+      </View>
+    </TouchableHighlight>: null}
+    </View>
   );
 
   render() {
@@ -160,6 +219,7 @@ onRefresh() {
           }>
           <View>
             <StatusBar barStyle="dark-content" backgroundColor="#c7b800" />
+            {/*  <Text style={styles.categoriesName} onPress={()=>{this.props.navigation.navigate('Mayoristas',{sucursales:this.state.dataSucursales})}}>¿Eres mayorista?, haz clic aquí</Text> */}
             <FlatList
               data={this.state.dataSucursales}
               renderItem={this.renderSucursal}

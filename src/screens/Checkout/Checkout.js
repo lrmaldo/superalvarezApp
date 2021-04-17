@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Alert, Text, View, Linking, TouchableOpacity} from 'react-native';
+import {StyleSheet, Alert, Text, View, Linking,Platform, TouchableOpacity} from 'react-native';
 
 import Steps from 'react-native-steps';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -186,7 +186,7 @@ this.props.navigation.setParams({
   render() {
     return (
       <Root> 
-       {this.header()}
+       { this.header()}
       <View style={styles.container}>
       
           <AnimatedLoader
@@ -364,7 +364,8 @@ this.props.navigation.setParams({
     const header =(
        <Header androidStatusBarColor={Colors.assent}  iosBarStyle="dark-content"  style={{backgroundColor: '#ffea00'}}>
        {/*   <StatusBar barStyle='dark-content' /> */}
-        <Left> 
+        {Platform.select({
+          ios:<Left> 
         <Button transparent 
             onPress ={()=>this.props.navigation.goBack()}
             >
@@ -378,7 +379,9 @@ this.props.navigation.setParams({
                 <Text style={{paddingLeft:-30, fontSize:15,color: '#147efb' }} >Seguir comprando</Text>:null  
               }
             </Button>
-          </Left>
+          </Left>,
+          android: null
+        })}
          
       
      
