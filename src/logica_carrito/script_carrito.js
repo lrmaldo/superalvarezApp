@@ -75,28 +75,32 @@ export function OnClickCarritoItem(data, cant) {
     .then((datacarrito) => {
       console.log(JSON.parse(datacarrito));
       if (datacarrito !== null) {
-        console.log('carrito no esta vacio');
+        console
+        .log('carrito no esta vacio');
         const cart = JSON.parse(datacarrito);
 
         // const sin_duplicacion = [];
         /* al presionar el boton agrega más elementos en cantidad  */
         cart.forEach((element) => {
           if (element.producto.id == data.id) {
-            element.cantidad = cant;
+            element.cantidad =  element.cantidad + cant;
             console.log(element);
           }
         });
-        /* si excite el producto */
+        /* si existe el producto */
         const exite = cart.filter((item) => {
           return item.producto.id == data.id;
         });
         if (exite.length > 0) {
           /*  Alert.alert("Ya agregaste este producto",
               'se agrego cantidad, ¿Deseas ir al carrito? ',); */
-          Alerta();
+          //Alerta();
+          Alert.alert("","Producto agregado");
         } else {
-          Alerta();
+          //Alerta();
+
           cart.push(itemCarrito);
+          Alert.alert("","Producto agregado");
         }
 
         AsyncStorage.setItem('carrito', JSON.stringify(cart));
@@ -104,7 +108,8 @@ export function OnClickCarritoItem(data, cant) {
         const cart = [];
         cart.push(itemCarrito);
         AsyncStorage.setItem('carrito', JSON.stringify(cart));
-        Alerta();
+       // Alerta();
+       Alert.alert("","Producto agregado");
       }
     })
     .catch((err) => {

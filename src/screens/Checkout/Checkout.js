@@ -246,7 +246,7 @@ this.props.navigation.setParams({
     switch (index) {
       case 0: {
         return (
-          <View style={{marginBottom: 20}}>
+          <View style={{marginBottom: 20,/* marginRight: */}}>
             <Carrito />
             <View></View>
           </View>

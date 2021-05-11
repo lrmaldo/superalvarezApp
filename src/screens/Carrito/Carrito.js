@@ -96,7 +96,8 @@ export default class App extends React.Component {
             style={{
               flex: 1,
               backgroundColor: 'trangraysparent',
-              padding: 10,
+              padding: 1,
+              margin:3,
               justifyContent: 'space-between',
             }}>
             <View>
@@ -105,11 +106,11 @@ export default class App extends React.Component {
                 <Text style={{fontWeight: 'bold', fontSize: 20}}>
                   {item.producto.titulo}
                 </Text>
+                
+              </View>
                 <TouchableOpacity onPress={() => this.eliminarItem(i)}>
                   <Icon name="trash" size={28} color={Colors.rojo} />
                 </TouchableOpacity>
-              </View>
-
               <Text>{item.producto.descripcion.substr(0, 80)}...</Text>
             </View>
             <View
