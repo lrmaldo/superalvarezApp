@@ -351,5 +351,8 @@ this.props.navigation.navigate('Checkout', {sucursal: this.state.sucursal});
 } */
 }
 function Format_moneda(num) {
+ /* convertir string num a double */
+  var num = parseFloat(num);
+  
   return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }

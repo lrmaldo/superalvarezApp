@@ -389,5 +389,6 @@ export default class App extends React.Component {
 }
 
 function Format_moneda(num) {
+   var num = parseFloat(num);
   return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
